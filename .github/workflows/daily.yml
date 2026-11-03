@@ -25,8 +25,8 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     env:
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-      OPENAI_BASE_URL: ${{ vars.OPENAI_BASE_URL }}
-      OPENAI_MODEL: ${{ vars.OPENAI_MODEL }}
+      OPENAI_BASE_URL: https://api.moonshot.cn/v1
+      OPENAI_MODEL: kimi-k3.1-pro-highspeed
       ALLOW_INSECURE_API_BASE: ${{ vars.ALLOW_INSECURE_API_BASE }}
       FEISHU_WEBHOOK: ${{ secrets.FEISHU_WEBHOOK }}
       FEISHU_SECRET: ${{ secrets.FEISHU_SECRET }}
