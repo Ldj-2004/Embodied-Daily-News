@@ -87,7 +87,7 @@ OPENAI_MODEL=deepseek-flash
 ```dotenv
 OPENAI_API_KEY=你的Kimi密钥
 OPENAI_BASE_URL=https://api.moonshot.cn/v1
-OPENAI_MODEL=kimi-k2.6
+OPENAI_MODEL=kimi-k3.1-pro-highspeed
 ```
 
 不同账号可用模型可能不同，可运行 `python scripts/check_api_models.py --probe` 查看模型列表并做一次最小调用测试。本项目本次实测账号使用 `kimi-k3.1-pro-highspeed` 可以完成生成。
@@ -197,7 +197,7 @@ python -m embodied_daily
 - 飞书配置为可选项，未配置时不会影响大屏；
 - 将日报和去重状态提交回仓库。
 
-在 GitHub 仓库的 **Settings → Secrets and variables → Actions** 中添加：
+当前工作流已经固定使用 Kimi 中国区接口和 `kimi-k3.1-pro-highspeed`，因此只需要在 GitHub 仓库的 **Settings → Secrets and variables → Actions** 中添加密钥：
 
 ### Secrets
 
@@ -207,22 +207,9 @@ python -m embodied_daily
 | `FEISHU_WEBHOOK` | 飞书自定义机器人 Webhook |
 | `FEISHU_SECRET` | 飞书机器人签名密钥；未启用签名时可不填 |
 
-### Variables
-
-| 名称 | 内容 |
-|---|---|
-| `OPENAI_BASE_URL` | `http://35.220.164.252:3888/v1/` |
-| `OPENAI_MODEL` | 服务商实际支持的模型名，例如 `gpt-4o-mini` |
-| `ALLOW_INSECURE_API_BASE` | 使用上述 HTTP 地址时必须明确填写 `true`；有 HTTPS 时不要设置 |
-
-使用 DeepSeek 时，GitHub 配置为：
-
-- Secret `OPENAI_API_KEY`：填写 DeepSeek API Key；
-- Variable `OPENAI_BASE_URL`：填写 `https://api.deepseek.com`；
-- Variable `OPENAI_MODEL`：填写 `deepseek-flash`；
-- `ALLOW_INSECURE_API_BASE` 不需要设置。
-
 首次配置后，在 **Actions → Daily embodied intelligence digest → Run workflow** 手动运行一次。确认日报和飞书消息都正确，再等待定时任务。
+
+首次发布大屏前，还需要在 **Settings → Pages → Build and deployment → Source** 中选择 **GitHub Actions**。
 
 如果仓库设置禁止 GitHub Actions 写入，请在 **Settings → Actions → General → Workflow permissions** 中允许 Read and write permissions。
 
