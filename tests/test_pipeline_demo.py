@@ -18,7 +18,6 @@ def test_demo_pipeline_writes_five_items_without_network(tmp_path) -> None:
     assert (tmp_path / "output" / "latest.md").exists()
 
 
-
 def test_failed_screenshot_story_is_replaced(monkeypatch, tmp_path, candidates) -> None:
     candidates[-2].source_kind = "research"
     candidates[-1].source_kind = "research"

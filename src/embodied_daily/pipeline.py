@@ -19,6 +19,7 @@ from embodied_daily.state import SeenState
 
 LOGGER = logging.getLogger(__name__)
 
+
 def _require_fixed_composition(candidates: list[Candidate]) -> None:
     research_count = sum(
         candidate.source_kind == "research" for candidate in candidates
@@ -78,7 +79,6 @@ def replace_items_with_failed_screenshots(
             items=replacement_items,
             edition=digest.edition,
         )
-
 
 
 def check_sources(
