@@ -43,6 +43,39 @@ def test_keyword_score_rewards_embodied_terms(candidates) -> None:
     assert keyword_score(candidates[0], config) >= 10
 
 
+def test_product_progress_ranks_above_policy_event_news(candidates) -> None:
+    product = candidates[0]
+    product.source_kind = "media"
+    product.title = "机器人企业发布新模型并完成工厂量产部署"
+    product.summary = "产品已经交付客户，并公布性能提升结果。"
+
+    policy = candidates[1]
+    policy.source_kind = "media"
+    policy.title = "机器人产业政策论坛暨实景实训挑战赛举行"
+    policy.summary = "有关方面介绍产业规划、投资规模和政策支持。"
+
+    config = {
+        "keywords": {
+            "high": ["机器人"],
+            "medium": [],
+            "entities": [],
+        },
+        "ranking_preferences": {
+            "product_progress": ["发布", "模型", "量产", "部署", "交付", "性能提升"],
+            "policy_macro": ["政策", "规划", "投资规模"],
+            "events": ["论坛", "挑战赛"],
+            "finance": [],
+        },
+        "negative_keywords": [],
+    }
+
+    product_score = keyword_score(product, config)
+    policy_score = keyword_score(policy, config)
+
+    assert product_score > policy_score
+    assert policy_score > -100
+
+
 def test_ancient_feed_date_does_not_use_platform_timestamp() -> None:
     ancient = struct_time((1, 1, 1, 0, 0, 0, 0, 1, 0))
     fallback = datetime.now(UTC)

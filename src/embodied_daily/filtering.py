@@ -27,6 +27,21 @@ def keyword_score(candidate: Candidate, config: dict) -> int:
     score += sum(2 for term in keywords.get("entities", []) if term.lower() in text)
     if candidate.source_kind in {"primary", "research"}:
         score += 2
+    if candidate.source_kind != "research":
+        ranking = config.get("ranking_preferences", {})
+
+        def adjustment(group: str, per_hit: int, cap: int) -> int:
+            hits = sum(
+                1
+                for term in ranking.get(group, [])
+                if term.lower() in text
+            )
+            return min(cap, hits * per_hit)
+
+        score += adjustment("product_progress", per_hit=2, cap=8)
+        score -= adjustment("policy_macro", per_hit=3, cap=9)
+        score -= adjustment("events", per_hit=4, cap=8)
+        score -= adjustment("finance", per_hit=2, cap=6)
     candidate.relevance_score = score
     return score
 
