@@ -70,8 +70,14 @@ def capture_digest_screenshots(
     output_dir: str | Path,
     *,
     timeout_ms: int = 30_000,
+    fallback_on_failure: bool = True,
 ) -> list[Path]:
-    """Capture the first viewport for each article and attach paths to digest items."""
+    """Capture the first viewport for each article and attach paths to digest items.
+
+    When ``fallback_on_failure`` is false, an article-level capture failure is
+    recorded as ``failed`` instead of producing an SVG placeholder.  The
+    pipeline uses that status to reject the story and select another candidate.
+    """
     root = Path(output_dir)
     assets_dir = root / "assets" / digest.date
     assets_dir.mkdir(parents=True, exist_ok=True)
@@ -102,8 +108,16 @@ def capture_digest_screenshots(
             LOGGER.warning("Chromium 启动失败，将使用占位图：%s", exc)
 
     try:
+        if not browser and not fallback_on_failure:
+            raise RuntimeError(
+                "截图浏览器不可用，无法验证候选新闻的网页图片。"
+                "请安装 Playwright Chromium，或使用 --skip-screenshots 跳过严格验证。"
+            )
         for item in digest.items:
             png_path = assets_dir / f"{item.rank:02d}.png"
+            svg_path = assets_dir / f"{item.rank:02d}.svg"
+            png_path.unlink(missing_ok=True)
+            svg_path.unlink(missing_ok=True)
             relative_png = png_path.relative_to(root).as_posix()
             captured = False
             if browser:
@@ -142,8 +156,7 @@ def capture_digest_screenshots(
                 finally:
                     page.close()
 
-            if not captured:
-                svg_path = assets_dir / f"{item.rank:02d}.svg"
+            if not captured and fallback_on_failure:
                 write_fallback_svg(
                     svg_path,
                     title=item.title,
@@ -153,6 +166,9 @@ def capture_digest_screenshots(
                 item.screenshot = svg_path.relative_to(root).as_posix()
                 item.screenshot_status = "fallback"
                 written.append(svg_path)
+            elif not captured:
+                item.screenshot = ""
+                item.screenshot_status = "failed"
     finally:
         if browser:
             browser.close()

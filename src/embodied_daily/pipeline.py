@@ -11,13 +11,74 @@ from embodied_daily.feeds import collect_candidates
 from embodied_daily.feishu import send_to_feishu
 from embodied_daily.filtering import apply_daily_date_policy, prefilter
 from embodied_daily.llm import DigestSelector, heuristic_select
-from embodied_daily.models import Digest
+from embodied_daily.models import Candidate, Digest
 from embodied_daily.render import write_digest, write_source_health
 from embodied_daily.screenshots import capture_digest_screenshots
 from embodied_daily.site import build_site
 from embodied_daily.state import SeenState
 
 LOGGER = logging.getLogger(__name__)
+
+def _require_fixed_composition(candidates: list[Candidate]) -> None:
+    research_count = sum(
+        candidate.source_kind == "research" for candidate in candidates
+    )
+    news_count = len(candidates) - research_count
+    if research_count < 2:
+        raise RuntimeError(
+            "具有可用网页截图的论文候选不足两篇，无法保持两篇论文配额。"
+        )
+    if news_count < 3:
+        raise RuntimeError(
+            "具有可用网页截图的普通新闻候选不足三条，无法保持三条新闻配额。"
+        )
+
+
+def replace_items_with_failed_screenshots(
+    digest: Digest,
+    candidates: list[Candidate],
+    selector: DigestSelector,
+    output_dir: str | Path,
+) -> Digest:
+    """Reject stories whose pages cannot be captured and reselect the digest."""
+    rejected_ids: set[str] = set()
+
+    while True:
+        capture_digest_screenshots(
+            digest,
+            output_dir,
+            fallback_on_failure=False,
+        )
+        failed_ids = {
+            item.candidate_id
+            for item in digest.items
+            if item.screenshot_status != "captured"
+        }
+        if not failed_ids:
+            return digest
+
+        newly_rejected = failed_ids - rejected_ids
+        if not newly_rejected:
+            raise RuntimeError("截图替换没有取得进展，已停止以避免重复调用模型。")
+        rejected_ids.update(newly_rejected)
+        available = [
+            candidate for candidate in candidates if candidate.id not in rejected_ids
+        ]
+        _require_fixed_composition(available)
+        LOGGER.warning(
+            "有 %s 条入选新闻无法生成有效截图，正在从剩余 %s 条候选中重新选择。",
+            len(newly_rejected),
+            len(available),
+        )
+        replacement_items = selector.select(available)
+        digest = Digest(
+            title=digest.title,
+            date=digest.date,
+            generated_at=digest.generated_at,
+            items=replacement_items,
+            edition=digest.edition,
+        )
+
 
 
 def check_sources(
@@ -156,7 +217,15 @@ def run_pipeline(
         items=items,
     )
     if not skip_screenshots:
-        capture_digest_screenshots(digest, output_dir)
+        if demo:
+            capture_digest_screenshots(digest, output_dir)
+        else:
+            digest = replace_items_with_failed_screenshots(
+                digest,
+                candidates,
+                selector,
+                output_dir,
+            )
     paths = write_digest(digest, output_dir)
     LOGGER.info("已生成日报：%s", ", ".join(str(path) for path in paths))
     if build_display:
