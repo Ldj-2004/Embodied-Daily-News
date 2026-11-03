@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+  width="1440" height="1000" viewBox="0 0 1440 1000">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#111d33"/>
+      <stop offset="1" stop-color="#24395c"/>
+    </linearGradient>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M 48 0 L 0 0 0 48" fill="none" stroke="#8ba7d1" stroke-opacity=".12"/>
+    </pattern>
+  </defs>
+  <rect width="1440" height="1000" fill="url(#bg)"/>
+  <rect width="1440" height="1000" fill="url(#grid)"/>
+  <circle cx="1220" cy="160" r="220" fill="#36d6c2" fill-opacity=".10"/>
+  <text x="96" y="130" font-family="Arial, Microsoft YaHei, sans-serif"
+    font-size="34" fill="#79e0d4">WEB CAPTURE FALLBACK</text>
+  <text x="96" y="225" font-family="Arial, Microsoft YaHei, sans-serif"
+    font-size="28" fill="#a9bad4">news.google.com</text>
+  <foreignObject x="96" y="300" width="1160" height="360">
+    <div xmlns="http://www.w3.org/1999/xhtml"
+      style="font:700 64px/1.35 Arial,'Microsoft YaHei',sans-serif;
+      color:#f5f8ff;overflow-wrap:anywhere;">小米人形机器人在汽车工厂完成8小时整班作业</div>
+  </foreignObject>
+  <line x1="96" y1="760" x2="1344" y2="760" stroke="#9db2d3" stroke-opacity=".3"/>
+  <text x="96" y="835" font-family="Arial, Microsoft YaHei, sans-serif"
+    font-size="30" fill="#d5deec">来源：新浪网</text>
+  <text x="96" y="895" font-family="Arial, Microsoft YaHei, sans-serif"
+    font-size="24" fill="#91a4c3">网页截图暂时不可用，原文链接仍可访问</text>
+</svg>

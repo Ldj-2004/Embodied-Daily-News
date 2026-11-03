@@ -1,47 +1,47 @@
 # 具身智能日报｜2026-11-03
 
-## 1. [Pixel：全栈协同设计的通用移动操作机器人系统](https://arxiv.org/abs/2611.03648v1)
+## 1. [Pixel：软硬件协同的通用移动操作系统](https://arxiv.org/abs/2611.03648v1)
 
-Pixel协同设计低成本轮式人形硬件、遥操作数据采集、全身控制与统一策略学习流程。
+Pixel协同设计低成本轮式人形机器人、遥操作与无机器人人类数据采集、全身控制及统一策略学习流程，并支持语言条件视觉运动控制。
 
-**为什么重要：** 为通用移动操作提供硬件、数据、控制与策略学习的一体化研究范式。
+**为什么重要：** 为硬件、数据、控制与学习的一体化设计提供系统范本。
 
 > 来源：arXiv Robotics｜发布时间：2026-11-03 02:59
 
-## 2. [智元精灵G2在便利店开展24小时真实岗位测试](https://www.jushenhome.com/news/2241)
+## 2. [小米人形机器人在汽车工厂完成8小时整班作业](https://news.google.com/rss/articles/CBMicEFVX3lxTE1XWmFkenl5aE9talluODJPQWM1MHpYT2ItRC1OZ2NFRE5ZblRsMUZybElkdjYtLVJDNVQ2MW8ydFFxOHpDOG01S2VnNENSSThjaUNNenVVRlFSVW1IbWU2Zkx1U1B5NndzemxsN1BKaWc?oc=5)
 
-六台精灵G2在上海便利店承担迎宾、咖啡、理货、收银与清洁任务，接受连续24小时测试。
+小米披露，其人形机器人已进入汽车工厂执行打螺丝任务，并实现8小时整班作业。
 
-**为什么重要：** 多任务连续测试为评估具身系统在真实商业场景的岗位能力提供参考。
+**为什么重要：** 整班作业为检验人形机器人工业稳定性与真实部署价值提供新案例。
 
-> 来源：具身之家（来源：智元）｜发布时间：2026-11-03 14:05
+> 来源：新浪网｜发布时间：2026-11-03 17:30
 
-## 3. [D&A：解耦描述与评估，实现零样本机器人奖励建模](https://arxiv.org/abs/2611.03622v1)
+## 3. [智元发布GO-3预览版，三项具身基准登顶](https://news.google.com/rss/articles/CBMi0AFBVV95cUxOVHV2Mk1VdWZJM2FPd0xDaXBpNUNDV1drUUhxWlcwMEItalpzMi1yWVc4V0hXR1lHVUwwU053dFpQQVZFTEFnbVhwODMxWFpZYXcyR3hoemRHYjlTS2JNVl9KWTJPWUhKbWRCdlJoSDRlSmhQNk5tY3VhRDZNMFIxMTlqcXd4V1NtVWhWVnltVHdTVVQ1cHFiWEM5ektJODNLTGwzTXdGLXVnT05RX0p0Q0FSNHNlN1NLczdXYUpyekdJd1poNlBZWHRhcm90Mzd6?oc=5)
 
-D&A将任务描述与评估解耦，使VLM无需机器人专用训练即可作为零样本奖励模型。
+智元发布GO-3预览版，并称其在三项具身智能基准中位居首位。
 
-**为什么重要：** 降低机器人奖励模型对专用训练的依赖，拓展VLM在机器人学习中的应用。
+**为什么重要：** 为具身模型能力比较提供新数据点，仍需结合评测细节判断。
+
+> 来源：PR Newswire｜发布时间：2026-11-03 11:48
+
+## 4. [D&A：解耦描述与评估的零样本机器人奖励模型](https://arxiv.org/abs/2611.03622v1)
+
+D&A将任务进度估计拆为客观描述与评估，旨在减少确认偏误和失败执行中的进度幻觉，并避免针对每个基础模型进行昂贵后训练。
+
+**为什么重要：** 为机器人学习提供更轻量的零样本视频进度与奖励估计思路。
 
 > 来源：arXiv Robotics｜发布时间：2026-11-03 02:52
 
-## 4. [优必选发布Thinker-Sim具身智能仿真平台](https://theroboradar.com/news/ubtech-thinker-sim-launch-de887a)
+## 5. [韩国将开设首个双足人形机器人数据生产设施](https://news.google.com/rss/articles/CBMia0FVX3lxTE9vS3lVSTV5V29zZWx5TFA5dFFETFJUSUJheng3QTRNM2xkbXVBZ3JJVFhXcTNTWlI1b01aLVdaWXdadWRVeHVwd3BHejc5amMwLWE5WFIxeENEMF82OXk0c2xXREJ5UjYzWmsw?oc=5)
 
-Thinker-Sim以Real2Sim2Real为核心，覆盖场景数字化、仿真数据合成与机器人能力评测。
+韩国计划开设其首个双足人形机器人数据生产设施。
 
-**为什么重要：** 贯通仿真数据生成与能力评测流程，为机器人训练验证提供基础设施。
+**为什么重要：** 专用数据设施关系到人形机器人训练数据的规模化供给。
 
-> 来源：TheRoboRadar（来源：优必选）｜发布时间：2026-11-02 10:00
-
-## 5. [NVIDIA展示多地城市物理AI与智能体服务实践](https://blogs.nvidia.com/blog/cities-physical-agentic-ai-applications/)
-
-NVIDIA介绍多地城市利用物理AI、数字孪生和视觉智能体建设交通、基础设施与公共服务。
-
-**为什么重要：** 展示物理AI与视觉智能体在城市级真实服务中的规模化应用路径。
-
-> 来源：NVIDIA Blog｜发布时间：2026-11-03 15:00
+> 来源：머니투데이｜发布时间：2026-11-03 14:20
 
 ---
 
-生成时间：2026-11-03T18:28:53+08:00
+生成时间：2026-11-03T19:20:23+08:00
 
 本日报由自动化系统辅助整理，重要信息请以原始来源为准。
