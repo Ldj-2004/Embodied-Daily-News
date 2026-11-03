@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark" />
+    <title>具身智能日报 · 实验室大屏</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main id="app" class="app" aria-live="polite">
+      <section class="loading" id="loading">
+        <div class="loading-mark" aria-hidden="true"></div>
+        <p>正在载入具身智能日报</p>
+      </section>
+    </main>
+    <template id="slide-template">
+      <article class="slide" aria-hidden="true">
+        <section class="editorial-panel">
+          <header class="masthead">
+            <div>
+              <p class="eyebrow">EMBODIED AI DAILY</p>
+              <p class="display-date"></p>
+            </div>
+            <div class="edition-badge"></div>
+          </header>
+
+          <div class="story-copy">
+            <p class="story-index"></p>
+            <h1 class="story-title"></h1>
+            <div class="accent-line" aria-hidden="true"></div>
+            <p class="story-summary"></p>
+            <div class="why-block">
+              <span>值得关注</span>
+              <p class="story-why"></p>
+            </div>
+          </div>
+
+          <footer class="story-footer">
+            <div class="source-meta">
+              <span class="source-name"></span>
+              <span class="source-separator">·</span>
+              <time class="published-time"></time>
+            </div>
+            <a class="source-link" target="_blank" rel="noopener noreferrer">
+              <span>打开原文</span>
+              <span aria-hidden="true">↗</span>
+            </a>
+          </footer>
+        </section>
+
+        <section class="evidence-panel">
+          <div class="ambient-orb orb-one" aria-hidden="true"></div>
+          <div class="ambient-orb orb-two" aria-hidden="true"></div>
+          <div class="browser-frame">
+            <div class="browser-bar">
+              <div class="browser-dots" aria-hidden="true">
+                <span></span><span></span><span></span>
+              </div>
+              <div class="browser-domain"></div>
+              <div class="capture-label">原网页首屏</div>
+            </div>
+            <div class="capture-wrap">
+              <img class="page-capture" alt="原始新闻网页截图" />
+              <div class="capture-fallback">
+                <p>网页截图暂不可用</p>
+                <span>请通过左侧链接访问原文</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </article>
+    </template>
+
+    <nav class="presentation-controls" aria-label="幻灯片控制">
+      <button class="control-button" id="previous" type="button" aria-label="上一条">←</button>
+      <div class="slide-dots" id="slide-dots"></div>
+      <button class="control-button" id="toggle" type="button" aria-label="暂停轮播">Ⅱ</button>
+      <button class="control-button" id="next" type="button" aria-label="下一条">→</button>
+    </nav>
+    <div class="progress-track" aria-hidden="true">
+      <div class="progress-bar" id="progress-bar"></div>
+    </div>
+    <script src="./app.js" defer></script>
+  </body>
+</html>
+

@@ -1,0 +1,80 @@
+digest:
+  item_count: 5
+  title: "具身智能日报"
+  timezone: "Asia/Shanghai"
+  recent_hours: 36
+  fallback_hours: 168
+  max_candidates_for_ai: 80
+  max_candidates_per_source: 20
+  minimum_keyword_score: 2
+
+collection:
+  timeout_seconds: 20
+  max_workers: 8
+  user_agent: "EmbodiedDailyNews/0.1 (+https://github.com/)"
+
+keywords:
+  high:
+    - "具身智能"
+    - "人形机器人"
+    - "机器人基础模型"
+    - "视觉-语言-动作"
+    - "视觉语言动作"
+    - "embodied ai"
+    - "embodied intelligence"
+    - "physical ai"
+    - "humanoid robot"
+    - "robot foundation model"
+    - "vision-language-action"
+    - "vision language action"
+    - "generalist robot"
+  medium:
+    - "机器人"
+    - "robot"
+    - "robotics"
+    - "vla"
+    - "world model"
+    - "世界模型"
+    - "灵巧手"
+    - "dexterous"
+    - "manipulation"
+    - "locomotion"
+    - "运动控制"
+    - "robot learning"
+    - "sim2real"
+    - "simulation-to-real"
+    - "teleoperation"
+    - "遥操作"
+    - "robot data"
+    - "机器人数据"
+    - "具身大模型"
+    - "机械臂"
+    - "quadruped"
+  entities:
+    - "宇树"
+    - "unitree"
+    - "智元机器人"
+    - "agibot"
+    - "优必选"
+    - "ubtech"
+    - "傅利叶智能"
+    - "fourier intelligence"
+    - "银河通用"
+    - "逐际动力"
+    - "星尘智能"
+    - "figure ai"
+    - "boston dynamics"
+    - "agility robotics"
+    - "apptronik"
+    - "physical intelligence"
+    - "skild ai"
+    - "1x technologies"
+    - "nvidia isaac"
+    - "gemini robotics"
+
+negative_keywords:
+  - "游戏攻略"
+  - "game walkthrough"
+  - "电影机器人"
+  - "robot vacuum"
+  - "扫地机器人评测"

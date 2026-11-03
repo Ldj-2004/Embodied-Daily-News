@@ -1,0 +1,111 @@
+# This project intentionally prefers feeds and search feeds over one crawler per website.
+# A broken feed is logged and skipped; it will not stop the other sources.
+direct_feeds:
+  - name: "TechCrunch Robotics"
+    url: "https://techcrunch.com/category/robotics/feed/"
+    kind: "media"
+    weight: 2
+
+  - name: "IEEE Spectrum Robotics"
+    url: "https://spectrum.ieee.org/feeds/topic/robotics.rss"
+    kind: "media"
+    weight: 2
+
+  - name: "Google DeepMind"
+    url: "https://deepmind.google/blog/rss.xml"
+    kind: "primary"
+    weight: 4
+
+  - name: "NVIDIA Blog"
+    url: "https://blogs.nvidia.com/feed/"
+    kind: "primary"
+    weight: 3
+
+  - name: "Hugging Face Blog"
+    url: "https://huggingface.co/blog/feed.xml"
+    kind: "primary"
+    weight: 3
+
+  - name: "EAI2 Field Notes"
+    url: "https://hub.eai2.cloud/index.xml"
+    kind: "aggregator"
+    weight: 2
+
+  - name: "Embodied Global"
+    url: "https://www.embodiedglobal.com/rss.xml"
+    kind: "aggregator"
+    weight: 2
+
+  - name: "arXiv Robotics"
+    url: "https://export.arxiv.org/api/query?search_query=%28cat%3Acs.RO%20OR%20cat%3Acs.AI%29%20AND%20%28all%3Arobot%20OR%20all%3Aembodied%20OR%20all%3Ahumanoid%20OR%20all%3Amanipulation%29&start=0&max_results=50&sortBy=submittedDate&sortOrder=descending"
+    kind: "research"
+    weight: 3
+
+  # Bing News RSS is a second aggregator path for environments where Google
+  # News RSS is unavailable. Date filtering still happens inside the program.
+  - name: "Bing News 中文｜具身智能"
+    url: "https://www.bing.com/news/search?q=%E5%85%B7%E8%BA%AB%E6%99%BA%E8%83%BD%20OR%20%E4%BA%BA%E5%BD%A2%E6%9C%BA%E5%99%A8%E4%BA%BA&format=rss&setlang=zh-cn"
+    kind: "search"
+    weight: 2
+
+  - name: "Bing News EN｜Embodied AI"
+    url: "https://www.bing.com/news/search?q=%22embodied%20AI%22%20OR%20%22humanoid%20robot%22&format=rss&setlang=en-us"
+    kind: "search"
+    weight: 2
+
+  - name: "Bing News EN｜Robot Deployment"
+    url: "https://www.bing.com/news/search?q=robotics%20deployment%20OR%20physical%20AI&format=rss&setlang=en-us"
+    kind: "search"
+    weight: 2
+
+google_news_queries:
+  - name: "Google News 中文｜具身智能"
+    query: '"具身智能" OR "人形机器人"'
+    language: "zh-CN"
+    country: "CN"
+    ceid: "CN:zh-Hans"
+    weight: 2
+
+  - name: "Google News 中文｜模型算法"
+    query: '"机器人基础模型" OR "视觉语言动作" OR "VLA机器人" OR "具身大模型"'
+    language: "zh-CN"
+    country: "CN"
+    ceid: "CN:zh-Hans"
+    weight: 2
+
+  - name: "Google News 中文｜产品部署"
+    query: '"人形机器人" (部署 OR 量产 OR 发布 OR 融资)'
+    language: "zh-CN"
+    country: "CN"
+    ceid: "CN:zh-Hans"
+    weight: 2
+
+  - name: "Google News EN｜Embodied AI"
+    query: '"embodied AI" OR "physical AI"'
+    language: "en-US"
+    country: "US"
+    ceid: "US:en"
+    weight: 2
+
+  - name: "Google News EN｜Humanoids"
+    query: '"humanoid robot" (deployment OR launch OR funding OR production)'
+    language: "en-US"
+    country: "US"
+    ceid: "US:en"
+    weight: 2
+
+  - name: "Google News EN｜Robot Models"
+    query: '"vision language action" robot OR "robot foundation model" OR "generalist robot"'
+    language: "en-US"
+    country: "US"
+    ceid: "US:en"
+    weight: 2
+
+# Keyless global news index. This is an aggregator fallback when Google/Bing
+# feeds are unavailable; the program still enforces keywords and local dates.
+gdelt_queries:
+  - name: "GDELT｜Embodied AI and Robotics"
+    query: '("embodied AI" OR "physical AI" OR "humanoid robot" OR "robot foundation model" OR "robotics deployment")'
+    timespan: "3d"
+    max_results: 75
+    weight: 2

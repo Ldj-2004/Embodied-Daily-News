@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "embodied-daily-news"
+version = "0.1.0"
+description = "Automated five-item embodied intelligence daily digest and display wall"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+dependencies = [
+  "feedparser>=6.0.11,<7",
+  "httpx>=0.27,<1",
+  "openai>=1.68,<3",
+  "playwright>=1.50,<2",
+  "python-dotenv>=1.0.1,<2",
+  "PyYAML>=6.0.1,<7",
+  "tzdata>=2025.1",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0,<9",
+  "ruff>=0.9,<1",
+]
+
+[project.scripts]
+embodied-daily = "embodied_daily.cli:main"
+embodied-build-site = "embodied_daily.site:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
