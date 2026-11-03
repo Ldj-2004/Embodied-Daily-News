@@ -1,0 +1,22 @@
+.env
+.venv/
+.playwright/
+.tmp/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+dist/
+dist-kimi-test/
+artifacts/
+build/
+*.egg-info/
+
+# Generated daily reports and the small deduplication state remain tracked.
+output/source-health.json
+
+# Pre-existing local connectivity probes are not part of the daily-news project.
+test_connectivity*
