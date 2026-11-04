@@ -105,3 +105,31 @@ def test_expanded_summary_updates_only_known_items(monkeypatch, candidates) -> N
     assert len(items[0].summary) > 40
     assert "真实部署" in items[0].why_it_matters
 
+def test_select_falls_back_when_model_returns_non_json(monkeypatch, candidates) -> None:
+    candidates[-2].source_kind = "research"
+    candidates[-1].source_kind = "research"
+
+    class Message:
+        content = "抱歉，我无法按要求输出结构化内容。"
+
+    class FakeCompletions:
+        def create(self, **kwargs):
+            return type(
+                "Response",
+                (),
+                {"choices": [type("Choice", (), {"message": Message()})]},
+            )()
+
+    fake_client = type(
+        "FakeClient",
+        (),
+        {"chat": type("Chat", (), {"completions": FakeCompletions()})()},
+    )()
+    monkeypatch.setattr("embodied_daily.llm.OpenAI", lambda **kwargs: fake_client)
+
+    items = DigestSelector(settings()).select(candidates)
+
+    assert len(items) == 5
+    assert sum(item.source_kind == "research" for item in items) == 2
+    assert sum(item.source_kind != "research" for item in items) == 3
+

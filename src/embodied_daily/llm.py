@@ -165,16 +165,33 @@ class DigestSelector:
                 "模型选稿暂时不可用，改用确定性排序保证日报继续生成：%s",
                 exc,
             )
-            output = [
-                fallback_item(candidate, index + 1)
-                for index, candidate in enumerate(
-                    prompt_candidates[: self.item_count]
-                )
-            ]
-            return self._enforce_composition(output, prompt_candidates)
-        content = response.choices[0].message.content or ""
-        parsed = extract_json(content)
-        return self._validate_and_hydrate(parsed, prompt_candidates)
+            return self._fallback_selection(prompt_candidates)
+
+        try:
+            content = response.choices[0].message.content or ""
+            parsed = extract_json(content)
+            return self._validate_and_hydrate(parsed, prompt_candidates)
+        except Exception as exc:
+            preview = _compact(
+                getattr(response.choices[0].message, "content", ""), 240
+            )
+            LOGGER.warning(
+                "模型选稿响应无法解析或不符合约束，改用确定性排序。"
+                "错误：%s；响应片段：%r",
+                exc,
+                preview,
+            )
+            return self._fallback_selection(prompt_candidates)
+
+    def _fallback_selection(
+        self,
+        candidates: list[Candidate],
+    ) -> list[DigestItem]:
+        output = [
+            fallback_item(candidate, index + 1)
+            for index, candidate in enumerate(candidates[: self.item_count])
+        ]
+        return self._enforce_composition(output, candidates)
 
     def expand_summaries(
         self,
