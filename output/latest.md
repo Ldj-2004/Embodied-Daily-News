@@ -1,47 +1,47 @@
 # 具身智能日报｜2026-11-04
 
-## 1. [Asynchronous Robot Policies](https://arxiv.org/abs/2611.05155v1)
+## 1. [小米公布人形机器人进厂整班作业进展](https://news.google.com/rss/articles/CBMicEFVX3lxTFBrTHZfMHdTMVkwYVZNemRiRjRmRmlvTHhoQjJqdGZ5MzhZLTlHUk4yOFMyNXZBVENQUkJLLThtQ3dEZnRiZ2xHenNSaDNrRl9icGRiUUtTUEFZbzFRSmRnblRKUjE2Vm00U012ZWk3Sng?oc=5)
 
-该研究关注视觉语言基础模型规模化应用于通用机器人操作时出现的实时性矛盾：模型能力提升的同时，更大计算量会带来延迟，削弱机器人对物理环境变化的即时反应。论文以“异步机器人策略”为题，将这一问题置于视觉—语言—动作（VLA）模型的执行语境中，突出通用操作能力扩展与实际响应速度之间的冲突。现有摘要未给出具体异步机制、实验平台或性能数据，因此可确认的核心是把计算延迟与物理反应能力列为通用操作策略扩大模型规模时的关键约束。
+小米公布其人形机器人在工厂场景的最新进展，称机器人已能够在工厂“整班”作业，显示应用重点正由短时演示转向持续生产任务。该消息直接指向真实制造环境中的部署能力，但现有材料未披露机器人型号、负载、节拍、连续运行时长及具体产线，也未给出量产规模与成熟度指标，暂不能据此判断其商业部署水平，仍需更多产线数据验证。
 
-**为什么重要：** 该问题直接关系到大型VLA模型能否实现稳定实时控制，也影响通用操作系统的模型部署、动作频率与硬件成本权衡。
+**为什么重要：** 若整班作业能在真实产线持续复现，将为人形机器人工业部署提供关键参照，并推动评估从动作展示转向稳定性、节拍与运维能力。
+
+> 来源：国际科技创新中心｜发布时间：2026-11-04 14:53
+
+## 2. [智元发布GO-3预览版并称登顶三项具身基准](https://news.google.com/rss/articles/CBMiugFBVV95cUxQQmR0Y205MnNpOTNodDJHckJOdThSVnp3aGpBaXcyMUNJLWpJTWdiRUFyalFBZ1Rqeko5MGYyZVAwSTJYYW9xRjhCcUtldzdUNUxuQTJXRmRWdUtyUnYxLWhIWGhYRHFvNHV4WVhOYVBmeHcyOXN1WUdOWGE2aXNwTFBKS2NMUkgtMHUwcWtWTm8tVm93SF9CNUhZdnI4N09SQ3VDUlJValRSQTdZRFp4SUlfLUZjLVowSXc?oc=5)
+
+智元机器人发布GO-3预览版，并称其在三项具身智能基准中取得首位，属于机器人基础模型方向的一次直接升级。该进展同时给出新模型与可比较评测信息，有助于研究人员跟踪能力定位；但材料未列出模型架构、训练数据、基准名称、任务设置和对比方法，因而尚不能判断其通用性、复现价值及相对优势，仍需结合一手技术材料核验其实际机器人表现。
+
+**为什么重要：** 新模型与基准排名为基础模型能力比较提供线索，但完整评测设置的公开程度将决定其研究复现价值及产业选型参考意义。
+
+> 来源：The Malaysian Reserve｜发布时间：2026-11-03 14:56
+
+## 3. [异步机器人策略缓解大模型VLA实时控制矛盾](https://arxiv.org/abs/2611.05155v1)
+
+论文《Asynchronous Robot Policies》关注大规模视觉语言模型增强通用操作能力后产生的计算延迟。现有VLA通常在主控制循环中依次完成高层语义推理与动作执行，令模型规模与物理实时反应形成矛盾；该工作以异步机器人策略为方向，尝试缓解顺序执行的限制，研究对象是在线通用机器人控制，而非仅改进离线感知或语义理解，但摘要未给出具体实验提升。
+
+**为什么重要：** 异步策略为扩大VLA模型规模与维持控制实时性提供新思路，有助于通用操作模型在动态物理环境中实现更及时、可靠的闭环响应。
 
 > 来源：arXiv Robotics｜发布时间：2026-11-04 00:30
 
-## 2. [安富利华诗显：量产前夜，赋能Physical AI和具身智能机器人的](https://news.google.com/rss/articles/CBMif0FVX3lxTE5zZDMxRGNCTkE2QURnNkw4anQxR0hXVzNBaHQ4REJCUWFEQzgyTURCQmlNb2pYaklJQ3JjSWZ6c1prcEk3RGhiWUtaNEZ4MWcxYXdyZXItNXhTWHhMTTEtRjZJdVZHR2prZTIxTTQtRTJnaFNmajVBbl8wX0NTZWc?oc=5)
+## 4. [研究VLA动作专家反向训练视觉语言模型的方法](https://arxiv.org/abs/2611.05249v1)
 
-报道围绕安富利华诗显在Physical AI和具身智能机器人方向的创新落地展开，将讨论背景放在相关产品迈向量产的前夕。现有标题能够确认其关注从技术与方案能力走向实际应用和规模化交付，但未披露具体产品型号、机器人形态、软硬件配置、合作客户、量产时间或订单规模。因而，这条信息更适合作为产业侧动向：安富利华诗显正把Physical AI与具身智能机器人的落地及量产准备作为对外沟通重点，具体能力边界仍待正文或官方资料补充。
+该论文研究混合Transformer架构VLA中动作专家与预训练视觉语言模型的训练关系。此类模型让流匹配动作专家依据VLM的键值表示预测动作，但这些表示并非面向动作专家的流匹配目标训练，可能未充分包含控制信息；论文将动作令牌监督与梯度路由作为核心议题，分析如何借助反向传播等信号改善VLM表示，为各模块是否及如何联合训练提供研究路径。
 
-**为什么重要：** 量产准备是把具身智能从演示推向商业交付的关键环节，但缺少产品与客户细节时，其实际产业拉动和可复制性仍需验证。
-
-> 来源：手机新浪网｜发布时间：2026-11-04 15:21
-
-## 3. [Should the Action Expert Train the](https://arxiv.org/abs/2611.05249v1)
-
-该研究讨论VLA模型中预训练视觉语言模型与流匹配动作专家的组合方式：动作专家以VLM的键值表示为条件生成动作预测，因此这些表示需要承载支持控制的信息。材料由此指向一个核心训练问题，即动作专家与上游视觉语言表示之间应如何形成有效学习关系，而不能只把VLM视为天然完备的特征来源。现有摘要未展开具体训练目标、梯度路径、对比实验或结论，也没有提供机器人和任务数据，可确认的是论文聚焦表示质量与动作学习之间的耦合。
-
-**为什么重要：** 这一视角有助于重新检查VLA中感知表征与动作生成的分工，为提升操作数据利用、控制性能和模块训练效率提供研究切入点。
+**为什么重要：** 明确动作监督能否反哺视觉语言表示，有助于优化VLA联合训练方式，减少语义表征与低层控制目标之间的信息错配。
 
 > 来源：arXiv Robotics｜发布时间：2026-11-04 01:35
 
-## 4. [D-Robotics Teams Up with Unitree R](https://news.google.com/rss/articles/CBMi3AFBVV95cUxQVGk0VmZnaFpsWEZQU3RvWE02aVA0OWh2NjlSMWNGVXZCdEY2YXpla2tka3Rwa0NPQWxONFR6X3lvSnpFU0ZFdnNnSV9mWnRuRms4aWhxR3pRWHZmZGdnMjdQZG03MzdfWldPclVudXc3dnc0MFlvVUFZWDJCVU83VTBneW95YnNqTmJoYkNwZFpYYkFhM2ZNOENHR0xvSFlkMExWS0gwMVVKZTM4TWZYbTI4dGMzME5kN3VUSDRINUdmT0tqc0wyeHhBQXJYQmhsM3l6Tjc3Z3NfX0Vn?oc=5)
+## 5. [中石油与宇树科技拟设工业具身机器人企业](https://news.google.com/rss/articles/CBMiZkFVX3lxTE5NeGlBbzQxS29aX0hzR1BMQXk2ZEIzcTlxcDlIM0h0ZEJTNjMyWWdmWGRhU1NsN0FOeGxhR2RDNFc0amF0TXd4S3AwcGM3VnNzNXluY1VCQ00xOHIxbzRqanoyS19WUQ?oc=5)
 
-据Gasgoo标题信息，D-Robotics与宇树科技合作推出具身智能教育解决方案，合作主体和产品方向明确，面向教育这一具体应用场景。该方案将两家公司的名字与具身智能教学落地联系起来，但现有材料没有说明其是否包含机器人本体、计算平台、课程软件或实验内容，也未披露适用院校、交付方式、价格、发布时间及采购规模。因此目前可确认的是双方已联合推出教育方案，其技术组成、教学闭环和商业推广进度仍需更多资料支撑。
+中石油与宇树科技拟共同设立面向工业具身智能机器人的企业，将大型能源工业场景与机器人企业的技术能力结合。该合作体现出机器人技术向能源等工业应用延伸的意图，并具备真实场景方实质参与的潜在优势；但目前仍处于拟设企业阶段，材料未披露产品型号、技术方案、投资安排、试点产线或已完成的客户部署，因此尚不能评估实际作业效果、商业化进度与落地规模。
 
-**为什么重要：** 教育方案可把机器人本体、开发工具与人才培养连接，为具身智能提供实践入口；其长期价值取决于课程完整性、可开发性和院校采用情况。
+**为什么重要：** 能源企业与机器人厂商拟设专门企业，为工业具身智能提供潜在真实场景入口，后续试点与部署数据将检验其产业协同价值。
 
-> 来源：Gasgoo｜发布时间：2026-11-03 14:45
-
-## 5. [天亿马：人形机器人真机场景数据采集业务已取得相关具身智能领域客户订单](https://news.google.com/rss/articles/CBMiZkFVX3lxTE1ieENERnZwemlwTnBLWGdrWGpubGRjMkMtTWQ2REZxU2dWLUk1LVVJYVhmSUIwRlk4VFRyczFNTzYwT2JsYW51SFlGYXR4aHZTX3R3bDhUVjZ0U1BZR3N4ejF6YzBQUQ?oc=5)
-
-东方财富披露的信息显示，天亿马的人形机器人真机场景数据采集业务已取得具身智能领域客户订单，表明相关业务已从能力介绍进入客户需求兑现阶段。业务关键词包括人形机器人、真机场景和数据采集，订单客户属于具身智能领域；现有材料未给出客户名称、订单金额、采集地点、机器人数量、数据模态、交付周期或收入确认情况。由此可以确认订单突破这一进展，但不能据此推断规模化收入、独家合作或特定技术路线。
-
-**为什么重要：** 真机场景数据是训练和验证具身操作策略的重要资源，订单出现说明数据服务已有现实需求，但商业价值仍取决于质量、规模与复购。
-
-> 来源：东方财富｜发布时间：2026-11-04 09:04
+> 来源：东方财富｜发布时间：2026-11-04 18:28
 
 ---
 
-生成时间：2026-11-04T16:12:25+08:00
+生成时间：2026-11-04T21:58:54+08:00
 
 本日报由自动化系统辅助整理，重要信息请以原始来源为准。
