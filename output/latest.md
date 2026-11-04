@@ -1,47 +1,47 @@
-# 具身智能日报｜2026-11-03
+# 具身智能日报｜2026-11-04
 
-## 1. [Pixel：协同设计全栈系统学习通用移动操作](https://arxiv.org/abs/2611.03648v1)
+## 1. [Asynchronous Robot Policies](https://arxiv.org/abs/2611.05155v1)
 
-Pixel将低成本轮式人形机器人、遥操作与无需机器人的人类数据采集、统一全身控制器及策略学习流程协同设计，并支持语言条件视觉运动控制。
+Scaling vision-language foundation models has significantly advanced generalist robot manipulation, but the increased model scale introduces computational latency that degrades real-time physical reactivity. Existing Vision-Language-Action
 
-**为什么重要：** 为硬件、数据、控制与学习的一体化设计提供通用移动操作研究范式。
+**为什么重要：** 该进展与具身智能研究或机器人落地直接相关。
 
-> 来源：arXiv Robotics｜发布时间：2026-11-03 02:59
+> 来源：arXiv Robotics｜发布时间：2026-11-04 00:30
 
-## 2. [D&A：解耦描述与评估的零样本机器人奖励模型](https://arxiv.org/abs/2611.03622v1)
+## 2. [安富利华诗显：量产前夜，赋能Physical AI和具身智能机器人的](https://news.google.com/rss/articles/CBMif0FVX3lxTE5zZDMxRGNCTkE2QURnNkw4anQxR0hXVzNBaHQ4REJCUWFEQzgyTURCQmlNb2pYaklJQ3JjSWZ6c1prcEk3RGhiWUtaNEZ4MWcxYXdyZXItNXhTWHhMTTEtRjZJdVZHR2prZTIxTTQtRTJnaFNmajVBbl8wX0NTZWc?oc=5)
 
-D&A将任务进展估计拆为客观描述与评估，面向零样本视频奖励建模，缓解失败执行中的确认偏置和进度幻觉。
+安富利华诗显：量产前夜，赋能Physical AI和具身智能机器人的创新落地 手机新浪网
 
-**为什么重要：** 为无需机器人专用后训练的任务进展与奖励估计提供新思路。
+**为什么重要：** 该进展与具身智能研究或机器人落地直接相关。
 
-> 来源：arXiv Robotics｜发布时间：2026-11-03 02:52
+> 来源：手机新浪网｜发布时间：2026-11-04 15:21
 
-## 3. [Percepto发布Axion平台，面向自主无人机与基础设施巡检](https://news.google.com/rss/articles/CBMiygFBVV95cUxQV1djUE1VTlNsSXF3Y3ZhQkVTazBZUkFNNUc4THYwcHc3Nl9xWEFOSW9ncWJZd01DME1MNnlyaEVjQTcyRVE4bkJ0eGlqcnpQb2hzTVFid1o4dEVCd09SZlB1OFVBd28xa3RxQ2lFNTdhcUZlbXlyb1B5VjVpYkgxRElRdmNFYmhjNEs0VUR1RHJSUmJvMGJSbjlHbmVoaEhOSUU1YmVScm1aNklOOUtUWDcxZjFzQno2V001YnBLNXBDcHZiQUJQLVdn?oc=5)
+## 3. [Should the Action Expert Train the](https://arxiv.org/abs/2611.05249v1)
 
-Percepto推出Axion Physical AI平台，用于自主无人机及基础设施巡检。
+Vision-language-action (VLA) models increasingly pair a pre-trained vision-language model (VLM) with a flow-matching expert that conditions its action predictions on the VLM's key-value representations. Those representations must carry info
 
-**为什么重要：** 体现物理AI在自主巡检机器人上的产品化进展。
+**为什么重要：** 该进展与具身智能研究或机器人落地直接相关。
 
-> 来源：UASweekly.com｜发布时间：2026-11-02 21:17
+> 来源：arXiv Robotics｜发布时间：2026-11-04 01:35
 
-## 4. [智往未来在CeMAT展示实景仓储具身智能作业](https://news.google.com/rss/articles/CBMijAFBVV95cUxOcGQyZEFxRjJIR1Z5dThjVXFGM0dLV29mYV9qNl9tM2d6QnhHQXBaVHdJeDlWa09mUDhmMThlQnVWZWR5TUpiTE1BTndpenFTb1I0YlhkSHpKeWs5azJWb0JrVmJuNFpVVXZsMU0tQmNpTTBKM1p1MHhMMU1xSHo4ZC1PSUNHWDd4Z0NUYg?oc=5)
+## 4. [XPeng commissions automated IRON h](https://news.google.com/rss/articles/CBMiuAFBVV95cUxOaldXSFV1RG1lV2lSNVlNLWhQVXVwMDd0TlJfYUZ4cnY5T21ZZHk3RDVJWmJyLWNqUExqZGFlVTdPWU9tWEJnTTJEaHdzM1VvSnp6MDdHeEZsU1JwZHgtNFQ3ZkdUeU1hekVqV1kzeU9PSFBPSVNnMXUxQ28xWnd0Zk9fWWVGeWFiNml5VC1fYzVBdzBwb2dobzd5Q1o5V29wdmk2SEZMNnlNbWwzb0JPMjNXNzR5djBJ?oc=5)
 
-智往未来在CeMAT通过实景仓储作业，展示具身智能的落地能力。
+XPeng commissions automated IRON humanoid robot production lines scanx.trade
 
-**为什么重要：** 为观察具身智能在实景仓储中的作业能力提供案例。
+**为什么重要：** 该进展与具身智能研究或机器人落地直接相关。
 
-> 来源：搜狐网｜发布时间：2026-11-03 18:29
+> 来源：scanx.trade｜发布时间：2026-11-03 04:41
 
-## 5. [TDK投资1000亿日元布局物理AI传感器](https://news.google.com/rss/articles/CBMijAFBVV95cUxOTUctM24yQVlRTnpCRXZQTjFLQlBuV3FURks4Z09yTFRFalFIcE40U1F1SV9WME8zQThyNU5NZ0s5RHRsMm5ZMkR6YloyNzgwTkVjeTMzS1ZPeWVqclYzd1V4Z1NUYkJ3NklCUnh1b1ZJSFB1VU1jTTBfWFU5ZG8tUjhINERlOEgzdTVmdg?oc=5)
+## 5. [Jeonbuk State Kicks Off Effort to](https://news.google.com/rss/articles/CBMiWEFVX3lxTE1HaHdySDI5TTFSanBQQnJ3ZEFtWTVZZVRsTEJrRWd1LTVyd0h4Qmg0dFVnVHBlSWdqLXVkOWF3cGpUNktZd25vblpiVnNaZEx5bnBpdzB6QlU?oc=5)
 
-TDK计划向物理AI传感器投入1000亿日元，目标于2029年投产。
+Jeonbuk State Kicks Off Effort to Build Physical AI and Robotics Hub... A 1.3 Trillion Won Initiative 파이낸셜뉴스
 
-**为什么重要：** 物理AI传感器关系机器人感知硬件，但当前消息仍以投资和生产规划为主。
+**为什么重要：** 该进展与具身智能研究或机器人落地直接相关。
 
-> 来源：digitimes｜发布时间：2026-11-03 17:09
+> 来源：파이낸셜뉴스｜发布时间：2026-11-04 14:55
 
 ---
 
-生成时间：2026-11-03T19:59:52+08:00
+生成时间：2026-11-04T16:05:28+08:00
 
 本日报由自动化系统辅助整理，重要信息请以原始来源为准。
