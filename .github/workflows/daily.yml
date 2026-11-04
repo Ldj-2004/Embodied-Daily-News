@@ -8,6 +8,7 @@ on:
     paths:
       - ".github/workflows/daily.yml"
   schedule:
+    # Validation run 2: JSON mode plus redirect-safe screenshot capture.
     # arXiv announces at 20:00 US Eastern. 01:30 UTC = 09:30 Shanghai,
     # safely after the announcement in both daylight-saving and standard time.
     - cron: "30 1 * * *"

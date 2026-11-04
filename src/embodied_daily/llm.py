@@ -151,6 +151,7 @@ class DigestSelector:
             response = client.chat.completions.create(
                 model=self.settings.model,
                 max_tokens=2_000,
+                response_format={"type": "json_object"},
                 messages=[
                     {"role": "system", "content": SYSTEM_PROMPT},
                     {
@@ -221,6 +222,7 @@ class DigestSelector:
         response = client.chat.completions.create(
             model=self.settings.model,
             max_tokens=2_600,
+            response_format={"type": "json_object"},
             messages=[
                 {"role": "system", "content": SUMMARY_PROMPT},
                 {

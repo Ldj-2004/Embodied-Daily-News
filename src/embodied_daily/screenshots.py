@@ -71,6 +71,73 @@ def capture_arxiv_figure(page, url: str, path: Path, timeout_ms: int) -> None:
     best.screenshot(path=str(path), timeout=timeout_ms)
 
 
+def _is_navigation_race(exc: Exception) -> bool:
+    message = str(exc).lower()
+    return (
+        "execution context was destroyed" in message
+        or "because of a navigation" in message
+        or "interrupted by another navigation" in message
+        or "navigating frame was detached" in message
+    )
+
+
+def capture_article_view(page, url: str, path: Path, timeout_ms: int) -> None:
+    """Capture a news page after redirects and client-side navigation settle."""
+    try:
+        page.goto(url, wait_until="commit", timeout=timeout_ms)
+    except Exception:
+        if page.url in {"", "about:blank"}:
+            raise
+
+    last_error: Exception | None = None
+    for attempt in range(6):
+        page.wait_for_timeout(1_500 if attempt == 0 else 1_000)
+        try:
+            try:
+                page.wait_for_load_state(
+                    "domcontentloaded",
+                    timeout=min(timeout_ms, 5_000),
+                )
+            except Exception:
+                # Ad-heavy pages may never become fully idle.  The body check
+                # below is the authoritative signal that a useful page exists.
+                pass
+
+            text = page.locator("body").inner_text(timeout=5_000).lower()[:2_000]
+            if len(text.strip()) < 80:
+                raise RuntimeError("页面可见正文过少，疑似仍在跳转或为空白页")
+            if any(marker in text for marker in BLOCKED_MARKERS):
+                raise RuntimeError("页面返回了访问限制或错误提示")
+
+            try:
+                page.add_style_tag(
+                    content="""
+                    [class*='cookie' i], [id*='cookie' i],
+                    [class*='consent' i], [id*='consent' i],
+                    [aria-label*='cookie' i] { display: none !important; }
+                    """
+                )
+            except Exception as exc:
+                if _is_navigation_race(exc):
+                    last_error = exc
+                    continue
+                LOGGER.debug("页面样式清理失败，继续使用原始页面截图：%s", exc)
+
+            page.screenshot(
+                path=str(path),
+                full_page=False,
+                timeout=min(timeout_ms, 15_000),
+            )
+            return
+        except Exception as exc:
+            last_error = exc
+            if _is_navigation_race(exc) or "仍在跳转" in str(exc):
+                continue
+            raise
+
+    raise RuntimeError(f"页面多次重定向后仍未稳定：{last_error}")
+
+
 def write_fallback_svg(
     path: Path,
     *,
@@ -183,25 +250,12 @@ def capture_digest_screenshots(
                     if item.source_kind == "research":
                         capture_arxiv_figure(page, item.url, png_path, timeout_ms)
                     else:
-                        page.goto(
+                        capture_article_view(
+                            page,
                             item.url,
-                            wait_until="domcontentloaded",
-                            timeout=timeout_ms,
+                            png_path,
+                            timeout_ms,
                         )
-                        page.wait_for_timeout(2_000)
-                        page.add_style_tag(
-                            content="""
-                            [class*='cookie' i], [id*='cookie' i],
-                            [class*='consent' i], [id*='consent' i],
-                            [aria-label*='cookie' i] { display: none !important; }
-                            """
-                        )
-                        text = page.locator("body").inner_text(timeout=5_000).lower()[:2_000]
-                        if len(text.strip()) < 80:
-                            raise RuntimeError("页面可见正文过少，疑似空白页")
-                        if any(marker in text for marker in BLOCKED_MARKERS):
-                            raise RuntimeError("页面返回了访问限制或错误提示")
-                        page.screenshot(path=str(png_path), full_page=False)
                     item.screenshot = relative_png
                     item.screenshot_status = "captured"
                     written.append(png_path)
