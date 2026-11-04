@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import html
 import logging
+import re
 from pathlib import Path
 from urllib.parse import urlparse
 
@@ -16,10 +17,58 @@ BLOCKED_MARKERS = (
     "403 forbidden",
     "page not found",
 )
+ARXIV_PATH_RE = re.compile(r"/(?:abs|pdf|html)/([^/?#]+)", re.IGNORECASE)
 
 
 def _safe_domain(url: str) -> str:
     return urlparse(url).netloc.removeprefix("www.") or "原始信源"
+
+
+def arxiv_html_url(url: str) -> str | None:
+    """Convert an arXiv abstract/PDF URL to its HTML paper view."""
+    parsed = urlparse(url)
+    if not parsed.netloc.lower().endswith("arxiv.org"):
+        return None
+    match = ARXIV_PATH_RE.search(parsed.path)
+    if not match:
+        return None
+    paper_id = match.group(1).removesuffix(".pdf")
+    return f"https://arxiv.org/html/{paper_id}"
+
+
+def capture_arxiv_figure(page, url: str, path: Path, timeout_ms: int) -> None:
+    """Capture the largest useful figure from arXiv HTML, including its caption."""
+    html_url = arxiv_html_url(url)
+    if not html_url:
+        raise RuntimeError("论文链接不是可识别的 arXiv 地址")
+    page.goto(html_url, wait_until="domcontentloaded", timeout=timeout_ms)
+    page.wait_for_timeout(2_000)
+    figures = page.locator("figure")
+    best = None
+    best_score = 0.0
+    for index in range(min(figures.count(), 16)):
+        figure = figures.nth(index)
+        metrics = figure.evaluate(
+            """element => ({
+              width: element.scrollWidth,
+              height: element.scrollHeight,
+              visuals: element.querySelectorAll('img, svg, canvas').length
+            })"""
+        )
+        width = float(metrics.get("width", 0))
+        height = float(metrics.get("height", 0))
+        if metrics.get("visuals", 0) < 1 or width < 320 or height < 160:
+            continue
+        if height > 1_800:
+            continue
+        score = min(width, 1_200) * min(height, 900)
+        if score > best_score:
+            best = figure
+            best_score = score
+    if best is None:
+        raise RuntimeError("arXiv HTML 中没有找到尺寸合适的论文图表")
+    best.scroll_into_view_if_needed(timeout=5_000)
+    best.screenshot(path=str(path), timeout=timeout_ms)
 
 
 def write_fallback_svg(
@@ -131,26 +180,33 @@ def capture_digest_screenshots(
                     ),
                 )
                 try:
-                    page.goto(item.url, wait_until="domcontentloaded", timeout=timeout_ms)
-                    page.wait_for_timeout(2_000)
-                    page.add_style_tag(
-                        content="""
-                        [class*='cookie' i], [id*='cookie' i],
-                        [class*='consent' i], [id*='consent' i],
-                        [aria-label*='cookie' i] { display: none !important; }
-                        """
-                    )
-                    text = page.locator("body").inner_text(timeout=5_000).lower()[:2_000]
-                    if len(text.strip()) < 80:
-                        raise RuntimeError("页面可见正文过少，疑似空白页")
-                    if any(marker in text for marker in BLOCKED_MARKERS):
-                        raise RuntimeError("页面返回了访问限制或错误提示")
-                    page.screenshot(path=str(png_path), full_page=False)
+                    if item.source_kind == "research":
+                        capture_arxiv_figure(page, item.url, png_path, timeout_ms)
+                    else:
+                        page.goto(
+                            item.url,
+                            wait_until="domcontentloaded",
+                            timeout=timeout_ms,
+                        )
+                        page.wait_for_timeout(2_000)
+                        page.add_style_tag(
+                            content="""
+                            [class*='cookie' i], [id*='cookie' i],
+                            [class*='consent' i], [id*='consent' i],
+                            [aria-label*='cookie' i] { display: none !important; }
+                            """
+                        )
+                        text = page.locator("body").inner_text(timeout=5_000).lower()[:2_000]
+                        if len(text.strip()) < 80:
+                            raise RuntimeError("页面可见正文过少，疑似空白页")
+                        if any(marker in text for marker in BLOCKED_MARKERS):
+                            raise RuntimeError("页面返回了访问限制或错误提示")
+                        page.screenshot(path=str(png_path), full_page=False)
                     item.screenshot = relative_png
                     item.screenshot_status = "captured"
                     written.append(png_path)
                     captured = True
-                    LOGGER.info("网页截图完成：%s", item.url)
+                    LOGGER.info("视觉素材截取完成：%s", item.url)
                 except Exception as exc:
                     LOGGER.warning("网页截图失败：%s (%s)", item.url, exc)
                 finally:

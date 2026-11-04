@@ -5,6 +5,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
+from embodied_daily.article_content import collect_article_texts
 from embodied_daily.config import RuntimeSettings, load_yaml
 from embodied_daily.demo import demo_candidates
 from embodied_daily.feeds import collect_candidates
@@ -226,6 +227,18 @@ def run_pipeline(
                 selector,
                 output_dir,
             )
+    if not demo:
+        try:
+            article_texts = collect_article_texts(
+                digest.items,
+                timeout_seconds=float(
+                    app_config.get("collection", {}).get("timeout_seconds", 20)
+                ),
+            )
+            selector.expand_summaries(digest.items, article_texts)
+            LOGGER.info("已使用 API 完成五条新闻的扩展摘要。")
+        except Exception as exc:
+            LOGGER.warning("扩展摘要失败，将保留初选摘要：%s", exc)
     paths = write_digest(digest, output_dir)
     LOGGER.info("已生成日报：%s", ", ".join(str(path) for path in paths))
     if build_display:

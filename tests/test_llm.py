@@ -64,3 +64,33 @@ def test_hydration_forces_exactly_two_research_items(candidates) -> None:
     assert sum(item.source_kind != "research" for item in items) == 3
     assert [item.rank for item in items] == [1, 2, 3, 4, 5]
 
+
+def test_expanded_summary_updates_only_known_items(monkeypatch, candidates) -> None:
+    candidates[-2].source_kind = "research"
+    candidates[-1].source_kind = "research"
+    selector = DigestSelector(settings())
+    items = selector._validate_and_hydrate({"items": []}, candidates)
+
+    class Message:
+        content = (
+            '{"items":[{"id":"item-1","summary":"'
+            + "这是基于网页正文生成的更完整事实概述。" * 4
+            + '","why_it_matters":"该进展展示了机器人产品从模型能力走向真实部署的重要路径。"}]}'
+        )
+
+    class FakeCompletions:
+        def create(self, **kwargs):
+            return type("Response", (), {"choices": [type("Choice", (), {"message": Message()})]})
+
+    fake_client = type(
+        "FakeClient",
+        (),
+        {"chat": type("Chat", (), {"completions": FakeCompletions()})()},
+    )()
+    monkeypatch.setattr("embodied_daily.llm.OpenAI", lambda **kwargs: fake_client)
+
+    selector.expand_summaries(items, {"item-1": "网页正文" * 100})
+
+    assert len(items[0].summary) > 40
+    assert "真实部署" in items[0].why_it_matters
+

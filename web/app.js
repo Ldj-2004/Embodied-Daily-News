@@ -1,7 +1,7 @@
 (() => {
   "use strict";
 
-  const SLIDE_DURATION_MS = 18_000;
+  const SLIDE_DURATION_MS = 25_000;
   const app = document.querySelector("#app");
   const template = document.querySelector("#slide-template");
   const dotsContainer = document.querySelector("#slide-dots");
@@ -57,6 +57,8 @@
   const createSlide = (item, digest, index) => {
     const fragment = template.content.cloneNode(true);
     const slide = fragment.querySelector(".slide");
+    const isResearch = item.source_kind === "research";
+    slide.classList.toggle("research-slide", isResearch);
     slide.dataset.index = String(index);
     slide.querySelector(".display-date").textContent = formatDigestDate(digest.date);
     slide.querySelector(".edition-badge").textContent = digest.edition === "test"
@@ -73,8 +75,12 @@
     link.href = item.url;
     const domain = getDomain(item.url);
     slide.querySelector(".browser-domain").textContent = domain;
+    slide.querySelector(".capture-label").textContent = isResearch
+      ? "论文图表"
+      : "新闻页面";
 
     const image = slide.querySelector(".page-capture");
+    image.alt = isResearch ? "论文中的代表性图表" : "原始新闻网页截图";
     const fallback = slide.querySelector(".capture-fallback");
     const screenshot = resolveScreenshot(item.screenshot);
     if (screenshot) {
