@@ -142,3 +142,59 @@ def test_prefilter_preserves_old_research_when_recent_news_pool_is_full(
     result = prefilter(candidates, config, now)
 
     assert paper in result
+
+def test_prominent_company_bonus_applies_only_to_ordinary_news(candidates) -> None:
+    prominent_news = candidates[0]
+    prominent_news.source_kind = "media"
+    prominent_news.source_weight = 1
+    prominent_news.title = "宇树科技发布具身智能机器人教育解决方案"
+    prominent_news.summary = "机器人产品已经完成部署。"
+
+    small_news = candidates[1]
+    small_news.source_kind = "media"
+    small_news.source_weight = 1
+    small_news.title = "某小型企业发布具身智能机器人教育解决方案"
+    small_news.summary = "机器人产品已经完成部署。"
+
+    prominent_paper = candidates[2]
+    prominent_paper.source_kind = "research"
+    prominent_paper.source_weight = 1
+    prominent_paper.title = "宇树科技具身智能机器人研究"
+    prominent_paper.summary = "论文介绍机器人学习方法。"
+
+    other_paper = candidates[3]
+    other_paper.source_kind = "research"
+    other_paper.source_weight = 1
+    other_paper.title = "具身智能机器人研究"
+    other_paper.summary = "论文介绍机器人学习方法。"
+
+    config = {
+        "keywords": {
+            "high": ["具身智能"],
+            "medium": ["机器人"],
+            "entities": [],
+        },
+        "ranking_preferences": {
+            "prominent_company_bonus": 6,
+            "prominent_company_bonus_cap": 12,
+            "prominent_companies": {
+                "unitree": ["宇树科技", "宇树", "unitree"],
+            },
+            "product_progress": [],
+            "policy_macro": [],
+            "events": [],
+            "finance": [],
+        },
+        "negative_keywords": [],
+    }
+
+    news_bonus = keyword_score(prominent_news, config) - keyword_score(
+        small_news, config
+    )
+    paper_difference = keyword_score(prominent_paper, config) - keyword_score(
+        other_paper, config
+    )
+
+    assert news_bonus == 6
+    assert paper_difference == 0
+

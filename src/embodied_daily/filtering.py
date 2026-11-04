@@ -15,6 +15,37 @@ def normalize_title(title: str) -> str:
     return NON_WORD_RE.sub("", title.lower())
 
 
+def _contains_named_entity(text: str, alias: str) -> bool:
+    """Match Chinese aliases by substring and Latin aliases by word boundary."""
+    term = str(alias).strip().lower()
+    if not term:
+        return False
+    if re.fullmatch(r"[a-z0-9][a-z0-9 .&+_-]*", term):
+        return bool(
+            re.search(
+                rf"(?<![a-z0-9]){re.escape(term)}(?![a-z0-9])",
+                text,
+            )
+        )
+    return term in text
+
+
+def prominent_company_score(text: str, ranking: dict) -> int:
+    """Reward distinct prominent companies without counting aliases twice."""
+    groups = ranking.get("prominent_companies", {})
+    if not isinstance(groups, dict):
+        return 0
+    hits = sum(
+        1
+        for aliases in groups.values()
+        if isinstance(aliases, list)
+        and any(_contains_named_entity(text, alias) for alias in aliases)
+    )
+    per_company = int(ranking.get("prominent_company_bonus", 6))
+    cap = int(ranking.get("prominent_company_bonus_cap", 12))
+    return min(cap, hits * per_company)
+
+
 def keyword_score(candidate: Candidate, config: dict) -> int:
     text = f"{candidate.title} {candidate.summary}".lower()
     if any(term.lower() in text for term in config.get("negative_keywords", [])):
@@ -39,6 +70,7 @@ def keyword_score(candidate: Candidate, config: dict) -> int:
             return min(cap, hits * per_hit)
 
         score += adjustment("product_progress", per_hit=2, cap=8)
+        score += prominent_company_score(text, ranking)
         score -= adjustment("policy_macro", per_hit=3, cap=9)
         score -= adjustment("events", per_hit=4, cap=8)
         score -= adjustment("finance", per_hit=2, cap=6)

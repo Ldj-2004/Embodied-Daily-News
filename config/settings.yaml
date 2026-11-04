@@ -74,6 +74,46 @@ keywords:
 
 
 ranking_preferences:
+  # This bonus applies only to ordinary news. Aliases under one company count once;
+  # collaborations involving two prominent companies can receive two bonuses.
+  prominent_company_bonus: 6
+  prominent_company_bonus_cap: 12
+  prominent_companies:
+    unitree: ["宇树科技", "宇树", "unitree"]
+    agibot: ["智元机器人", "agibot"]
+    ubtech: ["优必选", "ubtech"]
+    fourier: ["傅利叶智能", "fourier intelligence"]
+    galaxy_general: ["银河通用"]
+    limx_dynamics: ["逐际动力", "limx dynamics"]
+    figure_ai: ["figure ai"]
+    boston_dynamics: ["波士顿动力", "boston dynamics"]
+    agility_robotics: ["agility robotics"]
+    apptronik: ["apptronik"]
+    one_x: ["1x technologies"]
+    physical_intelligence: ["physical intelligence"]
+    skild_ai: ["skild ai"]
+    nvidia: ["英伟达", "nvidia"]
+    google_deepmind: ["谷歌deepmind", "google deepmind", "deepmind", "gemini robotics"]
+    tesla: ["特斯拉", "tesla", "optimus"]
+    microsoft: ["微软", "microsoft"]
+    amazon: ["亚马逊", "amazon robotics"]
+    meta: ["meta ai", "meta robotics"]
+    openai: ["openai"]
+    huawei: ["华为", "huawei"]
+    xiaomi: ["小米", "xiaomi"]
+    alibaba: ["阿里巴巴", "阿里云", "alibaba"]
+    tencent: ["腾讯", "tencent"]
+    bytedance: ["字节跳动", "bytedance"]
+    byd: ["比亚迪", "byd"]
+    toyota: ["丰田", "toyota"]
+    hyundai: ["现代汽车", "hyundai"]
+    bmw: ["宝马", "bmw"]
+    mercedes_benz: ["梅赛德斯-奔驰", "奔驰", "mercedes-benz"]
+    foxconn: ["富士康", "foxconn"]
+    siemens: ["西门子", "siemens"]
+    abb: ["abb robotics", "abb机器人"]
+    kuka: ["库卡", "kuka"]
+    fanuc: ["发那科", "fanuc"]
   product_progress:
     - "发布"
     - "推出"
