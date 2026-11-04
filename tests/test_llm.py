@@ -1,5 +1,5 @@
 from embodied_daily.config import RuntimeSettings
-from embodied_daily.llm import DigestSelector, extract_json
+from embodied_daily.llm import DigestSelector, extract_json, limit_candidates_for_prompt
 
 
 def settings() -> RuntimeSettings:
@@ -18,6 +18,17 @@ def settings() -> RuntimeSettings:
 def test_extract_json_from_code_fence() -> None:
     result = extract_json('```json\n{"items": []}\n```')
     assert result == {"items": []}
+
+
+def test_prompt_pool_is_bounded_and_keeps_fixed_composition(candidates) -> None:
+    candidates[-2].source_kind = "research"
+    candidates[-1].source_kind = "research"
+
+    pool = limit_candidates_for_prompt(candidates, max_count=5)
+
+    assert len(pool) == 5
+    assert sum(item.source_kind == "research" for item in pool) == 2
+    assert sum(item.source_kind != "research" for item in pool) == 3
 
 
 def test_hydration_uses_candidate_links_and_fills_to_five(candidates) -> None:

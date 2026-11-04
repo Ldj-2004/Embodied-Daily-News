@@ -25,7 +25,7 @@ class Candidate:
             "source": self.source,
             "source_kind": self.source_kind,
             "published_at": self.published_at.isoformat(),
-            "summary": self.summary[:800],
+            "summary": self.summary[:400],
             "relevance_score": self.relevance_score,
         }
 

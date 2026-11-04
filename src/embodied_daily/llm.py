@@ -4,12 +4,14 @@ import json
 import logging
 from typing import Any
 
-from openai import OpenAI
+from openai import APIConnectionError, APITimeoutError, OpenAI, RateLimitError
 
 from embodied_daily.config import RuntimeSettings
 from embodied_daily.models import Candidate, DigestItem
 
 LOGGER = logging.getLogger(__name__)
+API_TIMEOUT_SECONDS = 150.0
+MAX_PROMPT_CANDIDATES = 32
 
 SYSTEM_PROMPT = """你是一名严谨的具身智能新闻编辑。
 你的任务是从给定候选中选出恰好五条最值得研究人员当天阅读的新闻。
@@ -93,6 +95,36 @@ def fallback_item(candidate: Candidate, rank: int) -> DigestItem:
     )
 
 
+def limit_candidates_for_prompt(
+    candidates: list[Candidate],
+    max_count: int = MAX_PROMPT_CANDIDATES,
+) -> list[Candidate]:
+    """Keep a compact, high-scoring pool while reserving both fixed categories."""
+
+    def sort_key(item: Candidate) -> tuple[int, int, object]:
+        return (
+            item.relevance_score,
+            item.source_weight,
+            item.published_at,
+        )
+
+    papers = sorted(
+        (item for item in candidates if item.source_kind == "research"),
+        key=sort_key,
+        reverse=True,
+    )
+    news = sorted(
+        (item for item in candidates if item.source_kind != "research"),
+        key=sort_key,
+        reverse=True,
+    )
+    paper_limit = min(len(papers), max(2, max_count // 4))
+    news_limit = max(3, max_count - paper_limit)
+    pool = papers[:paper_limit] + news[:news_limit]
+    pool.sort(key=sort_key, reverse=True)
+    return pool[:max_count]
+
+
 class DigestSelector:
     def __init__(self, settings: RuntimeSettings, item_count: int = 5):
         self.settings = settings
@@ -102,26 +134,47 @@ class DigestSelector:
         if len(candidates) < self.item_count:
             raise ValueError(f"有效候选只有 {len(candidates)} 条，无法生成五条日报。")
         self.settings.validate_for_ai()
+        prompt_candidates = limit_candidates_for_prompt(candidates)
+        LOGGER.info(
+            "模型选稿候选已从 %s 条压缩为 %s 条。",
+            len(candidates),
+            len(prompt_candidates),
+        )
         client = OpenAI(
             api_key=self.settings.api_key,
             base_url=self.settings.api_base,
-            timeout=90.0,
-            max_retries=2,
+            timeout=API_TIMEOUT_SECONDS,
+            max_retries=1,
         )
-        payload = [candidate.to_prompt_dict() for candidate in candidates]
-        response = client.chat.completions.create(
-            model=self.settings.model,
-            messages=[
-                {"role": "system", "content": SYSTEM_PROMPT},
-                {
-                    "role": "user",
-                    "content": "候选新闻如下：\n" + json.dumps(payload, ensure_ascii=False),
-                },
-            ],
-        )
+        payload = [candidate.to_prompt_dict() for candidate in prompt_candidates]
+        try:
+            response = client.chat.completions.create(
+                model=self.settings.model,
+                max_tokens=2_000,
+                messages=[
+                    {"role": "system", "content": SYSTEM_PROMPT},
+                    {
+                        "role": "user",
+                        "content": "候选新闻如下：\n"
+                        + json.dumps(payload, ensure_ascii=False),
+                    },
+                ],
+            )
+        except (APITimeoutError, APIConnectionError, RateLimitError) as exc:
+            LOGGER.warning(
+                "模型选稿暂时不可用，改用确定性排序保证日报继续生成：%s",
+                exc,
+            )
+            output = [
+                fallback_item(candidate, index + 1)
+                for index, candidate in enumerate(
+                    prompt_candidates[: self.item_count]
+                )
+            ]
+            return self._enforce_composition(output, prompt_candidates)
         content = response.choices[0].message.content or ""
         parsed = extract_json(content)
-        return self._validate_and_hydrate(parsed, candidates)
+        return self._validate_and_hydrate(parsed, prompt_candidates)
 
     def expand_summaries(
         self,
@@ -133,8 +186,8 @@ class DigestSelector:
         client = OpenAI(
             api_key=self.settings.api_key,
             base_url=self.settings.api_base,
-            timeout=90.0,
-            max_retries=2,
+            timeout=API_TIMEOUT_SECONDS,
+            max_retries=1,
         )
         payload = [
             {
@@ -144,12 +197,13 @@ class DigestSelector:
                 "source_kind": item.source_kind,
                 "published_at": item.published_at.isoformat(),
                 "existing_summary": item.summary,
-                "article_text": article_texts.get(item.candidate_id, "")[:6_000],
+                "article_text": article_texts.get(item.candidate_id, "")[:3_500],
             }
             for item in items
         ]
         response = client.chat.completions.create(
             model=self.settings.model,
+            max_tokens=2_600,
             messages=[
                 {"role": "system", "content": SUMMARY_PROMPT},
                 {

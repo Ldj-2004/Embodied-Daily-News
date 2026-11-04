@@ -4,7 +4,7 @@ digest:
   timezone: "Asia/Shanghai"
   recent_hours: 36
   fallback_hours: 168
-  max_candidates_for_ai: 80
+  max_candidates_for_ai: 32
   max_candidates_per_source: 20
   minimum_keyword_score: 2
 
