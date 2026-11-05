@@ -2,11 +2,6 @@ name: Daily embodied intelligence digest
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
-    paths:
-      - ".github/workflows/daily.yml"
   schedule:
     # arXiv announces at 20:00 US Eastern. 01:30 UTC = 09:30 Shanghai,
     # safely after the announcement in both daylight-saving and standard time.
@@ -40,6 +35,7 @@ jobs:
       TCB_SECRET_ID: ${{ secrets.TCB_SECRET_ID }}
       TCB_SECRET_KEY: ${{ secrets.TCB_SECRET_KEY }}
       TCB_ENV_ID: ${{ secrets.TCB_ENV_ID }}
+      TCB_SITE_URL: https://embodied-daily-news-d3bud9a1d4b7-1342147663.tcloudbaseapp.com
 
     steps:
       - name: Checkout repository
@@ -72,6 +68,30 @@ jobs:
           npm install --global @cloudbase/cli
           tcb login --apiKeyId "$TCB_SECRET_ID" --apiKey "$TCB_SECRET_KEY"
           tcb hosting deploy ./dist / --env-id "$TCB_ENV_ID" --yes --retry-count 3 --concurrency 5
+
+      - name: Verify Tencent CloudBase website
+        if: ${{ env.TCB_SECRET_ID != '' && env.TCB_SECRET_KEY != '' && env.TCB_ENV_ID != '' }}
+        run: |
+          for attempt in $(seq 1 12); do
+            cache_bust="$(date +%s)"
+            if curl --fail --silent --show-error --max-time 20 \
+              -H "Cache-Control: no-cache" \
+              "${TCB_SITE_URL}/index.html?v=${cache_bust}" \
+              --output /tmp/cloudbase-index.html \
+              && curl --fail --silent --show-error --max-time 20 \
+              -H "Cache-Control: no-cache" \
+              "${TCB_SITE_URL}/data/latest.json?v=${cache_bust}" \
+              --output /tmp/cloudbase-latest.json \
+              && grep --quiet "具身智能日报" /tmp/cloudbase-index.html \
+              && grep --quiet '"items"' /tmp/cloudbase-latest.json; then
+              echo "CloudBase website is reachable and contains the current digest."
+              exit 0
+            fi
+            echo "CloudBase CDN is not ready yet (attempt ${attempt}/12)."
+            sleep 10
+          done
+          echo "CloudBase website verification failed after 12 attempts."
+          exit 1
 
       - name: Archive generated digest
         run: |

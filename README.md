@@ -249,6 +249,5 @@ GitHub Actions Secrets 全部存在时才执行，未配置时会自动跳过且
 - `TCB_ENV_ID`：CloudBase 环境 ID
 
 账号侧需要先创建 CloudBase 环境并开通静态网站托管，再为专用 CAM 子用户授予
-云开发部署权限。不要把密钥写入仓库、日志、Issue 或聊天。部署使用
-`--safe --verify --prune`：发布失败时回滚、上传后校验，并清理上一版遗留文件。
+云开发部署权限。不要把密钥写入仓库、日志、Issue 或聊天。部署后会从默认域名读取 `index.html` 和 `data/latest.json` 进行公网健康检查；若 CDN 尚未刷新，工作流会自动重试。
 
