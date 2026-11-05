@@ -71,7 +71,7 @@ jobs:
         run: |
           npm install --global @cloudbase/cli
           tcb login --apiKeyId "$TCB_SECRET_ID" --apiKey "$TCB_SECRET_KEY"
-          tcb hosting deploy ./dist / --env-id "$TCB_ENV_ID" --safe --verify --prune --yes --retry-count 3
+          tcb hosting deploy ./dist / --env-id "$TCB_ENV_ID" --yes --retry-count 3 --concurrency 5
 
       - name: Archive generated digest
         run: |
