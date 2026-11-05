@@ -238,3 +238,17 @@ ruff check .
 ## 数据与版权
 
 本项目默认只保存标题、短摘要、时间和原文链接，不复制整篇新闻。自动摘要可能存在错误，正式引用和重要决策请回到原始来源核实。
+
+## 腾讯云 CloudBase 国内大屏部署
+
+工作流会在生成 `dist/` 后自动发布到 CloudBase 静态网站托管。只有下列三个
+GitHub Actions Secrets 全部存在时才执行，未配置时会自动跳过且不影响 GitHub Pages：
+
+- `TCB_SECRET_ID`：专用腾讯云 CAM 子用户的 SecretId
+- `TCB_SECRET_KEY`：该子用户的 SecretKey
+- `TCB_ENV_ID`：CloudBase 环境 ID
+
+账号侧需要先创建 CloudBase 环境并开通静态网站托管，再为专用 CAM 子用户授予
+云开发部署权限。不要把密钥写入仓库、日志、Issue 或聊天。部署使用
+`--safe --verify --prune`：发布失败时回滚、上传后校验，并清理上一版遗留文件。
+

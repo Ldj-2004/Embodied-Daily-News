@@ -32,6 +32,9 @@ jobs:
       FEISHU_SECRET: ${{ secrets.FEISHU_SECRET }}
       TIMEZONE: Asia/Shanghai
       PYTHONUNBUFFERED: "1"
+      TCB_SECRET_ID: ${{ secrets.TCB_SECRET_ID }}
+      TCB_SECRET_KEY: ${{ secrets.TCB_SECRET_KEY }}
+      TCB_ENV_ID: ${{ secrets.TCB_ENV_ID }}
 
     steps:
       - name: Checkout repository
@@ -51,6 +54,19 @@ jobs:
 
       - name: Generate digest, screenshots, and display site
         run: python -m embodied_daily
+
+      - name: Set up Node.js for CloudBase
+        if: ${{ env.TCB_SECRET_ID != '' && env.TCB_SECRET_KEY != '' && env.TCB_ENV_ID != '' }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Publish display site to Tencent CloudBase
+        if: ${{ env.TCB_SECRET_ID != '' && env.TCB_SECRET_KEY != '' && env.TCB_ENV_ID != '' }}
+        run: |
+          npm install --global @cloudbase/cli
+          tcb login --apiKeyId "$TCB_SECRET_ID" --apiKey "$TCB_SECRET_KEY"
+          tcb hosting deploy ./dist /             --env-id "$TCB_ENV_ID"             --safe             --verify             --prune             --retry-count 3
 
       - name: Archive generated digest
         run: |
