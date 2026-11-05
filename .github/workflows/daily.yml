@@ -2,6 +2,11 @@ name: Daily embodied intelligence digest
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/daily.yml"
   schedule:
     # arXiv announces at 20:00 US Eastern. 01:30 UTC = 09:30 Shanghai,
     # safely after the announcement in both daylight-saving and standard time.
@@ -66,7 +71,7 @@ jobs:
         run: |
           npm install --global @cloudbase/cli
           tcb login --apiKeyId "$TCB_SECRET_ID" --apiKey "$TCB_SECRET_KEY"
-          tcb hosting deploy ./dist /             --env-id "$TCB_ENV_ID"             --safe             --verify             --prune             --retry-count 3
+          tcb hosting deploy ./dist / --env-id "$TCB_ENV_ID" --safe --verify --prune --yes --retry-count 3
 
       - name: Archive generated digest
         run: |
