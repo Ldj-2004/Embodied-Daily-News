@@ -1,0 +1,78 @@
+{
+  "title": "具身智能日报",
+  "date": "2026-11-07",
+  "generated_at": "2026-11-07T15:24:27.939030+08:00",
+  "edition": "daily",
+  "items": [
+    {
+      "rank": 1,
+      "candidate_id": "a95403dd7f0c5ee2",
+      "title": "Agility Robotics登陆纳斯达克，成美国首家上市人形机器",
+      "summary": "Agility Robotics正式登陆纳斯达克，成为美国首家上市的人形机器人公司，企业融资与经营表现由此进入公开资本市场视野。富士康、英伟达和亚马逊均已押注该公司，使其上市同时关联产业资本、芯片生态、制造资源与潜在应用需求。此次事件也将其商业化模式推向观察焦点，为判断人形机器人企业如何由技术研发走向规模制造和真实商业落地提供样本。",
+      "why_it_matters": "上市为行业提供观察人形机器人融资能力、产业协同与商业化进展的窗口，也为制造和场景资源进入机器人企业提供参照。",
+      "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxPMFQ2SHAzNGVRcmlaQThzTEsxSUYyOWVkZ2RaeFRvMVNNOFFFTmxaNlpPRFFaZGhVdHdfdFVkWmVqMUFkYjVWV1NORDV4NURFaG9qdzlXLTJYaHpMQ3NGbGRPS3cza0RLcVRudkYtaTFCM005bHZLSGNmNlBDZE5HWnVuMTJTQ2FIaUpsSg?oc=5",
+      "source": "搜狐网",
+      "source_kind": "search",
+      "published_at": "2026-11-06T10:37:59+00:00",
+      "importance_score": 9.2,
+      "screenshot": "assets/2026-11-07/01.png",
+      "screenshot_status": "captured"
+    },
+    {
+      "rank": 2,
+      "candidate_id": "5a51cf3526083bb6",
+      "title": "中国石油与宇树科技拟合资布局工业具身智能",
+      "summary": "中国石油与宇树科技拟通过合资方式布局工业具身智能，将宇树科技的机器人能力与中国石油的油气业务场景结合。合作目标指向油田、炼油厂等真实工业环境，探索具身智能在这些场景中的应用，而非仅停留于通用能力展示。此次拟议合作体现了人形及通用机器人企业正加速携手大型能源制造企业，围绕具体业务环境推进部署与商业化验证。",
+      "why_it_matters": "能源企业提供复杂工业场景，机器人企业提供本体与运动能力，合资探索有望加速具身智能从演示走向现场验证与适配。",
+      "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTFBmUHlhSy1FQ1dlSXY3a3lwRkRFcWYxb0RRNnhhSEF0WTF5LTJoUGNDRUp6OGtOX1RpUzUxakZKWXZnYmNBVGh3c0pMek5Mei0wOEtGSkx0cWdud3I3WHEyQWZyTzBEQQ?oc=5",
+      "source": "东方财富",
+      "source_kind": "search",
+      "published_at": "2026-11-06T08:01:53+00:00",
+      "importance_score": 8.8,
+      "screenshot": "assets/2026-11-07/02.png",
+      "screenshot_status": "captured"
+    },
+    {
+      "rank": 3,
+      "candidate_id": "3c45745ea148485b",
+      "title": "小米人形机器人进厂连续作业八小时",
+      "summary": "小米人形机器人展示了进厂连续工作八小时的进展，并覆盖约50项家务任务，将长时间运行能力与较广任务覆盖面放在同一次公开进展中呈现。工厂连续作业对应工业值班需求，多任务家庭操作则面向通用服务场景，两类展示分别检验持续执行与任务泛化。此次信息为观察其系统稳定性、任务切换能力和实际应用成熟度提供了新参照，但现有摘要未披露具体任务成功率与工厂部署规模。",
+      "why_it_matters": "连续八小时与约50项任务提供了评估持久运行和泛化能力的直观线索，有助于辨别人形机器人展示与实用部署之间的差距。",
+      "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE40UWZ0aGNKRUExYjBfNTczNG9pNVFPVWI1RkFmRzdyMjZOYzd1ZEJSSnpmVTdtSUEzYW9ZZWlUWEp1ZkY3N3BqZFZNZlV2d0FqTkR5NG1oN2dybGM?oc=5",
+      "source": "汽车之家",
+      "source_kind": "search",
+      "published_at": "2026-11-06T11:21:19+00:00",
+      "importance_score": 8.5,
+      "screenshot": "assets/2026-11-07/03.png",
+      "screenshot_status": "captured"
+    },
+    {
+      "rank": 4,
+      "candidate_id": "f72c4ad4e9d6437c",
+      "title": "OopsieRecover以语义干预学习可迁移VLA纠错",
+      "summary": "OopsieRecover面向视觉语言动作模型在部署中频繁失败、恢复训练又需要大量纠正数据的问题，研究如何从语义干预中学习可迁移的纠错能力。该方法不直接把纠正动作与演示时的观测绑定，也不走依赖DAgger式微调的数据采集路径，而是强调纠错经验在不同情境中的复用。其重点是让恢复行为不只服务于单次演示修补，为降低VLA失败恢复的数据负担、提升部署中的纠错泛化提供方法思路。",
+      "why_it_matters": "可迁移纠错有望减少反复采集恢复数据的成本，提升VLA面对部署失败时的自主修复能力，关系机器人长期可靠运行。",
+      "url": "https://arxiv.org/abs/2611.08462v1",
+      "source": "arXiv Robotics",
+      "source_kind": "research",
+      "published_at": "2026-11-05T18:53:16+00:00",
+      "importance_score": 8.0,
+      "screenshot": "assets/2026-11-07/04.png",
+      "screenshot_status": "captured"
+    },
+    {
+      "rank": 5,
+      "candidate_id": "21836961e4bf94db",
+      "title": "Latent RL Prior提升少示范灵巧操作学习效率",
+      "summary": "Latent RL Prior提出两阶段框架，面向视觉示范数量有限条件下的灵巧操作学习。方法试图复用仿真强化学习依靠大规模交互与特权信息获得的丰富控制知识，同时处理操作策略既要建立视觉感知基础、又要实现精确控制的要求。该路线将仿真中形成的控制先验引入数据受限的学习过程，目标是在少量示范下改善灵巧操作效率，并为仿真控制能力向视觉操作策略迁移提供新的技术路径。",
+      "why_it_matters": "该框架把仿真强化学习的控制经验用于少示范操作，可能降低真实数据采集压力，并推动灵巧操作的精细控制与跨域迁移研究。",
+      "url": "https://arxiv.org/abs/2611.08458v1",
+      "source": "arXiv Robotics",
+      "source_kind": "research",
+      "published_at": "2026-11-05T18:50:06+00:00",
+      "importance_score": 7.7,
+      "screenshot": "assets/2026-11-07/05.png",
+      "screenshot_status": "captured"
+    }
+  ]
+}
