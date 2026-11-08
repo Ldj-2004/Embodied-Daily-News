@@ -1,0 +1,78 @@
+{
+  "title": "具身智能日报",
+  "date": "2026-11-08",
+  "generated_at": "2026-11-08T15:34:45.136285+08:00",
+  "edition": "daily",
+  "items": [
+    {
+      "rank": 1,
+      "candidate_id": "b47c8ca51c0c015b",
+      "title": "苹果披露人形机器人系统HALO，测试平均成功率91%",
+      "summary": "苹果披露人形机器人系统HALO，并在宇树G1平台上开展测试，验证其在未预先建图环境中的任务执行能力。测试覆盖6个未建图环境，共进行360次单项任务，平均成功率达到91%，为评估系统能力提供了明确的环境与任务边界。与单纯展示运动控制不同，该研究将重心放在人形机器人进入真实环境后的任务完成水平，但现有信息尚未披露具体任务类型与系统技术细节。",
+      "why_it_matters": "以未建图真实环境和任务成功率衡量人形系统，有助于推动评估从运动演示转向可量化的任务执行能力。",
+      "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE1LZVFLMFhkTTVqSmc5UEo2TFRJSVdFeloxbGotbWZhOVBZM01LU2k5MHNpOXRmdGc0QjhKMTF6dDJpd0lPb0UxTXdkZUtPSGw0ZG85b19PZjREYTJwaXhvWTRXTUVqUE8xU2hFUFN2XzRoem5H?oc=5",
+      "source": "金融界",
+      "source_kind": "search",
+      "published_at": "2026-11-07T09:56:04+00:00",
+      "importance_score": 9.3,
+      "screenshot": "assets/2026-11-08/01.png",
+      "screenshot_status": "captured"
+    },
+    {
+      "rank": 2,
+      "candidate_id": "a28eeab5217f6fbc",
+      "title": "Figure 03走出BotQ工厂，Figure AI推进规模化生产",
+      "summary": "Figure AI的Figure 03人形机器人已走出BotQ工厂，公司正围绕累计规模达到10万台机器人的目标推进生产。这一进展将关注重点从原型展示转向制造体系建设与批量生产准备，显示产品迭代与产能扩张被同步推进。需要注意的是，报道反映的是规模化生产进程与目标规划，并不意味着已有10万台机器人完成交付，也不能等同于真实客户场景中的部署规模。",
+      "why_it_matters": "头部厂商把本体迭代与工厂产能同步推进，意味着人形机器人竞争延伸至制造体系，但量产目标仍需交付与部署数据验证。",
+      "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxQUjhHRWxZenhNeFJTdE5mb3NLbWZORUgyNmtJbU9SaGRJeUNjOE5IMExYNWlmQW4xMl95THducmZBSVZVYUwxbEVrVmZUd1VqQm1GZU81V3FKdHl4cklBTVprUERzeGY5Wi1OSmxWLVpnY3lRaVBPMDRieUJvWmk0UlRFUHhOSTJTUTlSN2d5Q0FpbU9vYS1nU2VydjFJSkhFLWJjc1ZYa3NxZ0YwbWNuR0xMLTVzSXhCdUhoMHRR?oc=5",
+      "source": "Business Upturn",
+      "source_kind": "search",
+      "published_at": "2026-11-07T04:00:22+00:00",
+      "importance_score": 8.8,
+      "screenshot": "assets/2026-11-08/02.png",
+      "screenshot_status": "captured"
+    },
+    {
+      "rank": 3,
+      "candidate_id": "f72c4ad4e9d6437c",
+      "title": "OopsieRecover用语义干预学习可迁移VLA纠错",
+      "summary": "OopsieRecover针对视觉—语言—动作模型部署中的失败恢复问题，研究如何从语义干预中学习可迁移的纠错能力。现有DAgger式微调通常把纠正动作直接关联到演示时的观测，导致策略依赖大量针对性纠正数据，并难以泛化到新的偏差情形。该工作试图突破逐状态关联的学习方式，使VLA在执行正常任务之外，还能在出现偏差后学习恢复，并将纠错经验迁移到新情形。",
+      "why_it_matters": "若纠错经验能跨状态与任务迁移，VLA部署便可减少对密集纠正演示的依赖，提升长时作业中的自主恢复与数据效率。",
+      "url": "https://arxiv.org/abs/2611.08462v1",
+      "source": "arXiv Robotics",
+      "source_kind": "research",
+      "published_at": "2026-11-05T18:53:16+00:00",
+      "importance_score": 8.5,
+      "screenshot": "assets/2026-11-08/03.png",
+      "screenshot_status": "captured"
+    },
+    {
+      "rank": 4,
+      "candidate_id": "21836961e4bf94db",
+      "title": "Latent RL Priors提升少样本灵巧操作学习效率",
+      "summary": "Latent RL Priors研究如何利用少量视觉示范学习灵巧操作，以缓解真实视觉策略在视觉感知与精确控制上的双重学习压力。仿真强化学习虽能通过大规模交互和特权信息获得丰富控制行为，却难以直接迁移为真实视觉策略。为此，论文提出两阶段框架，将仿真强化学习中的控制知识复用为潜在先验，再用于少样本视觉示范下的策略学习，从而提升数据效率并降低控制学习难度。",
+      "why_it_matters": "把仿真控制经验转化为可复用先验，为少样本灵巧操作提供新路径，有望降低真实机器人采集示范与训练策略的成本。",
+      "url": "https://arxiv.org/abs/2611.08458v1",
+      "source": "arXiv Robotics",
+      "source_kind": "research",
+      "published_at": "2026-11-05T18:50:06+00:00",
+      "importance_score": 8.2,
+      "screenshot": "assets/2026-11-08/04.png",
+      "screenshot_status": "captured"
+    },
+    {
+      "rank": 5,
+      "candidate_id": "2a016c938eaf4d5a",
+      "title": "拓斯达发布双足人形机器人Star及三套工业方案",
+      "summary": "工业自动化企业拓斯达发布双足人形机器人Star，并同步推出三套面向工业场景的解决方案，将机器人本体与应用方案放在同一产品布局中。相比单独展示人形样机，此次发布更强调制造场景下的系统组合与落地路径。依托既有工业自动化业务，拓斯达把双足人形机器人纳入场景方案，体现传统自动化厂商探索人形本体与既有工业能力结合的方向，但现有信息未披露Star的具体参数与方案细节。",
+      "why_it_matters": "传统自动化厂商以本体加场景方案切入人形机器人，有助于借助既有工业业务与集成能力探索落地，但实际价值仍取决于应用验证。",
+      "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE1FT3RyMTJodHBldEhJZ00zRmo4aTlvblVGTi1kUWhLY2ZIemNORDhiaGNtQ2lFUEJuYTNROTBJXzMzV2xicFlsaHpXSDdTcjVkVDVEdS1HQnRxR2pXN3UzRA?oc=5",
+      "source": "证券之星",
+      "source_kind": "search",
+      "published_at": "2026-11-08T01:38:40+00:00",
+      "importance_score": 8.0,
+      "screenshot": "assets/2026-11-08/05.png",
+      "screenshot_status": "captured"
+    }
+  ]
+}

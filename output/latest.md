@@ -1,47 +1,47 @@
-# 具身智能日报｜2026-11-07
+# 具身智能日报｜2026-11-08
 
-## 1. [Agility Robotics登陆纳斯达克，成美国首家上市人形机器](https://news.google.com/rss/articles/CBMijAFBVV95cUxPMFQ2SHAzNGVRcmlaQThzTEsxSUYyOWVkZ2RaeFRvMVNNOFFFTmxaNlpPRFFaZGhVdHdfdFVkWmVqMUFkYjVWV1NORDV4NURFaG9qdzlXLTJYaHpMQ3NGbGRPS3cza0RLcVRudkYtaTFCM005bHZLSGNmNlBDZE5HWnVuMTJTQ2FIaUpsSg?oc=5)
+## 1. [苹果披露人形机器人系统HALO，测试平均成功率91%](https://news.google.com/rss/articles/CBMidEFVX3lxTE1LZVFLMFhkTTVqSmc5UEo2TFRJSVdFeloxbGotbWZhOVBZM01LU2k5MHNpOXRmdGc0QjhKMTF6dDJpd0lPb0UxTXdkZUtPSGw0ZG85b19PZjREYTJwaXhvWTRXTUVqUE8xU2hFUFN2XzRoem5H?oc=5)
 
-Agility Robotics正式登陆纳斯达克，成为美国首家上市的人形机器人公司，企业融资与经营表现由此进入公开资本市场视野。富士康、英伟达和亚马逊均已押注该公司，使其上市同时关联产业资本、芯片生态、制造资源与潜在应用需求。此次事件也将其商业化模式推向观察焦点，为判断人形机器人企业如何由技术研发走向规模制造和真实商业落地提供样本。
+苹果披露人形机器人系统HALO，并在宇树G1平台上开展测试，验证其在未预先建图环境中的任务执行能力。测试覆盖6个未建图环境，共进行360次单项任务，平均成功率达到91%，为评估系统能力提供了明确的环境与任务边界。与单纯展示运动控制不同，该研究将重心放在人形机器人进入真实环境后的任务完成水平，但现有信息尚未披露具体任务类型与系统技术细节。
 
-**为什么重要：** 上市为行业提供观察人形机器人融资能力、产业协同与商业化进展的窗口，也为制造和场景资源进入机器人企业提供参照。
+**为什么重要：** 以未建图真实环境和任务成功率衡量人形系统，有助于推动评估从运动演示转向可量化的任务执行能力。
 
-> 来源：搜狐网｜发布时间：2026-11-06 18:37
+> 来源：金融界｜发布时间：2026-11-07 17:56
 
-## 2. [中国石油与宇树科技拟合资布局工业具身智能](https://news.google.com/rss/articles/CBMiZkFVX3lxTFBmUHlhSy1FQ1dlSXY3a3lwRkRFcWYxb0RRNnhhSEF0WTF5LTJoUGNDRUp6OGtOX1RpUzUxakZKWXZnYmNBVGh3c0pMek5Mei0wOEtGSkx0cWdud3I3WHEyQWZyTzBEQQ?oc=5)
+## 2. [Figure 03走出BotQ工厂，Figure AI推进规模化生产](https://news.google.com/rss/articles/CBMivgFBVV95cUxQUjhHRWxZenhNeFJTdE5mb3NLbWZORUgyNmtJbU9SaGRJeUNjOE5IMExYNWlmQW4xMl95THducmZBSVZVYUwxbEVrVmZUd1VqQm1GZU81V3FKdHl4cklBTVprUERzeGY5Wi1OSmxWLVpnY3lRaVBPMDRieUJvWmk0UlRFUHhOSTJTUTlSN2d5Q0FpbU9vYS1nU2VydjFJSkhFLWJjc1ZYa3NxZ0YwbWNuR0xMLTVzSXhCdUhoMHRR?oc=5)
 
-中国石油与宇树科技拟通过合资方式布局工业具身智能，将宇树科技的机器人能力与中国石油的油气业务场景结合。合作目标指向油田、炼油厂等真实工业环境，探索具身智能在这些场景中的应用，而非仅停留于通用能力展示。此次拟议合作体现了人形及通用机器人企业正加速携手大型能源制造企业，围绕具体业务环境推进部署与商业化验证。
+Figure AI的Figure 03人形机器人已走出BotQ工厂，公司正围绕累计规模达到10万台机器人的目标推进生产。这一进展将关注重点从原型展示转向制造体系建设与批量生产准备，显示产品迭代与产能扩张被同步推进。需要注意的是，报道反映的是规模化生产进程与目标规划，并不意味着已有10万台机器人完成交付，也不能等同于真实客户场景中的部署规模。
 
-**为什么重要：** 能源企业提供复杂工业场景，机器人企业提供本体与运动能力，合资探索有望加速具身智能从演示走向现场验证与适配。
+**为什么重要：** 头部厂商把本体迭代与工厂产能同步推进，意味着人形机器人竞争延伸至制造体系，但量产目标仍需交付与部署数据验证。
 
-> 来源：东方财富｜发布时间：2026-11-06 16:01
+> 来源：Business Upturn｜发布时间：2026-11-07 12:00
 
-## 3. [小米人形机器人进厂连续作业八小时](https://news.google.com/rss/articles/CBMiW0FVX3lxTE40UWZ0aGNKRUExYjBfNTczNG9pNVFPVWI1RkFmRzdyMjZOYzd1ZEJSSnpmVTdtSUEzYW9ZZWlUWEp1ZkY3N3BqZFZNZlV2d0FqTkR5NG1oN2dybGM?oc=5)
+## 3. [OopsieRecover用语义干预学习可迁移VLA纠错](https://arxiv.org/abs/2611.08462v1)
 
-小米人形机器人展示了进厂连续工作八小时的进展，并覆盖约50项家务任务，将长时间运行能力与较广任务覆盖面放在同一次公开进展中呈现。工厂连续作业对应工业值班需求，多任务家庭操作则面向通用服务场景，两类展示分别检验持续执行与任务泛化。此次信息为观察其系统稳定性、任务切换能力和实际应用成熟度提供了新参照，但现有摘要未披露具体任务成功率与工厂部署规模。
+OopsieRecover针对视觉—语言—动作模型部署中的失败恢复问题，研究如何从语义干预中学习可迁移的纠错能力。现有DAgger式微调通常把纠正动作直接关联到演示时的观测，导致策略依赖大量针对性纠正数据，并难以泛化到新的偏差情形。该工作试图突破逐状态关联的学习方式，使VLA在执行正常任务之外，还能在出现偏差后学习恢复，并将纠错经验迁移到新情形。
 
-**为什么重要：** 连续八小时与约50项任务提供了评估持久运行和泛化能力的直观线索，有助于辨别人形机器人展示与实用部署之间的差距。
-
-> 来源：汽车之家｜发布时间：2026-11-06 19:21
-
-## 4. [OopsieRecover以语义干预学习可迁移VLA纠错](https://arxiv.org/abs/2611.08462v1)
-
-OopsieRecover面向视觉语言动作模型在部署中频繁失败、恢复训练又需要大量纠正数据的问题，研究如何从语义干预中学习可迁移的纠错能力。该方法不直接把纠正动作与演示时的观测绑定，也不走依赖DAgger式微调的数据采集路径，而是强调纠错经验在不同情境中的复用。其重点是让恢复行为不只服务于单次演示修补，为降低VLA失败恢复的数据负担、提升部署中的纠错泛化提供方法思路。
-
-**为什么重要：** 可迁移纠错有望减少反复采集恢复数据的成本，提升VLA面对部署失败时的自主修复能力，关系机器人长期可靠运行。
+**为什么重要：** 若纠错经验能跨状态与任务迁移，VLA部署便可减少对密集纠正演示的依赖，提升长时作业中的自主恢复与数据效率。
 
 > 来源：arXiv Robotics｜发布时间：2026-11-06 02:53
 
-## 5. [Latent RL Prior提升少示范灵巧操作学习效率](https://arxiv.org/abs/2611.08458v1)
+## 4. [Latent RL Priors提升少样本灵巧操作学习效率](https://arxiv.org/abs/2611.08458v1)
 
-Latent RL Prior提出两阶段框架，面向视觉示范数量有限条件下的灵巧操作学习。方法试图复用仿真强化学习依靠大规模交互与特权信息获得的丰富控制知识，同时处理操作策略既要建立视觉感知基础、又要实现精确控制的要求。该路线将仿真中形成的控制先验引入数据受限的学习过程，目标是在少量示范下改善灵巧操作效率，并为仿真控制能力向视觉操作策略迁移提供新的技术路径。
+Latent RL Priors研究如何利用少量视觉示范学习灵巧操作，以缓解真实视觉策略在视觉感知与精确控制上的双重学习压力。仿真强化学习虽能通过大规模交互和特权信息获得丰富控制行为，却难以直接迁移为真实视觉策略。为此，论文提出两阶段框架，将仿真强化学习中的控制知识复用为潜在先验，再用于少样本视觉示范下的策略学习，从而提升数据效率并降低控制学习难度。
 
-**为什么重要：** 该框架把仿真强化学习的控制经验用于少示范操作，可能降低真实数据采集压力，并推动灵巧操作的精细控制与跨域迁移研究。
+**为什么重要：** 把仿真控制经验转化为可复用先验，为少样本灵巧操作提供新路径，有望降低真实机器人采集示范与训练策略的成本。
 
 > 来源：arXiv Robotics｜发布时间：2026-11-06 02:50
 
+## 5. [拓斯达发布双足人形机器人Star及三套工业方案](https://news.google.com/rss/articles/CBMiYEFVX3lxTE1FT3RyMTJodHBldEhJZ00zRmo4aTlvblVGTi1kUWhLY2ZIemNORDhiaGNtQ2lFUEJuYTNROTBJXzMzV2xicFlsaHpXSDdTcjVkVDVEdS1HQnRxR2pXN3UzRA?oc=5)
+
+工业自动化企业拓斯达发布双足人形机器人Star，并同步推出三套面向工业场景的解决方案，将机器人本体与应用方案放在同一产品布局中。相比单独展示人形样机，此次发布更强调制造场景下的系统组合与落地路径。依托既有工业自动化业务，拓斯达把双足人形机器人纳入场景方案，体现传统自动化厂商探索人形本体与既有工业能力结合的方向，但现有信息未披露Star的具体参数与方案细节。
+
+**为什么重要：** 传统自动化厂商以本体加场景方案切入人形机器人，有助于借助既有工业业务与集成能力探索落地，但实际价值仍取决于应用验证。
+
+> 来源：证券之星｜发布时间：2026-11-08 09:38
+
 ---
 
-生成时间：2026-11-07T15:24:27+08:00
+生成时间：2026-11-08T15:34:45+08:00
 
 本日报由自动化系统辅助整理，重要信息请以原始来源为准。
