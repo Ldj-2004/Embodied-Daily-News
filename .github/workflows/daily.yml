@@ -2,6 +2,9 @@ name: Daily embodied intelligence digest
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
   schedule:
     # arXiv announces at 20:00 US Eastern. 01:30 UTC = 09:30 Shanghai,
     # safely after the announcement in both daylight-saving and standard time.
@@ -39,10 +42,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.11"
           cache: pip
@@ -54,18 +57,30 @@ jobs:
         run: python -m playwright install --with-deps chromium
 
       - name: Generate digest, screenshots, and display site
-        run: python -m embodied_daily
+        shell: bash
+        run: |
+          for attempt in 1 2; do
+            if python -m embodied_daily; then
+              exit 0
+            fi
+            if [ "$attempt" -eq 2 ]; then
+              echo "Digest generation failed after two attempts."
+              exit 1
+            fi
+            echo "Digest generation failed once; retrying in 20 seconds."
+            sleep 20
+          done
 
       - name: Set up Node.js for CloudBase
         if: ${{ env.TCB_SECRET_ID != '' && env.TCB_SECRET_KEY != '' && env.TCB_ENV_ID != '' }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
-          node-version: "20"
+          node-version: "24"
 
       - name: Publish display site to Tencent CloudBase
         if: ${{ env.TCB_SECRET_ID != '' && env.TCB_SECRET_KEY != '' && env.TCB_ENV_ID != '' }}
         run: |
-          npm install --global @cloudbase/cli
+          npm install --global @cloudbase/cli@3.9.1
           tcb login --apiKeyId "$TCB_SECRET_ID" --apiKey "$TCB_SECRET_KEY"
           tcb hosting deploy ./dist / --env-id "$TCB_ENV_ID" --yes --retry-count 3 --concurrency 5
 
