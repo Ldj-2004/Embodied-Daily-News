@@ -21,11 +21,6 @@ direct_feeds:
     kind: "media"
     weight: 2
 
-  - name: "MIT News Robotics"
-    url: "https://news.mit.edu/topic/mitrobotics-rss.xml"
-    kind: "primary"
-    weight: 3
-
   - name: "Robotics & Automation News"
     url: "https://roboticsandautomationnews.com/feed/"
     kind: "media"
@@ -48,11 +43,6 @@ direct_feeds:
 
   - name: "EAI2 Field Notes"
     url: "https://hub.eai2.cloud/index.xml"
-    kind: "aggregator"
-    weight: 2
-
-  - name: "Embodied Global"
-    url: "https://www.embodiedglobal.com/rss.xml"
     kind: "aggregator"
     weight: 2
 
