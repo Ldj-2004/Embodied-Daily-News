@@ -58,7 +58,9 @@
     const fragment = template.content.cloneNode(true);
     const slide = fragment.querySelector(".slide");
     const isResearch = item.source_kind === "research";
+    const isSpecial = item.source_kind === "special";
     slide.classList.toggle("research-slide", isResearch);
+    slide.classList.toggle("special-slide", isSpecial);
     slide.dataset.index = String(index);
     slide.querySelector(".display-date").textContent = formatDigestDate(digest.date);
     slide.querySelector(".edition-badge").textContent = digest.edition === "test"
@@ -77,10 +79,16 @@
     slide.querySelector(".browser-domain").textContent = domain;
     slide.querySelector(".capture-label").textContent = isResearch
       ? "论文图表"
-      : "新闻页面";
+      : isSpecial
+        ? "特别关注"
+        : "精选现场图";
 
     const image = slide.querySelector(".page-capture");
-    image.alt = isResearch ? "论文中的代表性图表" : "原始新闻网页截图";
+    image.alt = isResearch
+      ? "论文中的代表性图表"
+      : isSpecial
+        ? "特别关注新闻配图"
+        : "新闻中的机器人操作或部署画面";
     const fallback = slide.querySelector(".capture-fallback");
     const screenshot = resolveScreenshot(item.screenshot);
     if (screenshot) {
@@ -165,8 +173,12 @@
       const response = await fetch("./data/latest.json", { cache: "no-store" });
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const digest = await response.json();
-      if (!Array.isArray(digest.items) || digest.items.length !== 5) {
-        throw new Error("日报数据必须恰好包含五条新闻");
+      if (
+        !Array.isArray(digest.items)
+        || digest.items.length < 5
+        || digest.items.length > 6
+      ) {
+        throw new Error("日报数据必须包含五条常规内容，最多再加一条特别关注");
       }
 
       app.innerHTML = "";

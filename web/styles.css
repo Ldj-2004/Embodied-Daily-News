@@ -402,6 +402,20 @@ body::before {
   background: #fff;
 }
 
+.special-slide .accent-line {
+  background: linear-gradient(90deg, #e9bd5c, var(--accent));
+}
+
+.special-slide .edition-badge {
+  border-color: rgba(233, 189, 92, 0.38);
+  color: #f1d899;
+  background: rgba(233, 189, 92, 0.09);
+}
+
+.special-slide .capture-label {
+  color: #d8bd7a;
+}
+
 .capture-fallback {
   position: absolute;
   inset: 0;

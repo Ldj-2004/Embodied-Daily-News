@@ -6,7 +6,9 @@ import re
 from pathlib import Path
 from urllib.parse import urlparse
 
+from embodied_daily.config import RuntimeSettings
 from embodied_daily.models import Digest
+from embodied_daily.visuals import capture_best_article_visual
 
 LOGGER = logging.getLogger(__name__)
 
@@ -81,8 +83,16 @@ def _is_navigation_race(exc: Exception) -> bool:
     )
 
 
-def capture_article_view(page, url: str, path: Path, timeout_ms: int) -> None:
-    """Capture a news page after redirects and client-side navigation settle."""
+def capture_article_visual(
+    page,
+    url: str,
+    path: Path,
+    timeout_ms: int,
+    *,
+    title: str,
+    vision_settings: RuntimeSettings | None,
+) -> None:
+    """Find and capture the best robot-related visual anywhere in a news page."""
     try:
         page.goto(url, wait_until="commit", timeout=timeout_ms)
     except Exception:
@@ -123,11 +133,14 @@ def capture_article_view(page, url: str, path: Path, timeout_ms: int) -> None:
                     continue
                 LOGGER.debug("页面样式清理失败，继续使用原始页面截图：%s", exc)
 
-            page.screenshot(
-                path=str(path),
-                full_page=False,
-                timeout=min(timeout_ms, 15_000),
+            visual_score = capture_best_article_visual(
+                page,
+                path,
+                title=title,
+                settings=vision_settings,
+                timeout_ms=timeout_ms,
             )
+            LOGGER.info("新闻展示图评分 %.1f：%s", visual_score, url)
             return
         except Exception as exc:
             last_error = exc
@@ -187,8 +200,9 @@ def capture_digest_screenshots(
     *,
     timeout_ms: int = 30_000,
     fallback_on_failure: bool = True,
+    vision_settings: RuntimeSettings | None = None,
 ) -> list[Path]:
-    """Capture the first viewport for each article and attach paths to digest items.
+    """Capture paper figures or the best robot-related news visual.
 
     When ``fallback_on_failure`` is false, an article-level capture failure is
     recorded as ``failed`` instead of producing an SVG placeholder.  The
@@ -231,10 +245,13 @@ def capture_digest_screenshots(
             )
         for item in digest.items:
             png_path = assets_dir / f"{item.rank:02d}.png"
+            jpg_path = assets_dir / f"{item.rank:02d}.jpg"
             svg_path = assets_dir / f"{item.rank:02d}.svg"
             png_path.unlink(missing_ok=True)
+            jpg_path.unlink(missing_ok=True)
             svg_path.unlink(missing_ok=True)
-            relative_png = png_path.relative_to(root).as_posix()
+            capture_path = png_path if item.source_kind == "research" else jpg_path
+            relative_capture = capture_path.relative_to(root).as_posix()
             captured = False
             if browser:
                 page = browser.new_page(
@@ -250,15 +267,17 @@ def capture_digest_screenshots(
                     if item.source_kind == "research":
                         capture_arxiv_figure(page, item.url, png_path, timeout_ms)
                     else:
-                        capture_article_view(
+                        capture_article_visual(
                             page,
                             item.url,
-                            png_path,
+                            jpg_path,
                             timeout_ms,
+                            title=item.title,
+                            vision_settings=vision_settings,
                         )
-                    item.screenshot = relative_png
+                    item.screenshot = relative_capture
                     item.screenshot_status = "captured"
-                    written.append(png_path)
+                    written.append(capture_path)
                     captured = True
                     LOGGER.info("视觉素材截取完成：%s", item.url)
                 except Exception as exc:

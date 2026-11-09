@@ -39,8 +39,9 @@ def build_site(
         shutil.copytree(assets, dist / "assets", dirs_exist_ok=True)
 
     payload = json.loads((data_dir / "latest.json").read_text(encoding="utf-8"))
-    if len(payload.get("items", [])) != 5:
-        raise ValueError("大屏页面要求 latest.json 中恰好包含五条新闻。")
+    item_count = len(payload.get("items", []))
+    if item_count not in {5, 6}:
+        raise ValueError("大屏页面要求五条常规内容，或五条加一页日期限定的特别关注。")
     (dist / ".nojekyll").write_text("", encoding="utf-8")
     return dist
 

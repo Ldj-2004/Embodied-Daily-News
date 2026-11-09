@@ -2,6 +2,9 @@ name: Daily embodied intelligence digest
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
   schedule:
     # arXiv announces at 20:00 US Eastern. 01:30 UTC = 09:30 Shanghai,
     # safely after the announcement in both daylight-saving and standard time.
@@ -19,7 +22,7 @@ concurrency:
 jobs:
   generate:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 35
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -48,7 +51,10 @@ jobs:
           cache: pip
 
       - name: Install project
-        run: python -m pip install .
+        run: python -m pip install ".[dev]"
+
+      - name: Run test suite
+        run: python -m pytest
 
       - name: Install screenshot browser
         run: python -m playwright install --with-deps chromium
@@ -118,13 +124,13 @@ jobs:
           fi
 
       - name: Configure GitHub Pages
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@v6
 
       - name: Upload display site
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: dist
 
       - name: Publish display site
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5

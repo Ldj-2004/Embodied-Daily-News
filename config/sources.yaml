@@ -11,6 +11,26 @@ direct_feeds:
     kind: "media"
     weight: 2
 
+  - name: "The Robot Report"
+    url: "https://www.therobotreport.com/feed/"
+    kind: "media"
+    weight: 3
+
+  - name: "TechXplore Robotics"
+    url: "https://techxplore.com/rss-feed/robotics-news/"
+    kind: "media"
+    weight: 2
+
+  - name: "MIT News Robotics"
+    url: "https://news.mit.edu/topic/mitrobotics-rss.xml"
+    kind: "primary"
+    weight: 3
+
+  - name: "Robotics & Automation News"
+    url: "https://roboticsandautomationnews.com/feed/"
+    kind: "media"
+    weight: 2
+
   - name: "Google DeepMind"
     url: "https://deepmind.google/blog/rss.xml"
     kind: "primary"
@@ -100,6 +120,27 @@ google_news_queries:
     country: "US"
     ceid: "US:en"
     weight: 2
+
+  - name: "Google News EN｜Leading Robot Companies"
+    query: '("Figure AI" OR "Boston Dynamics" OR "Agility Robotics" OR "1X Technologies" OR "Unitree") (launch OR deploy OR production OR demo)'
+    language: "en-US"
+    country: "US"
+    ceid: "US:en"
+    weight: 3
+
+  - name: "Google News EN｜Industrial Manipulation"
+    query: '("robot arm" OR manipulator OR gripper) (deployment OR manipulation OR factory OR warehouse) (ABB OR KUKA OR FANUC OR "Universal Robots")'
+    language: "en-US"
+    country: "US"
+    ceid: "US:en"
+    weight: 3
+
+  - name: "Google News EN｜Physical AI Leaders"
+    query: '("NVIDIA Isaac" OR "Gemini Robotics" OR "Skild AI" OR "Physical Intelligence") (robot OR humanoid OR manipulation)'
+    language: "en-US"
+    country: "US"
+    ceid: "US:en"
+    weight: 3
 
 # Keyless global news index. This is an aggregator fallback when Google/Bing
 # feeds are unavailable; the program still enforces keywords and local dates.

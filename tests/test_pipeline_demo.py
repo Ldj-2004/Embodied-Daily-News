@@ -35,7 +35,13 @@ def test_failed_screenshot_story_is_replaced(monkeypatch, tmp_path, candidates) 
 
     capture_rounds: list[list[str]] = []
 
-    def fake_capture(current_digest, output_dir, *, fallback_on_failure=True):
+    def fake_capture(
+        current_digest,
+        output_dir,
+        *,
+        fallback_on_failure=True,
+        vision_settings=None,
+    ):
         assert fallback_on_failure is False
         capture_rounds.append(
             [item.candidate_id for item in current_digest.items]

@@ -16,6 +16,7 @@ from embodied_daily.models import Candidate, Digest
 from embodied_daily.render import write_digest, write_source_health
 from embodied_daily.screenshots import capture_digest_screenshots
 from embodied_daily.site import build_site
+from embodied_daily.specials import append_special_items
 from embodied_daily.state import SeenState
 
 LOGGER = logging.getLogger(__name__)
@@ -41,6 +42,7 @@ def replace_items_with_failed_screenshots(
     candidates: list[Candidate],
     selector: DigestSelector,
     output_dir: str | Path,
+    vision_settings: RuntimeSettings | None = None,
 ) -> Digest:
     """Reject stories whose pages cannot be captured and reselect the digest."""
     rejected_ids: set[str] = set()
@@ -50,6 +52,7 @@ def replace_items_with_failed_screenshots(
             digest,
             output_dir,
             fallback_on_failure=False,
+            vision_settings=vision_settings,
         )
         failed_ids = {
             item.candidate_id
@@ -226,6 +229,7 @@ def run_pipeline(
                 candidates,
                 selector,
                 output_dir,
+                vision_settings=runtime,
             )
     if not demo:
         try:
@@ -239,6 +243,9 @@ def run_pipeline(
             LOGGER.info("已使用 API 完成五条新闻的扩展摘要。")
         except Exception as exc:
             LOGGER.warning("扩展摘要失败，将保留初选摘要：%s", exc)
+        special_count = append_special_items(digest)
+        if special_count:
+            LOGGER.info("已为 %s 追加一页日期限定的特别关注。", digest.date)
     paths = write_digest(digest, output_dir)
     LOGGER.info("已生成日报：%s", ", ".join(str(path) for path in paths))
     if build_display:

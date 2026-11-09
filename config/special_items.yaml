@@ -1,0 +1,13 @@
+# Date-bound editorial pages are appended after the normal five-item digest.
+# They do not change the permanent 2-paper + 3-news selection rule.
+special_items:
+  - date: "2026-11-09"
+    id: "special-nvidia-board-investigation-2026-11-09"
+    title: "英伟达董事会启动独立调查，黄仁勋配合审查"
+    summary: "英伟达董事会11月8日宣布，因近期报道称创始人兼CEO黄仁勋可能成为外国情报行动的目标，将由独立董事委员会和外部法律顾问开展调查。董事会同时表示，目前没有理由认为国家安全或英伟达机密已经受损，黄仁勋支持并将配合审查；相关指控仍有待独立调查结论。"
+    why_it_matters: "事件可能影响英伟达治理及其AI与物理智能生态的市场信任，但未经证实的情报指控不应被当作既定事实。"
+    url: "https://investor.nvidia.com/news/press-release-details/2026/Statement-from-NVIDIA-Board-of-Directors/default.aspx"
+    source: "NVIDIA 董事会"
+    published_at: "2026-11-08T15:00:00-05:00"
+    importance_score: 8.6
+    screenshot: "assets/special/2026-11-09-nvidia-investigation.jpg"

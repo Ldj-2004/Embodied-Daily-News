@@ -25,7 +25,8 @@ SYSTEM_PROMPT = """你是一名严谨的具身智能新闻编辑。
 6. 三条普通新闻优先选择企业或研究机构的一手进展：产品发布、模型升级、技术突破、开源、量产交付和真实客户部署。
 7. 在技术与落地信息相近时，优先选择由知名科技公司、头部机器人企业或大型制造企业实质参与的新闻；两家头部企业合作通常比不知名小公司的泛泛表态更重要。仅在正文顺带提及品牌、没有具体参与或进展时，不应仅靠公司名入选。此规则只影响三条普通新闻，不能改变两篇论文的固定配额。
 8. 政策规划、产业投资总额、市场规模、融资、论坛峰会和比赛活动类消息应降低优先级；除非其中包含无法被其他候选替代的具体产品、技术或部署进展，否则不要入选。
-9. 只能引用输入中存在的 candidate id，绝不能编造新闻、来源、数字或链接。
+9. 普通新闻还应优先考虑原网页是否很可能提供清晰的机器人、机械臂操作、产品或真实部署画面；只有人物肖像、Logo、会议合影或纯文字配图的新闻应降低优先级。最终图片会由多模态模型再次验证。
+10. 只能引用输入中存在的 candidate id，绝不能编造新闻、来源、数字或链接。
 
 输出纯 JSON，不要 Markdown，不要额外解释：
 {
@@ -152,7 +153,7 @@ class DigestSelector:
             response = client.chat.completions.create(
                 model=self.settings.model,
                 max_completion_tokens=4_000,
-                reasoning_effort="low",
+                reasoning_effort="high",
                 response_format={"type": "json_object"},
                 messages=[
                     {"role": "system", "content": SYSTEM_PROMPT},
@@ -224,7 +225,7 @@ class DigestSelector:
         response = client.chat.completions.create(
             model=self.settings.model,
             max_completion_tokens=5_000,
-            reasoning_effort="low",
+            reasoning_effort="high",
             response_format={"type": "json_object"},
             messages=[
                 {"role": "system", "content": SUMMARY_PROMPT},
