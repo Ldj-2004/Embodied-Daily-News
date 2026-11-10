@@ -1,0 +1,78 @@
+{
+  "title": "具身智能日报",
+  "date": "2026-11-10",
+  "generated_at": "2026-11-10T16:31:44.709323+08:00",
+  "edition": "daily",
+  "items": [
+    {
+      "rank": 1,
+      "candidate_id": "4ebfd869eab7556d",
+      "title": "英伟达发布GR00T 2与Isaac Lab 3.0",
+      "summary": "英伟达在CoRL发布开放世界动作模型GR00T 2和开源机器人学习框架Isaac Lab 3.0。新模型以机器人及人类数据训练，含10万小时开源第一视角数据；在50项任务中，无专属示范时至少完成40项，每项1次示范平均成功率71%，5次时达95%，并支持跨本体技能迁移。配套Video to Data流程可把人类视频转为仿真机器人示范，富士康、西门子等正探索工厂自动化与工业应用。",
+      "why_it_matters": "该发布同时推进通用动作模型、数据生成和仿真训练，并以少样本成功率及工业试用展示基础模型走向机器人开发流程的路径。",
+      "url": "https://www.therobotreport.com/nvidia-launches-gr00t-2-isaac-lab-3-0-corl",
+      "source": "The Robot Report",
+      "source_kind": "media",
+      "published_at": "2026-11-09T21:52:05+00:00",
+      "importance_score": 9.6,
+      "screenshot": "assets/2026-11-10/01.jpg",
+      "screenshot_status": "captured"
+    },
+    {
+      "rank": 2,
+      "candidate_id": "d6f84b097dac163a",
+      "title": "波士顿动力为Atlas装轮测试全身控制",
+      "summary": "波士顿动力展示在Atlas足部加装轮子的控制实验，明确其并非产品，而是研究测试平台。硬件仅需定制适配器，将现成滑板车轮毂接到原有踝关节执行器；软件把轮子建模为可持续旋转的“脚踝”，结合经典模型电机控制与全身强化学习，利用实时本体反馈和速度指令调整姿态及受力。系统全部行为在仿真中训练后迁移到实机，可快速滚动、旋转，并在平地滚动与越障腿部动作间切换，团队下一步将研究执行器失效时的策略响应。",
+      "why_it_matters": "实验说明轮式改装不必重做本体，混合控制也有望兼顾稳定与适应，为人形机器人轮腿选择和故障安全研究提供依据。",
+      "url": "https://www.therobotreport.com/boston-dynamics-adds-wheels-to-atlas-humanoid-to-test-whole-body-control",
+      "source": "The Robot Report",
+      "source_kind": "media",
+      "published_at": "2026-11-09T18:34:38+00:00",
+      "importance_score": 9.1,
+      "screenshot": "assets/2026-11-10/02.jpg",
+      "screenshot_status": "captured"
+    },
+    {
+      "rank": 3,
+      "candidate_id": "ffe215b38f7fa17f",
+      "title": "用真实与仿真数据适配VLA：机器人下棋研究",
+      "summary": "论文以机器人国际象棋为案例，研究视觉—语言—动作（VLA）通用基础模型如何适配下游任务与具体机器人。作者围绕真实和仿真数据，系统考察所需数据量、训练更新次数与检查点选择，并讨论仿真数据能否降低真实采集成本。该工作把VLA微调拆解为可比较的工程决策，但输入摘要未列出最终数值结论，不能据此认定仿真可完全替代真实数据。",
+      "why_it_matters": "这些实验维度有助于研究者规划数据预算和训练流程，减少只凭单次演示判断VLA效果的盲目性，对低成本任务迁移具有参考价值。",
+      "url": "https://arxiv.org/abs/2611.12676v1",
+      "source": "arXiv Robotics",
+      "source_kind": "research",
+      "published_at": "2026-11-09T16:43:53+00:00",
+      "importance_score": 8.6,
+      "screenshot": "assets/2026-11-10/03.png",
+      "screenshot_status": "captured"
+    },
+    {
+      "rank": 4,
+      "candidate_id": "e85dd39cf2c39212",
+      "title": "ABB推出AI Robot Trainer简化机器人视觉编程",
+      "summary": "ABB Robotics在OmniCore EyeMotion中扩展AI Robot Trainer，把图像采集、训练、部署和持续优化串成工业流程，感知再经自动无碰撞路径规划转为机器人运动。工具结合合成与真实图像，兼容各品牌相机和传感器，引导集成商应对SKU、光照及布局变化。ABB称，该方案最多可缩短90%调试时间，配合无碰撞路径规划可将节拍缩短最多50%，覆盖2D抓取、3D料框拣选、质检、分拣和装配。",
+      "why_it_matters": "它把视觉模型维护和机器人路径规划纳入同一闭环，若指标在部署中成立，可降低多产线视觉应用对AI专家的依赖并加快换型。",
+      "url": "https://roboticsandautomationnews.com/2026/11/09/abb-robotics-launches-ai-robot-trainer-to-simplify-robot-vision-programming/106808",
+      "source": "Robotics & Automation News",
+      "source_kind": "media",
+      "published_at": "2026-11-09T15:20:32+00:00",
+      "importance_score": 8.4,
+      "screenshot": "assets/2026-11-10/04.jpg",
+      "screenshot_status": "captured"
+    },
+    {
+      "rank": 5,
+      "candidate_id": "34bfdd17a0d6f796",
+      "title": "$Σ$-LeWM: Learning World Models vi",
+      "summary": "输入摘要介绍，世界模型正日益被用作机器人基于模型的控制方法，应用任务包括操作与运动。早期世界模型架构依赖解码器，以避免模式坍塌，并学习可预测的潜在表征；但所给片段在此截断，尚未呈现Σ-LeWM的具体结构、训练目标、实验平台或性能结果。因此该条目目前只能确认研究背景与问题动机，不宜推断其相对既有方法的改进幅度。",
+      "why_it_matters": "该背景指向世界模型在操作与运动控制中的可预测表征问题，可为评估新型潜在空间建模方法提供切入点，但具体贡献仍待全文核实。",
+      "url": "https://arxiv.org/abs/2611.12732v1",
+      "source": "arXiv Robotics",
+      "source_kind": "research",
+      "published_at": "2026-11-09T17:18:27+00:00",
+      "importance_score": 7.5,
+      "screenshot": "assets/2026-11-10/05.png",
+      "screenshot_status": "captured"
+    }
+  ]
+}
