@@ -1,47 +1,47 @@
-# 具身智能日报｜2026-11-10
+# 具身智能日报｜2026-11-11
 
-## 1. [英伟达发布GR00T 2与Isaac Lab 3.0](https://www.therobotreport.com/nvidia-launches-gr00t-2-isaac-lab-3-0-corl)
+## 1. [Gemini Robotics 2.5发布并进入工厂试点](https://news.google.com/rss/articles/CBMimgFBVV95cUxPMnFDRm1lR21jZXRpR2JUak1nSUpZeU9jSXkzRFVfanhaVll4clRtdWUyZzZFeXcwb2ZiS0NsUmoxaFZkcDlGbnJqa2lIM2hBdmNqb0hPTWl4UWc2LXFXcmRPbHF4Q2VzZWQ2UG96Y1FrUzE3dkVUT0dvNHkzLWN0Y25ZR3V1SVE0TGxxb1U5YVNfRUJxc25iaVZR?oc=5)
 
-英伟达在CoRL发布开放世界动作模型GR00T 2和开源机器人学习框架Isaac Lab 3.0。新模型以机器人及人类数据训练，含10万小时开源第一视角数据；在50项任务中，无专属示范时至少完成40项，每项1次示范平均成功率71%，5次时达95%，并支持跨本体技能迁移。配套Video to Data流程可把人类视频转为仿真机器人示范，富士康、西门子等正探索工厂自动化与工业应用。
+Google DeepMind发布Gemini Robotics 2.5，将其定位为加速物理智能的机器人模型更新，并向合作伙伴开放。新版提升灵巧操作与真实任务能力，在奔驰装配试点的金属零件分拣中取得96%成功率，同时推出开放的ASIMOV-Jailbreak机器人安全基准。此次进展把真实制造验证与安全压力测试结合，但现有资料未披露试点规模、任务节拍及后续广泛部署安排。
 
-**为什么重要：** 该发布同时推进通用动作模型、数据生成和仿真训练，并以少样本成功率及工业试用展示基础模型走向机器人开发流程的路径。
+**为什么重要：** 这一进展同时检验模型在工业制造中的操作可靠性与安全抗攻击能力，为评估机器人基础模型走向工业部署提供双重参照。
 
-> 来源：The Robot Report｜发布时间：2026-11-10 05:52
+> 来源：Google DeepMind｜发布时间：2026-11-10 23:00
 
-## 2. [波士顿动力为Atlas装轮测试全身控制](https://www.therobotreport.com/boston-dynamics-adds-wheels-to-atlas-humanoid-to-test-whole-body-control)
+## 2. [小米人形机器人在汽车工厂连续分拣八小时](https://news.google.com/rss/articles/CBMif0FVX3lxTE4waXo4NHVpVEZRa0RIVXRiYjh1dEFaRGRnX2hYYkNVeUM1cjlGNnk4V1pFV05EYnBveFlqOXBGVFQ4czZPdElLa3VtakMwVmlBbndqZUpZZW44ejRoQlNha0ktdmdSaU9aWl9SMHFwTzNsT2tTald2VVVaNFk3T3M?oc=5)
 
-波士顿动力展示在Atlas足部加装轮子的控制实验，明确其并非产品，而是研究测试平台。硬件仅需定制适配器，将现成滑板车轮毂接到原有踝关节执行器；软件把轮子建模为可持续旋转的“脚踝”，结合经典模型电机控制与全身强化学习，利用实时本体反馈和速度指令调整姿态及受力。系统全部行为在仿真中训练后迁移到实机，可快速滚动、旋转，并在平地滚动与越障腿部动作间切换，团队下一步将研究执行器失效时的策略响应。
+小米披露，其全尺寸人形机器人在汽车工厂连续执行八小时分拣任务，作业过程中能够自行检测并纠正异常，并与生产线系统协同。相比短时演示，该案例把持续作业、异常处理和产线联动置于同一真实制造场景，触及人形机器人工业部署的关键环节。不过，现有信息未给出分拣成功率、生产节拍、人工接管频率与部署数量，因此应视为工厂验证进展，尚不能据此认定已实现规模化落地。
 
-**为什么重要：** 实验说明轮式改装不必重做本体，混合控制也有望兼顾稳定与适应，为人形机器人轮腿选择和故障安全研究提供依据。
+**为什么重要：** 长时连续运行与自主异常处理直接关系工业可用性，该验证为观察人形机器人融入真实产线的能力和证据缺口提供样本。
 
-> 来源：The Robot Report｜发布时间：2026-11-10 02:34
+> 来源：Make Tech Easier｜发布时间：2026-11-11 01:03
 
-## 3. [用真实与仿真数据适配VLA：机器人下棋研究](https://arxiv.org/abs/2611.12676v1)
+## 3. [研究揭示记忆增强VLA或依赖时间捷径](https://arxiv.org/abs/2611.14488v1)
 
-论文以机器人国际象棋为案例，研究视觉—语言—动作（VLA）通用基础模型如何适配下游任务与具体机器人。作者围绕真实和仿真数据，系统考察所需数据量、训练更新次数与检查点选择，并讨论仿真数据能否降低真实采集成本。该工作把VLA微调拆解为可比较的工程决策，但输入摘要未列出最终数值结论，不能据此认定仿真可完全替代真实数据。
+该论文检验记忆增强视觉—语言—动作策略是否真正记住历史事件，指出许多方法按时间均匀采样帧并附加时间步，可能无法区分等待与工作状态。作者在RoboMME计数任务上构造验证，结果显示这类记忆并未如预期区分两种状态，并将问题归纳为“时间捷径”。研究质疑以时间戳和均匀抽帧替代事件记忆的常见设计，为长时程机器人策略的评测与记忆机制改进提供明确问题入口。
 
-**为什么重要：** 这些实验维度有助于研究者规划数据预算和训练流程，减少只凭单次演示判断VLA效果的盲目性，对低成本任务迁移具有参考价值。
+**为什么重要：** 该发现提醒研究者，长时程任务提升未必来自真实事件记忆，评测需主动排查时间捷径，才能判断策略是否具备可靠历史理解。
 
-> 来源：arXiv Robotics｜发布时间：2026-11-10 00:43
+> 来源：arXiv Robotics｜发布时间：2026-11-11 02:47
 
-## 4. [ABB推出AI Robot Trainer简化机器人视觉编程](https://roboticsandautomationnews.com/2026/11/09/abb-robotics-launches-ai-robot-trainer-to-simplify-robot-vision-programming/106808)
+## 4. [单一VLA策略覆盖百项长时程家庭任务](https://arxiv.org/abs/2611.14432v1)
 
-ABB Robotics在OmniCore EyeMotion中扩展AI Robot Trainer，把图像采集、训练、部署和持续优化串成工业流程，感知再经自动无碰撞路径规划转为机器人运动。工具结合合成与真实图像，兼容各品牌相机和传感器，引导集成商应对SKU、光照及布局变化。ABB称，该方案最多可缩短90%调试时间，配合无碰撞路径规划可将节拍缩短最多50%，覆盖2D抓取、3D料框拣选、质检、分拣和装配。
+论文介绍2026 BEHAVIOR Challenge参赛方案，覆盖OmniGibson模拟器中的100项长时程家庭任务，最终位列排行榜第九，也是前十中唯一的独立团队。方案不采用逐任务策略，而以单一视觉—语言—动作模型和一个检查点统一处理全部任务，并在其2025年第一名方案基础上构建，底层沿用π0.5。该报告为跨任务策略扩展与挑战赛复现提供参照，但模拟成绩不能直接等同真实家庭部署能力。
 
-**为什么重要：** 它把视觉模型维护和机器人路径规划纳入同一闭环，若指标在部署中成立，可降低多产线视觉应用对AI专家的依赖并加快换型。
+**为什么重要：** 统一模型覆盖百项长时程任务，有助于检验VLA的多任务扩展与知识复用能力，也为家庭机器人研究提供可复现的系统参照。
 
-> 来源：Robotics & Automation News｜发布时间：2026-11-09 23:20
+> 来源：arXiv Robotics｜发布时间：2026-11-11 02:06
 
-## 5. [$Σ$-LeWM: Learning World Models vi](https://arxiv.org/abs/2611.12732v1)
+## 5. [现代机器人发布双臂机器人并携手Palantir](https://news.google.com/rss/articles/CBMiggFBVV95cUxNS2Nvd0IzcmZ4UDVKTVl6SFptRWFvTmFJUWdmelFxTGUzb2gzazg2ZjZzOWlMbzIwWG5HSjFjd1dLdTFEMUZRNnExZldSTlRxQ2pwbVpPTVlCWFEweDZ5MExBV3ladGVfTk1RemxFRFkzaEpEc09tZmRSQTAwZEZnS2tR0gGWAUFVX3lxTE1ScDFIcDRYMWNjOWZIbHA1T0hQRU13aEpmSnhBdXhrcVFkM1ptYURJMUU0ZnBRc0hpNEFsRnl2LXFhSDZMMnE0WThVZ3hUb0lDOU0tWGlXcHlOLVZIUGp4Qkg4QVhFS0xmMVF1OFJ5NHZueXhabU9hWlAyNmdkcnk5WnNSNENsaFVMLUxLQ3dpc2wzellRdw?oc=5)
 
-输入摘要介绍，世界模型正日益被用作机器人基于模型的控制方法，应用任务包括操作与运动。早期世界模型架构依赖解码器，以避免模式坍塌，并学习可预测的潜在表征；但所给片段在此截断，尚未呈现Σ-LeWM的具体结构、训练目标、实验平台或性能结果。因此该条目目前只能确认研究背景与问题动机，不宜推断其相对既有方法的改进幅度。
+HD Hyundai Robotics发布双臂机器人，并宣布与Palantir合作推进物理AI，将新硬件与软件、数据能力结合。相比单纯合作表态，双臂机器人亮相以及头部工业企业和Palantir共同参与，使该进展可用于观察双臂操作与工业智能化的落地路径。现有摘要尚未披露机器人的自由度、负载、感知与控制方案，也未说明试点客户、部署场景或合作里程碑，实际能力仍需双方技术资料验证。
 
-**为什么重要：** 该背景指向世界模型在操作与运动控制中的可预测表征问题，可为评估新型潜在空间建模方法提供切入点，但具体贡献仍待全文核实。
+**为什么重要：** 硬件发布与企业级软件合作并行，反映工业机器人竞争正延伸至物理AI系统整合，但产业价值仍取决于可验证的部署指标。
 
-> 来源：arXiv Robotics｜发布时间：2026-11-10 01:18
+> 来源：Chosunbiz｜发布时间：2026-11-10 17:13
 
 ---
 
-生成时间：2026-11-10T16:31:44+08:00
+生成时间：2026-11-11T15:53:15+08:00
 
 本日报由自动化系统辅助整理，重要信息请以原始来源为准。
