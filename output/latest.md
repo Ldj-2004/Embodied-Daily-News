@@ -1,47 +1,47 @@
-# 具身智能日报｜2026-11-16
+# 具身智能日报｜2026-11-17
 
-## 1. [谷歌DeepMind推出Gemini Robotics 2.5](https://news.google.com/rss/articles/CBMi6AFBVV95cUxOcEFaUHVBNmxBYUNlSDZYOTlfTlhHN2xKSmdJT0ExNXNNVlo5YlRJNnpoWjF5LUJkZEhoS3lTcUktRkRPLXEtMGV1ZWt5N3VPbklPbEFqUzFibGVEYUp5enNBWS1rOXZkTGNVY2pHSEtSNVU0LV9Pc3VBSkl0Mk9XZzZpY3pIaUdYa0Z3cXdZVDZDMEdURloyMWVIbnEwLURqWDJvTTdhN3lTVHd0Y1Zjc0kwX21heldUQ2xBLTVPQmpEcGFZVExGaXlpVGt2cF9DOW9tblBZMVlhaFBLNW1GYkNLWlEyVjNr?oc=5)
+## 1. [GXO and Apptronik plan rollout of](https://roboticsandautomationnews.com/2026/11/16/gxo-and-apptronik-plan-rollout-of-up-to-1000-humanoid-robots/107200)
 
-谷歌DeepMind已推出机器人基础模型Gemini Robotics 2.5，此次更新将更强的灵巧操作能力与工业场景能力作为主要方向，属于面向真实机器人控制的基础模型版本进展。现有信息仅确认发布事件及上述两项能力重点，尚未披露模型架构、训练数据、评测结果、支持硬件或开放方式，因此不能据此判断其已具备通用工业部署能力，具体性能提升与适用边界仍需后续技术材料验证。
+GXO Logistics与Apptronik扩大合作，拟以机器人即服务（RaaS）模式规模化部署Apollo人形机器人。双方将从2027年起在真实仓库验证拣选、箱体搬运、包装和分拣等流程，并按共同约定的生产率、安全及运营KPI排序；若部署达标，计划四年内全球投放至多1000台，2027年底先在北美落地。双方自2024年合作，已完成美国小型消费品自主拣选试点，并在Robot Park评测50多项物流任务。
 
-**为什么重要：** 该版本把机器人基础模型的迭代直接指向灵巧操作与工业任务，但能否转化为可靠部署，仍取决于后续公开的硬件适配、量化评测和开放使用细节。
+**为什么重要：** 该协议把人形机器人从概念验证推向按运营指标考核的规模部署，RaaS与千台目标也为物流机器人商业模式、人机协作及产能交付提供了可观察样本。
 
-> 来源：Robotics & Automation News｜发布时间：2026-11-16 02:53
+> 来源：Robotics & Automation News｜发布时间：2026-11-16 21:03
 
-## 2. [开放权重27B推理模型可原生操控真实机器人](https://arxiv.org/abs/2611.18562v1)
+## 2. [Hyundai Motor Group Secures 100% S](https://news.google.com/rss/articles/CBMiWEFVX3lxTE9WVWZSQmh0Z2dTOU1aRzJIMDBmN25PXzI4MkhlaXZXN3BPYzVQRzY0ZFJLMFZob1d4U3liRkVKWjhIRXFwS3BxejBic04zMGtJY3JSZmdnTkc?oc=5)
 
-论文围绕机器人使用智能体展开，针对开放权重模型在通用机器人控制上明显落后于前沿闭源模型的问题，探索在仿真中训练推理模型、使其原生使用真实机器人的技术路径。作者称，开放权重的27B推理模型可通过强化学习完成相关训练，研究目标是缩小开放模型与专有模型之间的能力差距；现有摘要尚未提供仿真环境、真实机器人平台、任务数量及对照评测结果，实际通用性仍需依据全文判断。
+据现有标题与摘要，现代汽车集团已取得波士顿动力100%股权，并将加快机器人量产列为后续重点，意味着这家机器人企业将由集团完全控股。输入未提供交易金额、股权取得过程、完成时间、产能目标或具体产品安排，也未说明涉及哪些机器人型号，因此目前只能确认所有权变化与量产提速方向，无法进一步判断新工厂建设、交付规模及商业部署节奏。
 
-**为什么重要：** 若该路径能在更多真实机器人任务中得到验证，开放权重推理模型有望降低通用机器人控制研究对闭源系统的依赖，并为可复现训练与部署提供新的技术选择。
+**为什么重要：** 整车集团完全控股机器人企业，有助于统一研发、制造与商业化决策；但其对具身智能量产和供应链整合的实际影响，仍需产能与部署数据验证。
 
-> 来源：arXiv Robotics｜发布时间：2026-11-14 02:59
+> 来源：파이낸셜뉴스｜发布时间：2026-11-17 07:05
 
-## 3. [华为云发布基于昇腾训练的具身世界模型](https://news.google.com/rss/articles/CBMiRkFVX3lxTFBOSGsxb3ByR0tXeW1CVHg0QUJPblFveUlxZG03YzVkVURMcWFIa0RqQXI2QUFfUEQ5SzNLNEY3dXlfYy1tc0E?oc=5)
+## 3. [ScaleVLA: Scaling Vision-Language-](https://arxiv.org/abs/2611.21607v1)
 
-华为云已发布具身世界模型，并明确该模型基于国产昇腾算力训练，核心进展是将具身世界模型与昇腾训练体系结合，而非停留在发布预告阶段。现有信息未说明模型规模、接口形式、基准测试成绩或适配机器人清单，也未给出典型任务与部署效果，因此目前只能确认发布事件和训练算力路线，其实际预测、规划或控制能力以及应用范围，仍需等待技术文档和实测结果验证。
+ScaleVLA关注如何把大规模视觉语言模型的预训练知识用于机器人物理动作。摘要称，GPT-6 Astra等前沿VLM已在机器人控制中展现显著能力，提示广泛预训练可能包含对物理行动有价值的知识；但输入在“多数VLA”处截断，未提供该方法的架构、扩展维度、训练数据、实验平台或性能结果，因此只能确认其研究动机，不能推断具体技术收益。
 
-**为什么重要：** 该发布显示具身世界模型训练开始与国产算力体系结合，可为国内机器人模型研发提供新的基础设施路径，但产业价值仍需由开放接口、适配范围和实测表现来检验。
+**为什么重要：** 该研究将通用VLM预训练与VLA控制相连接，核心价值是探索知识向物理行动迁移的路径；其是否改善泛化、数据效率或任务成功率，仍待完整论文验证。
 
-> 来源：财联社电报｜发布时间：2026-11-15 23:46
+> 来源：arXiv Robotics｜发布时间：2026-11-17 02:59
 
-## 4. [Serve Robotics开放自动配送机器人网络API](https://roboticsandautomationnews.com/2026/11/15/serve-robotics-opens-autonomous-delivery-network-to-developers-and-businesses/107169)
+## 4. [28 Zero-Day Findings in Under Two](https://spectrum.ieee.org/zero-day-robotics-vulnerabilities-vicone-security)
 
-Serve Robotics推出AV Delivery Developer Portal，开放公共API、车队连接能力和带仿真机器人的沙盒，独立开发者、企业及AI助手可先测试完整配送流程，再用少量代码申请取送并跟踪机器人。其自主人行道配送机器人已在美国20个城市、150多个社区完成数十万次配送，Serve仍负责调度、路线规划、导航、远程监督与安全管理。接入真实机器人须经审批，且仅覆盖现有服务区域和运营时段，货物也需适配车厢空间。
+VicOne称，借助AI辅助研究，其在不到两天内发现Physical AI生态软件与工具中的28个零日问题，涉及Google、NVIDIA、Meta等项目；初步验证均归类为零日漏洞，但数量仍待厂商和漏洞权威机构审查，部分尚无CVE编号。75%的发现涉及开发、训练、仿真或验证工具，风险包括恶意模型篡改训练、受污染仿真场景误导测试，以及运行时削弱监控或远程控制。
 
-**为什么重要：** 把真实配送车队变成可编程接口，可降低开发者验证机器人应用和AI助手执行物理任务的门槛，也为末端配送形成新的软件集成与商业试验入口。
+**为什么重要：** AI加快漏洞发现的同时，风险也前移至模型训练与仿真验证，机器人团队需把软件供应链审查、测试可信度和运行防护纳入统一部署保障。
 
-> 来源：Robotics & Automation News｜发布时间：2026-11-15 23:36
+> 来源：IEEE Spectrum Robotics｜发布时间：2026-11-16 18:00
 
-## 5. [基于线性互补问题建模连续体机器人摩擦接触](https://arxiv.org/abs/2611.18546v1)
+## 5. [Lazy-MOSAIC: Accelerating Skill-Ce](https://arxiv.org/abs/2611.21517v1)
 
-论文研究连续体机器人与环境接触时的摩擦建模，指出现有方法多关注机构内部摩擦，并受库仑摩擦锥边界力限制，因而难以充分描述静摩擦和运动滞后。作者提出基于互补关系的新摩擦模型，以线性互补问题处理相关接触关系，目标是为更精确的运动控制与路径规划提供建模基础；现有摘要未给出实验平台、对比基线、误差指标或实时计算表现，具体精度和效率优势仍需阅读全文确认。
+Lazy-MOSAIC面向长时程机器人操作，这类任务要求机器人连续完成一系列环境物理交互，并通常组合多种不同技能。现有摘要只明确指出，给定一个由参数化内容组成的库时，高效规划此类行为仍具挑战，随后文字即被截断；材料未说明该方法怎样组织或调用技能、加速机制如何实现，也未提供实验任务、对比基线、规划耗时或成功率，因此不能判断其相对现有方法的具体改进幅度。
 
-**为什么重要：** 更准确地表达连续体机器人的静摩擦、接触关系与运动滞后，有助于缩小模型和真实接触行为之间的差距，为精细操作、运动控制及路径规划提供更可靠的力学基础。
+**为什么重要：** 长时程操作要求稳定衔接多项技能，规划效率直接影响复杂任务能否实用；该研究切入这一瓶颈，但对搜索开销和执行可靠性的改善仍须实验支撑。
 
-> 来源：arXiv Robotics｜发布时间：2026-11-14 02:51
+> 来源：arXiv Robotics｜发布时间：2026-11-17 02:10
 
 ---
 
-生成时间：2026-11-16T16:07:08+08:00
+生成时间：2026-11-17T17:22:49+08:00
 
 本日报由自动化系统辅助整理，重要信息请以原始来源为准。
