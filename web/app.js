@@ -175,10 +175,10 @@
       const digest = await response.json();
       if (
         !Array.isArray(digest.items)
-        || digest.items.length < 5
-        || digest.items.length > 6
+        || digest.items.length < 15
+        || digest.items.length > 16
       ) {
-        throw new Error("日报数据必须包含五条常规内容，最多再加一条特别关注");
+        throw new Error("日报数据必须包含十五条常规内容，最多再加一条特别关注");
       }
 
       app.innerHTML = "";
@@ -208,4 +208,5 @@
 
   initialize();
 })();
+
 

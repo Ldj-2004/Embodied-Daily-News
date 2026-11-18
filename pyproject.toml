@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "embodied-daily-news"
 version = "0.1.0"
-description = "Automated five-item embodied intelligence daily digest and display wall"
+description = "Automated 15-item embodied intelligence daily digest and display wall"
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
@@ -42,3 +42,4 @@ target-version = "py311"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B"]
+

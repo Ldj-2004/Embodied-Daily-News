@@ -8,7 +8,7 @@ from embodied_daily.pipeline import check_sources, run_pipeline
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="生成五条具身智能日报并推送到飞书。")
+    parser = argparse.ArgumentParser(description="生成十五条具身智能日报并推送到飞书。")
     parser.add_argument("--settings", default="config/settings.yaml", help="主配置文件路径")
     parser.add_argument("--sources", default="config/sources.yaml", help="信源配置文件路径")
     parser.add_argument("--output-dir", default="output", help="日报输出目录")
@@ -72,3 +72,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+

@@ -11,7 +11,7 @@ def append_special_items(
     digest: Digest,
     config_path: str | Path = "config/special_items.yaml",
 ) -> int:
-    """Append at most one date-bound editorial page after the five-item digest."""
+    """Append at most one date-bound editorial page after the fifteen-item digest."""
     path = Path(config_path)
     if not path.exists():
         return 0
@@ -26,7 +26,7 @@ def append_special_items(
         if (
             not isinstance(raw, dict)
             or str(raw.get("date", "")) != digest.date
-            or len(digest.items) >= 6
+            or len(digest.items) >= 16
         ):
             continue
         candidate_id = str(raw.get("id", "")).strip()
@@ -54,3 +54,4 @@ def append_special_items(
         existing_ids.add(candidate_id)
         added += 1
     return added
+

@@ -1,5 +1,5 @@
-# Date-bound editorial pages are appended after the normal five-item digest.
-# They do not change the permanent 2-paper + 3-news selection rule.
+# Date-bound editorial pages are appended after the normal fifteen-item digest.
+# They do not change the permanent 10-paper + 5-news selection rule.
 special_items:
   - date: "2026-11-09"
     id: "special-nvidia-board-investigation-2026-11-09"
@@ -11,3 +11,4 @@ special_items:
     published_at: "2026-11-08T15:00:00-05:00"
     importance_score: 8.6
     screenshot: "assets/special/2026-11-09-nvidia-investigation.jpg"
+

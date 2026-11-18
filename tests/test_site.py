@@ -25,7 +25,7 @@ def test_build_site_copies_digest_and_assets(tmp_path, digest) -> None:
     assert (dist / "data" / "latest.json").exists()
     assert (dist / "assets" / digest.date / "01.svg").exists()
     payload = json.loads((dist / "data" / "latest.json").read_text(encoding="utf-8"))
-    assert len(payload["items"]) == 5
+    assert len(payload["items"]) == 15
 
 
 
@@ -38,11 +38,11 @@ def test_build_site_accepts_one_date_bound_special_page(tmp_path, digest) -> Non
     (web / "index.html").write_text("<!doctype html><title>test</title>", encoding="utf-8")
     digest.items.append(
         type(digest.items[0])(
-            rank=6,
+            rank=16,
             candidate_id="special-test",
             title="特别关注",
             summary="经过核实的特别关注摘要。",
-            why_it_matters="验证第六页。",
+            why_it_matters="验证第十六页。",
             url="https://example.com/statement",
             source="官方声明",
             source_kind="special",
@@ -56,4 +56,5 @@ def test_build_site_accepts_one_date_bound_special_page(tmp_path, digest) -> Non
     build_site(web_dir=web, output_dir=output, dist_dir=dist)
 
     payload = json.loads((dist / "data" / "latest.json").read_text(encoding="utf-8"))
-    assert len(payload["items"]) == 6
+    assert len(payload["items"]) == 16
+

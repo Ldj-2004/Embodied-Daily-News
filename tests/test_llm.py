@@ -24,7 +24,12 @@ def test_prompt_pool_is_bounded_and_keeps_fixed_composition(candidates) -> None:
     candidates[-2].source_kind = "research"
     candidates[-1].source_kind = "research"
 
-    pool = limit_candidates_for_prompt(candidates, max_count=5)
+    pool = limit_candidates_for_prompt(
+        candidates,
+        max_count=5,
+        required_research=2,
+        required_news=3,
+    )
 
     assert len(pool) == 5
     assert sum(item.source_kind == "research" for item in pool) == 2
@@ -46,7 +51,9 @@ def test_hydration_uses_candidate_links_and_fills_to_five(candidates) -> None:
             {"id": "invented-id", "title": "伪造候选"},
         ]
     }
-    items = DigestSelector(settings())._validate_and_hydrate(parsed, candidates)
+    items = DigestSelector(
+        settings(), item_count=5, research_count=2, foreign_news_minimum=0
+    )._validate_and_hydrate(parsed, candidates)
     assert len(items) == 5
     assert items[0].url == candidates[0].url
     assert all(item.candidate_id != "invented-id" for item in items)
@@ -68,7 +75,9 @@ def test_hydration_forces_exactly_two_research_items(candidates) -> None:
         ]
     }
 
-    items = DigestSelector(settings())._validate_and_hydrate(parsed, candidates)
+    items = DigestSelector(
+        settings(), item_count=5, research_count=2, foreign_news_minimum=0
+    )._validate_and_hydrate(parsed, candidates)
 
     assert len(items) == 5
     assert sum(item.source_kind == "research" for item in items) == 2
@@ -79,7 +88,9 @@ def test_hydration_forces_exactly_two_research_items(candidates) -> None:
 def test_expanded_summary_updates_only_known_items(monkeypatch, candidates) -> None:
     candidates[-2].source_kind = "research"
     candidates[-1].source_kind = "research"
-    selector = DigestSelector(settings())
+    selector = DigestSelector(
+        settings(), item_count=5, research_count=2, foreign_news_minimum=0
+    )
     items = selector._validate_and_hydrate({"items": []}, candidates)
 
     class Message:
@@ -127,9 +138,12 @@ def test_select_falls_back_when_model_returns_non_json(monkeypatch, candidates) 
     )()
     monkeypatch.setattr("embodied_daily.llm.OpenAI", lambda **kwargs: fake_client)
 
-    items = DigestSelector(settings()).select(candidates)
+    items = DigestSelector(
+        settings(), item_count=5, research_count=2, foreign_news_minimum=0
+    ).select(candidates)
 
     assert len(items) == 5
     assert sum(item.source_kind == "research" for item in items) == 2
     assert sum(item.source_kind != "research" for item in items) == 3
+
 

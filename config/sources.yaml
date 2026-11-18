@@ -31,6 +31,21 @@ direct_feeds:
     kind: "primary"
     weight: 4
 
+  - name: "Microsoft Research"
+    url: "https://www.microsoft.com/en-us/research/feed/"
+    kind: "primary"
+    weight: 4
+
+  - name: "MIT Technology Review"
+    url: "https://www.technologyreview.com/feed/"
+    kind: "media"
+    weight: 3
+
+  - name: "The Verge"
+    url: "https://www.theverge.com/rss/index.xml"
+    kind: "media"
+    weight: 3
+
   - name: "NVIDIA Blog"
     url: "https://blogs.nvidia.com/feed/"
     kind: "primary"
@@ -46,10 +61,10 @@ direct_feeds:
     kind: "aggregator"
     weight: 2
 
-  - name: "arXiv Robotics"
-    url: "https://export.arxiv.org/api/query?search_query=%28cat%3Acs.RO%20OR%20cat%3Acs.AI%29%20AND%20%28all%3Arobot%20OR%20all%3Aembodied%20OR%20all%3Ahumanoid%20OR%20all%3Amanipulation%29&start=0&max_results=50&sortBy=submittedDate&sortOrder=descending"
+  - name: "arXiv Robotics｜VLA WM VLN Manipulation UAV"
+    url: "https://export.arxiv.org/api/query?search_query=%28cat%3Acs.RO%20OR%20cat%3Acs.AI%20OR%20cat%3Acs.CV%29%20AND%20%28all%3A%22vision-language-action%22%20OR%20all%3A%22world%20model%22%20OR%20all%3A%22vision-language%20navigation%22%20OR%20all%3Amanipulation%20OR%20all%3A%22robot%20learning%22%20OR%20all%3Adrone%20OR%20all%3AUAV%29&start=0&max_results=100&sortBy=submittedDate&sortOrder=descending"
     kind: "research"
-    weight: 3
+    weight: 5
 
   # Bing News RSS is a second aggregator path for environments where Google
   # News RSS is unavailable. Date filtering still happens inside the program.
@@ -68,7 +83,38 @@ direct_feeds:
     kind: "search"
     weight: 2
 
+  - name: "Bing News EN｜Global Major Media"
+    url: "https://www.bing.com/news/search?q=%28site%3Areuters.com%20OR%20site%3Aapnews.com%20OR%20site%3Abbc.com%20OR%20site%3Atheverge.com%29%20%28robotics%20OR%20humanoid%20OR%20%22physical%20AI%22%29&format=rss&setlang=en-us"
+    kind: "search"
+    weight: 4
+
+  - name: "Bing News EN｜Global Robotics Companies"
+    url: "https://www.bing.com/news/search?q=%28site%3Abostondynamics.com%20OR%20site%3Afigure.ai%20OR%20site%3Aagilityrobotics.com%20OR%20site%3Ablogs.nvidia.com%20OR%20site%3Adeepmind.google%29%20robot&format=rss&setlang=en-us"
+    kind: "search"
+    weight: 5
+
 google_news_queries:
+  - name: "Google News EN｜Reuters AP BBC Robotics"
+    query: '(site:reuters.com OR site:apnews.com OR site:bbc.com OR site:bbc.co.uk) (robotics OR humanoid OR "physical AI" OR "robot arm")'
+    language: "en-US"
+    country: "US"
+    ceid: "US:en"
+    weight: 5
+
+  - name: "Google News EN｜International Technology Media"
+    query: '(site:techcrunch.com OR site:spectrum.ieee.org OR site:technologyreview.com OR site:theverge.com OR site:therobotreport.com) (robot OR VLA OR manipulation OR drone)'
+    language: "en-US"
+    country: "US"
+    ceid: "US:en"
+    weight: 4
+
+  - name: "Google News EN｜Overseas Company First Party"
+    query: '(site:bostondynamics.com OR site:figure.ai OR site:agilityrobotics.com OR site:blogs.nvidia.com OR site:deepmind.google OR site:aboutamazon.com OR site:microsoft.com) (robot OR embodied OR manipulation OR humanoid)'
+    language: "en-US"
+    country: "US"
+    ceid: "US:en"
+    weight: 5
+
   - name: "Google News 中文｜具身智能"
     query: '"具身智能" OR "人形机器人"'
     language: "zh-CN"
@@ -140,3 +186,4 @@ gdelt_queries:
     timespan: "3d"
     max_results: 75
     weight: 2
+

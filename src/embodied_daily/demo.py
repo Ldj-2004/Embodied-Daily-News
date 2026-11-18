@@ -7,23 +7,24 @@ from embodied_daily.models import Candidate
 
 def demo_candidates() -> list[Candidate]:
     now = datetime.now(UTC)
+    paper_topics = ["VLA", "世界模型", "VLN", "机械臂操作", "灵巧操作", "模仿学习", "遥操作", "长程任务", "无人机", "飞行机器人"]
+    news_topics = ["基础模型发布", "工厂部署", "训练代码开源", "量产交付", "海外企业产品升级"]
     rows = [
-        ("机器人基础模型发布演示版", "实验室发布机器人基础模型，并展示多任务操作能力。"),
-        ("人形机器人进入汽车工厂试点", "企业披露人形机器人在真实产线中的阶段性部署。"),
-        ("新型VLA方法提升长程操作表现", "研究团队公开新的视觉语言动作方法及评测结果。"),
-        ("灵巧手数据集与训练代码开源", "项目开放灵巧操作数据集、模型权重和训练流程。"),
-        ("机器人仿真到现实迁移取得进展", "新方法减少真实机器人训练所需的人工数据。"),
-        ("具身智能企业完成新一轮融资", "资金计划投入机器人量产和数据采集体系。"),
+        (f"{topic}研究取得新进展", f"研究团队公开{topic}方法、实验与评测结果。", "research")
+        for topic in paper_topics
+    ] + [
+        (f"机器人{topic}", f"企业披露机器人{topic}的具体进展与应用场景。", "primary")
+        for topic in news_topics
     ]
     output: list[Candidate] = []
-    for index, (title, summary) in enumerate(rows, start=1):
+    for index, (title, summary, source_kind) in enumerate(rows, start=1):
         output.append(
             Candidate(
                 id=f"demo-{index}",
                 title=title,
                 url=f"https://example.com/demo-{index}",
                 source="演示信源",
-                source_kind="demo",
+                source_kind=source_kind,
                 published_at=now - timedelta(hours=index),
                 fetched_at=now,
                 summary=summary,
@@ -32,4 +33,5 @@ def demo_candidates() -> list[Candidate]:
             )
         )
     return output
+
 

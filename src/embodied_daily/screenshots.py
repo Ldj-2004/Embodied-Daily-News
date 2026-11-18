@@ -1,10 +1,14 @@
 from __future__ import annotations
 
+import base64
 import html
+import json
 import logging
 import re
 from pathlib import Path
 from urllib.parse import urlparse
+
+from openai import OpenAI
 
 from embodied_daily.config import RuntimeSettings
 from embodied_daily.models import Digest
@@ -20,6 +24,31 @@ BLOCKED_MARKERS = (
     "page not found",
 )
 ARXIV_PATH_RE = re.compile(r"/(?:abs|pdf|html)/([^/?#]+)", re.IGNORECASE)
+PAPER_OVERVIEW_TERMS = (
+    "overview",
+    "framework",
+    "architecture",
+    "pipeline",
+    "approach",
+    "method overview",
+    "system overview",
+    "概览",
+    "框架",
+    "方法总览",
+)
+PAPER_DETAIL_TERMS = (
+    "ablation",
+    "quantitative",
+    "benchmark",
+    "confusion matrix",
+    "additional results",
+    "消融",
+    "定量结果",
+)
+PAPER_VISION_PROMPT = """你是机器人论文的视觉编辑。请从候选论文图中选出最能概括整篇论文的一张。
+最高优先级是 overview、method/framework、system architecture 或完整 pipeline 图；其次是同时展示任务、模型输入输出和机器人执行结果的综合图。
+不要选择单一曲线、消融表、局部模块、纯定量结果或无法说明方法全貌的图。只返回 JSON：
+{"selected_index":1,"reason":"简短理由"}"""
 
 
 def _safe_domain(url: str) -> str:
@@ -38,23 +67,105 @@ def arxiv_html_url(url: str) -> str | None:
     return f"https://arxiv.org/html/{paper_id}"
 
 
-def capture_arxiv_figure(page, url: str, path: Path, timeout_ms: int) -> None:
-    """Capture the largest useful figure from arXiv HTML, including its caption."""
+def paper_figure_score(
+    caption: str,
+    *,
+    index: int,
+    width: float,
+    height: float,
+) -> float:
+    """Rank overview/framework figures above large but less informative result plots."""
+    text = caption.lower()
+    overview_hits = sum(term in text for term in PAPER_OVERVIEW_TERMS)
+    detail_hits = sum(term in text for term in PAPER_DETAIL_TERMS)
+    area = min(width, 1_400) * min(height, 1_000)
+    early_bonus = max(0, 8 - index) * 45_000
+    return area + overview_hits * 1_800_000 - detail_hits * 900_000 + early_bonus
+
+
+def _vision_select_paper_figure(
+    candidates: list[dict],
+    *,
+    title: str,
+    settings: RuntimeSettings,
+) -> dict | None:
+    if not settings.api_key:
+        return None
+    content: list[dict] = [
+        {
+            "type": "text",
+            "text": f"论文标题：{title}\n请选最能概括论文方法和任务全貌的 overview 图。",
+        }
+    ]
+    for display_index, candidate in enumerate(candidates, start=1):
+        content.append(
+            {
+                "type": "text",
+                "text": (
+                    f"候选 {display_index}，论文图序 {candidate['index'] + 1}，"
+                    f"图注：{candidate['caption'][:500]}"
+                ),
+            }
+        )
+        encoded = base64.b64encode(candidate["preview"]).decode("ascii")
+        content.append(
+            {
+                "type": "image_url",
+                "image_url": {"url": f"data:image/png;base64,{encoded}"},
+            }
+        )
+    client = OpenAI(
+        api_key=settings.api_key,
+        base_url=settings.api_base,
+        timeout=90.0,
+        max_retries=1,
+    )
+    response = client.chat.completions.create(
+        model=settings.model,
+        max_completion_tokens=600,
+        reasoning_effort="high",
+        response_format={"type": "json_object"},
+        messages=[
+            {"role": "system", "content": PAPER_VISION_PROMPT},
+            {"role": "user", "content": content},
+        ],
+    )
+    raw = response.choices[0].message.content or ""
+    start, end = raw.find("{"), raw.rfind("}")
+    if start < 0 or end <= start:
+        return None
+    selected_index = int(json.loads(raw[start : end + 1]).get("selected_index", 0) or 0)
+    if 1 <= selected_index <= len(candidates):
+        return candidates[selected_index - 1]
+    return None
+
+
+def capture_arxiv_figure(
+    page,
+    url: str,
+    path: Path,
+    timeout_ms: int,
+    *,
+    title: str = "",
+    vision_settings: RuntimeSettings | None = None,
+) -> None:
+    """Capture the paper's overview figure, using captions plus multimodal review."""
     html_url = arxiv_html_url(url)
     if not html_url:
         raise RuntimeError("论文链接不是可识别的 arXiv 地址")
     page.goto(html_url, wait_until="domcontentloaded", timeout=timeout_ms)
     page.wait_for_timeout(2_000)
     figures = page.locator("figure")
-    best = None
-    best_score = 0.0
-    for index in range(min(figures.count(), 16)):
+    candidates: list[dict] = []
+    for index in range(min(figures.count(), 36)):
         figure = figures.nth(index)
         metrics = figure.evaluate(
             """element => ({
               width: element.scrollWidth,
               height: element.scrollHeight,
-              visuals: element.querySelectorAll('img, svg, canvas').length
+              visuals: element.querySelectorAll('img, svg, canvas').length,
+              caption: element.querySelector('figcaption')?.innerText ||
+                element.getAttribute('aria-label') || ''
             })"""
         )
         width = float(metrics.get("width", 0))
@@ -63,14 +174,55 @@ def capture_arxiv_figure(page, url: str, path: Path, timeout_ms: int) -> None:
             continue
         if height > 1_800:
             continue
-        score = min(width, 1_200) * min(height, 900)
-        if score > best_score:
-            best = figure
-            best_score = score
-    if best is None:
+        score = paper_figure_score(
+            str(metrics.get("caption", "")),
+            index=index,
+            width=width,
+            height=height,
+        )
+        candidates.append(
+            {
+                "locator": figure,
+                "index": index,
+                "caption": str(metrics.get("caption", "")),
+                "score": score,
+            }
+        )
+    if not candidates:
         raise RuntimeError("arXiv HTML 中没有找到尺寸合适的论文图表")
-    best.scroll_into_view_if_needed(timeout=5_000)
-    best.screenshot(path=str(path), timeout=timeout_ms)
+    candidates.sort(key=lambda item: item["score"], reverse=True)
+    prepared: list[dict] = []
+    for candidate in candidates[:8]:
+        try:
+            candidate["locator"].scroll_into_view_if_needed(timeout=5_000)
+            candidate["preview"] = candidate["locator"].screenshot(
+                type="png",
+                timeout=min(timeout_ms, 12_000),
+            )
+            if len(candidate["preview"]) >= 8_000:
+                prepared.append(candidate)
+        except Exception:
+            continue
+    if not prepared:
+        raise RuntimeError("arXiv HTML 论文图无法截取")
+    selected = None
+    if vision_settings is not None:
+        try:
+            selected = _vision_select_paper_figure(
+                prepared[:6],
+                title=title,
+                settings=vision_settings,
+            )
+        except Exception as exc:
+            LOGGER.warning("论文 overview 图多模态判断失败，使用图注排序：%s", exc)
+    selected = selected or prepared[0]
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_bytes(selected["preview"])
+    LOGGER.info(
+        "论文代表图已选：Figure %s，图注：%s",
+        selected["index"] + 1,
+        selected["caption"][:180],
+    )
 
 
 def _is_navigation_race(exc: Exception) -> bool:
@@ -265,7 +417,14 @@ def capture_digest_screenshots(
                 )
                 try:
                     if item.source_kind == "research":
-                        capture_arxiv_figure(page, item.url, png_path, timeout_ms)
+                        capture_arxiv_figure(
+                            page,
+                            item.url,
+                            png_path,
+                            timeout_ms,
+                            title=item.title,
+                            vision_settings=vision_settings,
+                        )
                     else:
                         capture_article_visual(
                             page,
@@ -304,4 +463,5 @@ def capture_digest_screenshots(
         if playwright:
             playwright.stop()
     return written
+
 

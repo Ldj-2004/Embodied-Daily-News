@@ -5,7 +5,7 @@ from embodied_daily.models import Digest
 from embodied_daily.pipeline import replace_items_with_failed_screenshots, run_pipeline
 
 
-def test_demo_pipeline_writes_five_items_without_network(tmp_path) -> None:
+def test_demo_pipeline_writes_fifteen_items_without_network(tmp_path) -> None:
     digest = run_pipeline(
         output_dir=tmp_path / "output",
         state_path=tmp_path / "state.json",
@@ -14,7 +14,8 @@ def test_demo_pipeline_writes_five_items_without_network(tmp_path) -> None:
         skip_screenshots=True,
         build_display=False,
     )
-    assert len(digest.items) == 5
+    assert len(digest.items) == 15
+    assert sum(item.source_kind == "research" for item in digest.items) == 10
     assert (tmp_path / "output" / "latest.md").exists()
 
 
@@ -54,6 +55,9 @@ def test_failed_screenshot_story_is_replaced(monkeypatch, tmp_path, candidates) 
         return []
 
     class FakeSelector:
+        research_count = 2
+        item_count = 5
+
         def select(self, available):
             news = [item for item in available if item.source_kind != "research"][:3]
             papers = [item for item in available if item.source_kind == "research"][:2]
@@ -78,3 +82,4 @@ def test_failed_screenshot_story_is_replaced(monkeypatch, tmp_path, candidates) 
     assert bad_id not in {item.candidate_id for item in result.items}
     assert candidates[3].id in {item.candidate_id for item in result.items}
     assert all(item.screenshot_status == "captured" for item in result.items)
+

@@ -58,6 +58,18 @@ def keyword_score(candidate: Candidate, config: dict) -> int:
     score += sum(2 for term in keywords.get("entities", []) if term.lower() in text)
     if candidate.source_kind in {"primary", "research"}:
         score += 2
+    if candidate.source_kind == "research":
+        focus = config.get("research_focus", {})
+        tracks = focus.get("tracks", {})
+        track_hits = sum(
+            any(str(term).lower() in text for term in terms)
+            for terms in tracks.values()
+            if isinstance(terms, list)
+        )
+        minimum_hits = int(focus.get("minimum_track_hits", 1))
+        if tracks and track_hits < minimum_hits:
+            return -100
+        score += track_hits * 5
     if candidate.source_kind != "research":
         ranking = config.get("ranking_preferences", {})
 
@@ -184,7 +196,7 @@ def prefilter(
         for candidate in scored
         if (now - candidate.published_at).total_seconds() <= recent_hours * 3600
     ]
-    pool = recent if len(recent) >= int(digest_config.get("item_count", 5)) else scored
+    pool = recent if len(recent) >= int(digest_config.get("item_count", 15)) else scored
     pool.sort(
         key=lambda item: (item.relevance_score, item.source_weight, item.published_at),
         reverse=True,
@@ -201,16 +213,18 @@ def prefilter(
     research_candidates = [
         candidate for candidate in scored if candidate.source_kind == "research"
     ]
+    required_research = int(digest_config.get("research_count", 10))
     newest_research = sorted(
         research_candidates,
         key=lambda item: item.published_at,
         reverse=True,
-    )[:2]
+    )[:required_research]
     balanced_ids = {candidate.id for candidate in balanced}
     for research_candidate in newest_research:
         if research_candidate.id not in balanced_ids:
-            # Preserve two papers even when a full pool of recent ordinary news
+            # Preserve the paper quota even when a full pool of recent ordinary news
             # would otherwise push them out on weekends or holidays.
             balanced.append(research_candidate)
             balanced_ids.add(research_candidate.id)
     return balanced
+

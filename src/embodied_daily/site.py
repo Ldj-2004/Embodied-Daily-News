@@ -40,8 +40,8 @@ def build_site(
 
     payload = json.loads((data_dir / "latest.json").read_text(encoding="utf-8"))
     item_count = len(payload.get("items", []))
-    if item_count not in {5, 6}:
-        raise ValueError("大屏页面要求五条常规内容，或五条加一页日期限定的特别关注。")
+    if item_count not in {15, 16}:
+        raise ValueError("大屏页面要求十五条常规内容，或十五条加一页日期限定的特别关注。")
     (dist / ".nojekyll").write_text("", encoding="utf-8")
     return dist
 
@@ -58,4 +58,5 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
 

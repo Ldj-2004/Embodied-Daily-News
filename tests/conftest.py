@@ -17,7 +17,7 @@ def candidates() -> list[Candidate]:
         "灵巧手训练数据集正式开源",
         "仿真到现实迁移出现新进展",
         "机器人企业完成新一轮融资",
-    ]
+    ] + [f"具身智能研究与机器人部署进展 {index}" for index in range(7, 19)]
     return [
         Candidate(
             id=f"item-{index}",
@@ -31,7 +31,7 @@ def candidates() -> list[Candidate]:
             source_weight=3,
             relevance_score=8 - index,
         )
-        for index in range(1, 7)
+        for index in range(1, 19)
     ]
 
 
@@ -51,7 +51,7 @@ def digest(candidates: list[Candidate]) -> Digest:
             published_at=candidate.published_at,
             importance_score=9 - index,
         )
-        for index, candidate in enumerate(candidates[:5], start=1)
+        for index, candidate in enumerate(candidates[:15], start=1)
     ]
     return Digest(
         title="具身智能日报",
@@ -59,3 +59,4 @@ def digest(candidates: list[Candidate]) -> Digest:
         generated_at=generated,
         items=items,
     )
+

@@ -28,7 +28,7 @@ def test_deduplicate_similar_titles(candidates) -> None:
     duplicate.url = "https://another.example.com/same-story"
     duplicate.title = candidates[1].title
     result = deduplicate(candidates)
-    assert len(result) == 5
+    assert len(result) == 17
 
 
 def test_keyword_score_rewards_embodied_terms(candidates) -> None:
@@ -197,4 +197,5 @@ def test_prominent_company_bonus_applies_only_to_ordinary_news(candidates) -> No
 
     assert news_bonus == 6
     assert paper_difference == 0
+
 

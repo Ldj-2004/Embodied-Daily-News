@@ -1,10 +1,13 @@
 digest:
-  item_count: 5
+  item_count: 15
+  research_count: 10
+  news_count: 5
+  foreign_news_minimum: 3
   title: "具身智能日报"
   timezone: "Asia/Shanghai"
   recent_hours: 36
   fallback_hours: 168
-  max_candidates_for_ai: 32
+  max_candidates_for_ai: 64
   max_candidates_per_source: 20
   minimum_keyword_score: 2
 
@@ -28,6 +31,12 @@ keywords:
     - "vision-language-action"
     - "vision language action"
     - "generalist robot"
+    - "robot world model"
+    - "vision-language navigation"
+    - "visual-language navigation"
+    - "aerial robot"
+    - "autonomous drone"
+    - "unmanned aerial vehicle"
   medium:
     - "机器人"
     - "robot"
@@ -50,6 +59,65 @@ keywords:
     - "具身大模型"
     - "机械臂"
     - "quadruped"
+    - "vln"
+    - "navigation"
+    - "无人机"
+    - "飞行机器人"
+
+research_focus:
+  # Papers must directly address at least one of the lab's six research tracks.
+  tracks:
+    vla: ["vision-language-action", "vision language action", "vla", "robot foundation model", "generalist robot"]
+    world_model: ["world model", "robot world model", "世界模型", "predictive model"]
+    vln: ["vision-language navigation", "visual-language navigation", "vln", "embodied navigation"]
+    manipulation: ["robot manipulation", "manipulation", "机械臂", "灵巧操作", "dexterous", "grasping"]
+    operation: ["robot learning", "imitation learning", "teleoperation", "操作", "long-horizon task"]
+    aerial_robotics: ["drone", "uav", "unmanned aerial", "aerial robot", "无人机", "飞行机器人"]
+  minimum_track_hits: 1
+
+news_source_policy:
+  # At least three of the five news items should come from these overseas
+  # first-party or major-media sources whenever enough candidates are available.
+  trusted_foreign_sources:
+    - "Reuters"
+    - "Associated Press"
+    - "AP News"
+    - "BBC"
+    - "TechCrunch"
+    - "IEEE Spectrum"
+    - "MIT Technology Review"
+    - "The Verge"
+    - "The Robot Report"
+    - "Robotics & Automation News"
+    - "Google DeepMind"
+    - "NVIDIA"
+    - "Boston Dynamics"
+    - "Figure AI"
+    - "Agility Robotics"
+    - "Amazon"
+    - "Microsoft"
+    - "Meta"
+    - "Tesla"
+  trusted_foreign_domains:
+    - "reuters.com"
+    - "apnews.com"
+    - "bbc.com"
+    - "bbc.co.uk"
+    - "techcrunch.com"
+    - "spectrum.ieee.org"
+    - "technologyreview.com"
+    - "theverge.com"
+    - "therobotreport.com"
+    - "roboticsandautomationnews.com"
+    - "deepmind.google"
+    - "blogs.nvidia.com"
+    - "bostondynamics.com"
+    - "figure.ai"
+    - "agilityrobotics.com"
+    - "aboutamazon.com"
+    - "microsoft.com"
+    - "ai.meta.com"
+    - "tesla.com"
   entities:
     - "宇树"
     - "unitree"
@@ -192,3 +260,4 @@ negative_keywords:
   - "电影机器人"
   - "robot vacuum"
   - "扫地机器人评测"
+

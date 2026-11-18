@@ -76,6 +76,23 @@ body::before {
   transition: opacity 700ms ease, transform 700ms ease, visibility 700ms;
 }
 
+.research-slide {
+  grid-template-columns: minmax(420px, 2fr) minmax(0, 3fr);
+}
+
+.research-slide .editorial-panel {
+  padding-right: clamp(28px, 3vw, 58px);
+  padding-left: clamp(28px, 3vw, 58px);
+}
+
+.research-slide .story-title {
+  font-size: clamp(27px, min(2.15vw, 4.8vh), 50px);
+}
+
+.research-slide .story-summary {
+  font-size: clamp(15px, min(1vw, 2.1vh), 22px);
+}
+
 .slide.active {
   opacity: 1;
   visibility: visible;
@@ -316,7 +333,7 @@ body::before {
   background: radial-gradient(circle, rgba(111, 143, 255, 0.17), transparent 68%);
 }
 
-.browser-frame {
+.media-frame {
   position: relative;
   z-index: 2;
   display: flex;
@@ -326,56 +343,38 @@ body::before {
   aspect-ratio: 1.34 / 1;
   overflow: hidden;
   flex-direction: column;
-  border: 1px solid rgba(174, 197, 231, 0.24);
-  border-radius: clamp(12px, 1.2vw, 22px);
+  border: 1px solid rgba(134, 166, 211, 0.32);
+  border-radius: 6px;
   background: #101827;
-  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.42), 0 0 0 1px rgba(255, 255, 255, 0.025);
+  box-shadow: 0 24px 74px rgba(0, 0, 0, 0.36);
 }
 
-.browser-bar {
+.media-meta {
   display: grid;
-  height: clamp(46px, 4.2vh, 68px);
+  min-height: clamp(38px, 3.6vh, 54px);
   flex: none;
-  grid-template-columns: 110px 1fr 130px;
+  grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
-  gap: 18px;
-  padding: 0 22px;
+  gap: 14px;
+  padding: 0 18px;
   color: #9db0cc;
-  background: #111c2e;
+  background: linear-gradient(90deg, #111c2e, #0c1728);
   border-bottom: 1px solid rgba(174, 197, 231, 0.14);
   font-size: clamp(11px, 0.7vw, 15px);
 }
 
-.browser-dots {
-  display: flex;
-  gap: 8px;
-}
-
-.browser-dots span {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: #41516b;
-}
-
-.browser-dots span:first-child { background: #ef6b6b; }
-.browser-dots span:nth-child(2) { background: #e9bd5c; }
-.browser-dots span:nth-child(3) { background: #5bcf94; }
-
 .browser-domain {
   overflow: hidden;
-  padding: 8px 14px;
-  border-radius: 7px;
-  background: rgba(255, 255, 255, 0.045);
-  text-align: center;
+  color: #8497b3;
+  text-align: right;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .capture-label {
-  color: #7588a6;
-  text-align: right;
-  letter-spacing: 0.08em;
+  color: #a9bad2;
+  font-weight: 700;
+  letter-spacing: 0.12em;
 }
 
 .capture-wrap {
@@ -396,10 +395,22 @@ body::before {
 }
 
 .research-slide .page-capture {
-  padding: clamp(10px, 1vw, 18px);
+  padding: clamp(4px, 0.5vw, 10px);
   object-fit: contain;
   object-position: center;
   background: #fff;
+}
+
+.research-slide .evidence-panel {
+  padding: clamp(12px, 1.6vw, 30px);
+}
+
+.research-slide .media-frame {
+  width: min(100%, 1240px);
+  max-height: calc(100dvh - clamp(28px, 4vh, 58px));
+  aspect-ratio: 1.48 / 1;
+  border-color: rgba(130, 168, 222, 0.38);
+  box-shadow: 0 26px 90px rgba(0, 0, 0, 0.42);
 }
 
 .special-slide .accent-line {
@@ -552,8 +563,12 @@ body::before {
     grid-template-columns: minmax(0, 8fr) minmax(360px, 5fr);
   }
 
-  .browser-frame {
+  .media-frame {
     width: min(100%, 980px);
+  }
+
+  .research-slide .media-frame {
+    width: min(100%, 1320px);
   }
 }
 
@@ -612,12 +627,12 @@ body::before {
     padding-top: 12px;
   }
 
-  .browser-frame {
+  .media-frame {
     max-height: calc(100dvh - 48px);
   }
 
-  .browser-bar {
-    height: 42px;
+  .media-meta {
+    min-height: 38px;
   }
 }
 
@@ -640,6 +655,10 @@ body::before {
     grid-template-columns: 1fr;
   }
 
+  .research-slide {
+    grid-template-columns: 1fr;
+  }
+
   .slide.active {
     display: grid;
   }
@@ -652,7 +671,7 @@ body::before {
     min-height: 58vh;
   }
 
-  .browser-frame {
+  .media-frame {
     width: min(100%, 920px);
     height: auto;
     max-height: none;
@@ -690,20 +709,11 @@ body::before {
     padding: 22px 14px 72px;
   }
 
-  .browser-bar {
-    height: 42px;
-    grid-template-columns: 62px minmax(0, 1fr);
+  .media-meta {
+    min-height: 40px;
+    grid-template-columns: auto minmax(0, 1fr);
     gap: 8px;
     padding: 0 12px;
-  }
-
-  .browser-dots {
-    gap: 5px;
-  }
-
-  .browser-dots span {
-    width: 8px;
-    height: 8px;
   }
 
   .capture-label {
@@ -726,4 +736,5 @@ body::before {
     transition-duration: 0.01ms !important;
   }
 }
+
 

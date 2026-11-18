@@ -22,18 +22,22 @@ from embodied_daily.state import SeenState
 LOGGER = logging.getLogger(__name__)
 
 
-def _require_fixed_composition(candidates: list[Candidate]) -> None:
+def _require_fixed_composition(
+    candidates: list[Candidate],
+    research_required: int = 10,
+    news_required: int = 5,
+) -> None:
     research_count = sum(
         candidate.source_kind == "research" for candidate in candidates
     )
     news_count = len(candidates) - research_count
-    if research_count < 2:
+    if research_count < research_required:
         raise RuntimeError(
-            "具有可用网页截图的论文候选不足两篇，无法保持两篇论文配额。"
+            f"具有可用代表图的论文候选不足{research_required}篇，无法保持论文配额。"
         )
-    if news_count < 3:
+    if news_count < news_required:
         raise RuntimeError(
-            "具有可用网页截图的普通新闻候选不足三条，无法保持三条新闻配额。"
+            f"具有可用网页图片的普通新闻候选不足{news_required}条，无法保持新闻配额。"
         )
 
 
@@ -69,7 +73,11 @@ def replace_items_with_failed_screenshots(
         available = [
             candidate for candidate in candidates if candidate.id not in rejected_ids
         ]
-        _require_fixed_composition(available)
+        _require_fixed_composition(
+            available,
+            selector.research_count,
+            selector.item_count - selector.research_count,
+        )
         LOGGER.warning(
             "有 %s 条入选新闻无法生成有效截图，正在从剩余 %s 条候选中重新选择。",
             len(newly_rejected),
@@ -134,10 +142,12 @@ def run_pipeline(
     timezone_name = runtime.timezone or digest_config.get("timezone", "Asia/Shanghai")
     timezone = ZoneInfo(timezone_name)
     now_local = datetime.now(timezone)
-    item_count = int(digest_config.get("item_count", 5))
+    item_count = int(digest_config.get("item_count", 15))
+    research_required = int(digest_config.get("research_count", 10))
+    news_required = int(digest_config.get("news_count", 5))
 
-    if item_count != 5:
-        raise ValueError("本项目当前产品约束为每天恰好五条，请保持 digest.item_count=5。")
+    if (item_count, research_required, news_required) != (15, 10, 5):
+        raise ValueError("本项目产品约束为每天15条：10篇论文和5条新闻。")
 
     if demo:
         candidates = demo_candidates()
@@ -166,14 +176,15 @@ def run_pipeline(
         news_candidates = [
             candidate for candidate in candidates if candidate.source_kind != "research"
         ]
-        if len(research_candidates) < 2:
+        if len(research_candidates) < research_required:
             raise RuntimeError(
-                "没有找到至少两篇可用的 arXiv 论文候选，日报不会降低论文配额。"
+                f"没有找到至少{research_required}篇聚焦研究方向的 arXiv 论文候选，"
+                "日报不会降低论文配额。"
                 "请检查 output/source-health.json 中的 arXiv Robotics 信源。"
             )
-        if len(news_candidates) < 3:
+        if len(news_candidates) < news_required:
             raise RuntimeError(
-                "当天及前一天的普通新闻合计不足三条。"
+                f"当天及前一天的普通新闻合计不足{news_required}条。"
                 "为遵守日期规则，本次不会使用更早新闻补齐。"
             )
         state = SeenState(state_path)
@@ -189,20 +200,20 @@ def run_pipeline(
                 selected_news = sum(
                     candidate.source_kind != "research" for candidate in candidates
                 )
-                if selected_research < 2:
+                if selected_research < research_required:
                     candidates = [
                         candidate
                         for candidate in research_candidates
                         if candidate.id not in selected_ids
                     ] + candidates
-                if selected_news < 3:
+                if selected_news < news_required:
                     candidates = [
                         candidate
                         for candidate in news_candidates
                         if candidate.id not in selected_ids
                     ] + candidates
             else:
-                LOGGER.warning("未读候选不足五条，本次允许复用时间窗口内的旧候选。")
+                LOGGER.warning("未读候选不足十五条，本次允许复用时间窗口内的旧候选。")
         if len(candidates) < item_count:
             raise RuntimeError(
                 f"两日内新闻与最近 arXiv 更新日论文合计只有 {len(candidates)} 条候选。"
@@ -211,7 +222,17 @@ def run_pipeline(
             )
 
         LOGGER.info("送入模型的有效候选：%s 条。", len(candidates))
-        selector = DigestSelector(runtime, item_count)
+        source_policy = app_config.get("news_source_policy", {})
+        foreign_terms = tuple(source_policy.get("trusted_foreign_sources", [])) + tuple(
+            source_policy.get("trusted_foreign_domains", [])
+        )
+        selector = DigestSelector(
+            runtime,
+            item_count,
+            research_count=research_required,
+            foreign_news_minimum=int(digest_config.get("foreign_news_minimum", 3)),
+            foreign_source_terms=foreign_terms,
+        )
         items = selector.select(candidates)
 
     digest = Digest(
@@ -240,7 +261,7 @@ def run_pipeline(
                 ),
             )
             selector.expand_summaries(digest.items, article_texts)
-            LOGGER.info("已使用 API 完成五条新闻的扩展摘要。")
+            LOGGER.info("已使用 API 完成十五条内容的扩展摘要。")
         except Exception as exc:
             LOGGER.warning("扩展摘要失败，将保留初选摘要：%s", exc)
         special_count = append_special_items(digest)
@@ -263,3 +284,4 @@ def run_pipeline(
         state.prune()
         state.save()
     return digest
+
