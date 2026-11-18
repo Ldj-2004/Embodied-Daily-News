@@ -109,7 +109,7 @@ def test_daily_policy_keeps_two_day_news_and_latest_paper_date(candidates) -> No
     older_paper.source_kind = "research"
     older_paper.published_at = now.astimezone(UTC) - timedelta(days=4)
 
-    result = apply_daily_date_policy(candidates[:5], now)
+    result = apply_daily_date_policy(candidates[:5], now, research_required=1)
 
     assert today_news in result
     assert yesterday_news in result

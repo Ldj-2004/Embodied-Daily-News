@@ -111,7 +111,11 @@ def check_sources(
     timezone = ZoneInfo(app_config["digest"].get("timezone", "Asia/Shanghai"))
     now_local = datetime.now(timezone)
     filtered = prefilter(result.candidates, app_config, datetime.now(UTC))
-    filtered = apply_daily_date_policy(filtered, now_local)
+    filtered = apply_daily_date_policy(
+        filtered,
+        now_local,
+        research_required=int(app_config["digest"].get("research_count", 10)),
+    )
     available = sum(1 for record in result.health if record.ok)
     LOGGER.info(
         "信源检查完成：%s/%s 可用，抓取 %s 条，筛选后 %s 条。",
@@ -169,7 +173,11 @@ def run_pipeline(
         )
 
         candidates = prefilter(result.candidates, app_config, datetime.now(UTC))
-        candidates = apply_daily_date_policy(candidates, now_local)
+        candidates = apply_daily_date_policy(
+            candidates,
+            now_local,
+            research_required=research_required,
+        )
         research_candidates = [
             candidate for candidate in candidates if candidate.source_kind == "research"
         ]

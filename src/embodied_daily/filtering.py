@@ -125,12 +125,13 @@ def _date_in_timezone(candidate: Candidate, timezone) -> date:
 def apply_daily_date_policy(
     candidates: list[Candidate],
     now: datetime,
+    research_required: int = 10,
 ) -> list[Candidate]:
-    """Keep today/yesterday news and papers from the latest arXiv update day.
+    """Keep today/yesterday news and enough papers from recent arXiv update days.
 
     Non-research items may match the digest date or the previous local date.
-    Research items prefer that same date; when arXiv has no update that day, all
-    eligible papers from the most recent research date are retained instead.
+    Research items start with the newest update day and expand backward by whole
+    update days only when the newest day cannot satisfy the configured quota.
     """
     if now.tzinfo is None:
         raise ValueError("now 必须包含时区，才能判断日报的当天日期。")
@@ -152,19 +153,19 @@ def apply_daily_date_policy(
         if candidate.source_kind == "research"
         and _date_in_timezone(candidate, timezone) <= target_date
     ]
-    if papers:
-        paper_dates = {
-            candidate.id: _date_in_timezone(candidate, timezone)
-            for candidate in papers
-        }
-        latest_paper_date = max(paper_dates.values())
-        selected_papers = [
+    paper_dates = {
+        candidate.id: _date_in_timezone(candidate, timezone)
+        for candidate in papers
+    }
+    selected_papers: list[Candidate] = []
+    for paper_date in sorted(set(paper_dates.values()), reverse=True):
+        selected_papers.extend(
             candidate
             for candidate in papers
-            if paper_dates[candidate.id] == latest_paper_date
-        ]
-    else:
-        selected_papers = []
+            if paper_dates[candidate.id] == paper_date
+        )
+        if len(selected_papers) >= research_required:
+            break
 
     eligible = news + selected_papers
     eligible.sort(
