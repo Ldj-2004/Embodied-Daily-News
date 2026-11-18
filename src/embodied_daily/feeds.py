@@ -6,7 +6,7 @@ import logging
 import re
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import UTC, datetime, timedelta
-from time import struct_time
+from time import sleep, struct_time
 from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
 import feedparser
@@ -157,8 +157,23 @@ def _fetch_one(source: dict, collection_config: dict, cutoff: datetime) -> Colle
         timeout = float(collection_config.get("timeout_seconds", 20))
         headers = {"User-Agent": collection_config.get("user_agent", "EmbodiedDailyNews/0.1")}
         with httpx.Client(timeout=timeout, follow_redirects=True, headers=headers) as client:
-            response = client.get(url)
-            response.raise_for_status()
+            for attempt in range(3):
+                response = client.get(url)
+                if response.status_code != 429 or attempt == 2:
+                    response.raise_for_status()
+                    break
+                wait_seconds = min(
+                    30,
+                    int(response.headers.get("Retry-After", 0) or 0)
+                    or 10 * (attempt + 1),
+                )
+                LOGGER.warning(
+                    "信源限流，%s 秒后重试（%s/2）：%s",
+                    wait_seconds,
+                    attempt + 1,
+                    source["name"],
+                )
+                sleep(wait_seconds)
         parsed = feedparser.parse(response.content)
         if getattr(parsed, "bozo", False) and not parsed.entries:
             raise ValueError(str(getattr(parsed, "bozo_exception", "无法解析 Feed")))
@@ -241,3 +256,4 @@ def collect_candidates(
             aggregate.candidates.extend(result.candidates)
             aggregate.health.extend(result.health)
     return aggregate
+

@@ -62,7 +62,7 @@ direct_feeds:
     weight: 2
 
   - name: "arXiv Robotics｜VLA WM VLN Manipulation UAV"
-    url: "https://export.arxiv.org/api/query?search_query=%28cat%3Acs.RO%20OR%20cat%3Acs.AI%20OR%20cat%3Acs.CV%29%20AND%20%28all%3A%22vision-language-action%22%20OR%20all%3A%22world%20model%22%20OR%20all%3A%22vision-language%20navigation%22%20OR%20all%3Amanipulation%20OR%20all%3A%22robot%20learning%22%20OR%20all%3Adrone%20OR%20all%3AUAV%29&start=0&max_results=100&sortBy=submittedDate&sortOrder=descending"
+    url: "https://export.arxiv.org/api/query?search_query=%28cat%3Acs.RO%20OR%20cat%3Acs.AI%20OR%20cat%3Acs.CV%29%20AND%20%28all%3A%22vision-language-action%22%20OR%20all%3A%22world%20model%22%20OR%20all%3A%22vision-language%20navigation%22%20OR%20all%3Amanipulation%20OR%20all%3A%22robot%20learning%22%20OR%20all%3Adrone%20OR%20all%3AUAV%29&start=0&max_results=50&sortBy=submittedDate&sortOrder=descending"
     kind: "research"
     weight: 5
 

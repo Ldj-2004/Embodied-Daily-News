@@ -11,10 +11,10 @@ from embodied_daily.demo import demo_candidates
 from embodied_daily.feeds import collect_candidates
 from embodied_daily.feishu import send_to_feishu
 from embodied_daily.filtering import apply_daily_date_policy, prefilter
-from embodied_daily.llm import DigestSelector, heuristic_select
+from embodied_daily.llm import DigestSelector, fallback_item, heuristic_select
 from embodied_daily.models import Candidate, Digest
 from embodied_daily.render import write_digest, write_source_health
-from embodied_daily.screenshots import capture_digest_screenshots
+from embodied_daily.screenshots import capture_digest_screenshots, write_fallback_svg
 from embodied_daily.site import build_site
 from embodied_daily.specials import append_special_items
 from embodied_daily.state import SeenState
@@ -48,48 +48,96 @@ def replace_items_with_failed_screenshots(
     output_dir: str | Path,
     vision_settings: RuntimeSettings | None = None,
 ) -> Digest:
-    """Reject stories whose pages cannot be captured and reselect the digest."""
+    """Replace only failed visual items while preserving successful captures."""
     rejected_ids: set[str] = set()
+    replacement_attempts = 0
+    max_replacement_attempts = 12
+
+    capture_digest_screenshots(
+        digest,
+        output_dir,
+        fallback_on_failure=False,
+        vision_settings=vision_settings,
+    )
 
     while True:
-        capture_digest_screenshots(
-            digest,
-            output_dir,
-            fallback_on_failure=False,
-            vision_settings=vision_settings,
-        )
-        failed_ids = {
-            item.candidate_id
-            for item in digest.items
-            if item.screenshot_status != "captured"
-        }
-        if not failed_ids:
+        failed_items = [
+            item for item in digest.items if item.screenshot_status != "captured"
+        ]
+        if not failed_items:
             return digest
 
-        newly_rejected = failed_ids - rejected_ids
-        if not newly_rejected:
-            raise RuntimeError("截图替换没有取得进展，已停止以避免重复调用模型。")
-        rejected_ids.update(newly_rejected)
-        available = [
-            candidate for candidate in candidates if candidate.id not in rejected_ids
-        ]
-        _require_fixed_composition(
-            available,
-            selector.research_count,
-            selector.item_count - selector.research_count,
-        )
+        if replacement_attempts >= max_replacement_attempts:
+            news_failures = [
+                item for item in failed_items if item.source_kind != "research"
+            ]
+            research_failures = [
+                item for item in failed_items if item.source_kind == "research"
+            ]
+            if research_failures:
+                raise RuntimeError("论文候选已耗尽，仍无法获取合格的代表图。")
+            root = Path(output_dir)
+            for item in news_failures:
+                svg_path = root / "assets" / digest.date / f"{item.rank:02d}.svg"
+                write_fallback_svg(
+                    svg_path,
+                    title=item.title,
+                    source=item.source,
+                    url=item.url,
+                )
+                item.screenshot = svg_path.relative_to(root).as_posix()
+                item.screenshot_status = "fallback"
+            LOGGER.warning(
+                "新闻图片替换达到上限，%s 条使用统一视觉兜底图。",
+                len(news_failures),
+            )
+            return digest
+
+        selected_ids = {item.candidate_id for item in digest.items}
+        replacements = []
+        for failed in failed_items:
+            rejected_ids.add(failed.candidate_id)
+            is_research = failed.source_kind == "research"
+            replacement = next(
+                (
+                    candidate
+                    for candidate in candidates
+                    if candidate.id not in selected_ids
+                    and candidate.id not in rejected_ids
+                    and (candidate.source_kind == "research") == is_research
+                ),
+                None,
+            )
+            if replacement is None:
+                if is_research:
+                    raise RuntimeError("没有更多论文候选可用于替换失败的代表图。")
+                replacement_attempts = max_replacement_attempts
+                continue
+            selected_ids.remove(failed.candidate_id)
+            selected_ids.add(replacement.id)
+            new_item = fallback_item(replacement, failed.rank)
+            digest.items[failed.rank - 1] = new_item
+            replacements.append(new_item)
+            replacement_attempts += 1
+
+        if not replacements:
+            continue
         LOGGER.warning(
-            "有 %s 条入选新闻无法生成有效截图，正在从剩余 %s 条候选中重新选择。",
-            len(newly_rejected),
-            len(available),
+            "有 %s 项视觉素材不合格，仅替换这些项并保留其余已完成内容。",
+            len(replacements),
         )
-        replacement_items = selector.select(available)
-        digest = Digest(
+        probe = Digest(
             title=digest.title,
             date=digest.date,
             generated_at=digest.generated_at,
-            items=replacement_items,
+            items=replacements,
             edition=digest.edition,
+        )
+        capture_digest_screenshots(
+            probe,
+            output_dir,
+            fallback_on_failure=False,
+            vision_settings=vision_settings,
         )
 
 
