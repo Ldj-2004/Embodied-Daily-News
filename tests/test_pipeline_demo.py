@@ -57,6 +57,11 @@ def test_failed_screenshot_story_is_replaced(monkeypatch, tmp_path, candidates) 
     class FakeSelector:
         research_count = 2
         item_count = 5
+        foreign_news_minimum = 0
+
+        @staticmethod
+        def is_foreign_news(item):
+            return False
 
         def select(self, available):
             news = [item for item in available if item.source_kind != "research"][:3]

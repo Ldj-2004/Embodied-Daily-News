@@ -4,6 +4,7 @@ import re
 from collections import defaultdict
 from datetime import UTC, date, datetime, timedelta
 from difflib import SequenceMatcher
+from urllib.parse import urlparse
 
 from embodied_daily.feeds import canonicalize_url
 from embodied_daily.models import Candidate
@@ -44,6 +45,15 @@ def prominent_company_score(text: str, ranking: dict) -> int:
     per_company = int(ranking.get("prominent_company_bonus", 6))
     cap = int(ranking.get("prominent_company_bonus_cap", 12))
     return min(cap, hits * per_company)
+
+
+def matches_foreign_source(candidate: Candidate, terms: tuple[str, ...]) -> bool:
+    source = candidate.source.lower()
+    host = (urlparse(candidate.url).hostname or "").lower()
+    return any(
+        term in source or host == term or host.endswith(f".{term}")
+        for term in terms
+    )
 
 
 def keyword_score(candidate: Candidate, config: dict) -> int:
@@ -126,6 +136,9 @@ def apply_daily_date_policy(
     candidates: list[Candidate],
     now: datetime,
     research_required: int = 10,
+    foreign_source_terms: tuple[str, ...] = (),
+    foreign_news_minimum: int = 3,
+    foreign_news_fallback_days: int = 7,
 ) -> list[Candidate]:
     """Keep today/yesterday news and enough papers from recent arXiv update days.
 
@@ -147,6 +160,31 @@ def apply_daily_date_policy(
         <= _date_in_timezone(candidate, timezone)
         <= target_date
     ]
+    if foreign_source_terms:
+        foreign_count = sum(
+            matches_foreign_source(candidate, foreign_source_terms)
+            for candidate in news
+        )
+        earliest_foreign_date = target_date - timedelta(
+            days=max(1, foreign_news_fallback_days - 1)
+        )
+        older_foreign = sorted(
+            (
+                candidate
+                for candidate in candidates
+                if candidate.source_kind != "research"
+                and candidate not in news
+                and earliest_foreign_date
+                <= _date_in_timezone(candidate, timezone)
+                <= target_date
+                and matches_foreign_source(candidate, foreign_source_terms)
+            ),
+            key=lambda item: item.published_at,
+            reverse=True,
+        )
+        news.extend(
+            older_foreign[: max(0, foreign_news_minimum - foreign_count)]
+        )
     papers = [
         candidate
         for candidate in candidates
@@ -227,5 +265,34 @@ def prefilter(
             # would otherwise push them out on weekends or holidays.
             balanced.append(research_candidate)
             balanced_ids.add(research_candidate.id)
+
+    source_policy = app_config.get("news_source_policy", {})
+    foreign_terms = tuple(
+        str(term).lower()
+        for term in (
+            list(source_policy.get("trusted_foreign_sources", []))
+            + list(source_policy.get("trusted_foreign_domains", []))
+        )
+    )
+    foreign_minimum = int(digest_config.get("foreign_news_minimum", 3))
+    selected_foreign = sum(
+        candidate.source_kind != "research"
+        and matches_foreign_source(candidate, foreign_terms)
+        for candidate in balanced
+    )
+    foreign_candidates = sorted(
+        (
+            candidate
+            for candidate in scored
+            if candidate.source_kind != "research"
+            and candidate.id not in balanced_ids
+            and matches_foreign_source(candidate, foreign_terms)
+        ),
+        key=lambda item: (item.published_at, item.relevance_score),
+        reverse=True,
+    )
+    for foreign_candidate in foreign_candidates[: max(0, foreign_minimum - selected_foreign)]:
+        balanced.append(foreign_candidate)
+        balanced_ids.add(foreign_candidate.id)
     return balanced
 

@@ -152,6 +152,12 @@ class DigestSelector:
         self.foreign_news_minimum = foreign_news_minimum
         self.foreign_source_terms = tuple(term.lower() for term in foreign_source_terms)
 
+    def is_foreign_news(self, item: Candidate | DigestItem) -> bool:
+        return item.source_kind != "research" and _matches_foreign_source(
+            item,
+            self.foreign_source_terms,
+        )
+
     def select(self, candidates: list[Candidate]) -> list[DigestItem]:
         if len(candidates) < self.item_count:
             raise ValueError(f"有效候选只有 {len(candidates)} 条，无法生成十五条日报。")

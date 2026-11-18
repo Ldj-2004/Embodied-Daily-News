@@ -3,6 +3,7 @@ digest:
   research_count: 10
   news_count: 5
   foreign_news_minimum: 3
+  foreign_news_fallback_days: 7
   title: "具身智能日报"
   timezone: "Asia/Shanghai"
   recent_hours: 36

@@ -51,7 +51,19 @@ def replace_items_with_failed_screenshots(
     """Replace only failed visual items while preserving successful captures."""
     rejected_ids: set[str] = set()
     replacement_attempts = 0
-    max_replacement_attempts = 12
+    max_replacement_attempts = 6
+
+    def write_news_fallback(item) -> None:
+        root = Path(output_dir)
+        svg_path = root / "assets" / digest.date / f"{item.rank:02d}.svg"
+        write_fallback_svg(
+            svg_path,
+            title=item.title,
+            source=item.source,
+            url=item.url,
+        )
+        item.screenshot = svg_path.relative_to(root).as_posix()
+        item.screenshot_status = "fallback"
 
     capture_digest_screenshots(
         digest,
@@ -62,8 +74,21 @@ def replace_items_with_failed_screenshots(
 
     while True:
         failed_items = [
-            item for item in digest.items if item.screenshot_status != "captured"
+            item
+            for item in digest.items
+            if item.screenshot_status not in {"captured", "fallback"}
         ]
+        if not failed_items:
+            return digest
+
+        selected_foreign = sum(selector.is_foreign_news(item) for item in digest.items)
+        for item in list(failed_items):
+            if (
+                selector.is_foreign_news(item)
+                and selected_foreign <= selector.foreign_news_minimum
+            ):
+                write_news_fallback(item)
+                failed_items.remove(item)
         if not failed_items:
             return digest
 
@@ -76,17 +101,8 @@ def replace_items_with_failed_screenshots(
             ]
             if research_failures:
                 raise RuntimeError("论文候选已耗尽，仍无法获取合格的代表图。")
-            root = Path(output_dir)
             for item in news_failures:
-                svg_path = root / "assets" / digest.date / f"{item.rank:02d}.svg"
-                write_fallback_svg(
-                    svg_path,
-                    title=item.title,
-                    source=item.source,
-                    url=item.url,
-                )
-                item.screenshot = svg_path.relative_to(root).as_posix()
-                item.screenshot_status = "fallback"
+                write_news_fallback(item)
             LOGGER.warning(
                 "新闻图片替换达到上限，%s 条使用统一视觉兜底图。",
                 len(news_failures),
@@ -98,16 +114,25 @@ def replace_items_with_failed_screenshots(
         for failed in failed_items:
             rejected_ids.add(failed.candidate_id)
             is_research = failed.source_kind == "research"
-            replacement = next(
-                (
-                    candidate
-                    for candidate in candidates
-                    if candidate.id not in selected_ids
-                    and candidate.id not in rejected_ids
-                    and (candidate.source_kind == "research") == is_research
-                ),
-                None,
+            replacement_pool = [
+                candidate
+                for candidate in candidates
+                if candidate.id not in selected_ids
+                and candidate.id not in rejected_ids
+                and (candidate.source_kind == "research") == is_research
+            ]
+            remaining_foreign = sum(
+                selector.is_foreign_news(item)
+                for item in digest.items
+                if item.candidate_id != failed.candidate_id
             )
+            if not is_research and remaining_foreign < selector.foreign_news_minimum:
+                replacement_pool = [
+                    candidate
+                    for candidate in replacement_pool
+                    if selector.is_foreign_news(candidate)
+                ]
+            replacement = next(iter(replacement_pool), None)
             if replacement is None:
                 if is_research:
                     raise RuntimeError("没有更多论文候选可用于替换失败的代表图。")
@@ -191,6 +216,14 @@ def run_pipeline(
     sources_config = load_yaml(sources_path)
     runtime = RuntimeSettings.from_env()
     digest_config = app_config["digest"]
+    source_policy = app_config.get("news_source_policy", {})
+    foreign_terms = tuple(
+        str(term).lower()
+        for term in (
+            list(source_policy.get("trusted_foreign_sources", []))
+            + list(source_policy.get("trusted_foreign_domains", []))
+        )
+    )
     timezone_name = runtime.timezone or digest_config.get("timezone", "Asia/Shanghai")
     timezone = ZoneInfo(timezone_name)
     now_local = datetime.now(timezone)
@@ -225,6 +258,11 @@ def run_pipeline(
             candidates,
             now_local,
             research_required=research_required,
+            foreign_source_terms=foreign_terms,
+            foreign_news_minimum=int(digest_config.get("foreign_news_minimum", 3)),
+            foreign_news_fallback_days=int(
+                digest_config.get("foreign_news_fallback_days", 7)
+            ),
         )
         research_candidates = [
             candidate for candidate in candidates if candidate.source_kind == "research"
@@ -278,10 +316,6 @@ def run_pipeline(
             )
 
         LOGGER.info("送入模型的有效候选：%s 条。", len(candidates))
-        source_policy = app_config.get("news_source_policy", {})
-        foreign_terms = tuple(source_policy.get("trusted_foreign_sources", [])) + tuple(
-            source_policy.get("trusted_foreign_domains", [])
-        )
         selector = DigestSelector(
             runtime,
             item_count,

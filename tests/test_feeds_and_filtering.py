@@ -118,6 +118,29 @@ def test_daily_policy_keeps_two_day_news_and_latest_paper_date(candidates) -> No
     assert older_paper not in result
 
 
+def test_daily_policy_uses_recent_foreign_source_to_fill_quota(candidates) -> None:
+    timezone = ZoneInfo("Asia/Shanghai")
+    now = datetime(2026, 11, 18, 9, 30, tzinfo=timezone)
+    domestic = candidates[0]
+    domestic.source = "国内媒体"
+    domestic.published_at = now.astimezone(UTC) - timedelta(hours=4)
+    foreign = candidates[1]
+    foreign.source = "Reuters"
+    foreign.published_at = now.astimezone(UTC) - timedelta(days=4)
+
+    result = apply_daily_date_policy(
+        [domestic, foreign],
+        now,
+        research_required=0,
+        foreign_source_terms=("reuters", "reuters.com"),
+        foreign_news_minimum=1,
+        foreign_news_fallback_days=7,
+    )
+
+    assert domestic in result
+    assert foreign in result
+
+
 def test_prefilter_preserves_old_research_when_recent_news_pool_is_full(
     candidates,
 ) -> None:
