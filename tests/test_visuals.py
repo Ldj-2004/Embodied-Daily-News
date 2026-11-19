@@ -1,4 +1,4 @@
-from embodied_daily.visuals import visual_metadata_score
+from embodied_daily.visuals import image_search_url, visual_metadata_score
 
 
 def test_robot_operation_image_outranks_portrait() -> None:
@@ -28,3 +28,12 @@ def test_robot_operation_image_outranks_portrait() -> None:
     assert robot_hits >= 2
     assert portrait_negative >= 2
     assert robot_score > portrait_score
+
+
+def test_image_search_url_contains_story_and_company() -> None:
+    url = image_search_url("波士顿动力发布新机器人", "Boston Dynamics")
+
+    assert url.startswith("https://www.bing.com/images/search?")
+    assert "Boston+Dynamics" in url
+    assert "robot+robotics" in url
+

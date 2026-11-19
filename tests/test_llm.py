@@ -1,5 +1,11 @@
 from embodied_daily.config import RuntimeSettings
-from embodied_daily.llm import DigestSelector, extract_json, limit_candidates_for_prompt
+from embodied_daily.llm import (
+    DigestSelector,
+    company_short_name,
+    extract_json,
+    fallback_item,
+    limit_candidates_for_prompt,
+)
 
 
 def settings() -> RuntimeSettings:
@@ -34,6 +40,28 @@ def test_prompt_pool_is_bounded_and_keeps_fixed_composition(candidates) -> None:
     assert len(pool) == 5
     assert sum(item.source_kind == "research" for item in pool) == 2
     assert sum(item.source_kind != "research" for item in pool) == 3
+
+
+def test_fallback_keeps_complete_research_title(candidates) -> None:
+    candidate = candidates[0]
+    candidate.source_kind = "research"
+    candidate.title = (
+        "A Complete Vision-Language-Action Framework for Long-Horizon "
+        "Dexterous Robot Manipulation in Unstructured Homes"
+    )
+
+    item = fallback_item(candidate, 1)
+
+    assert item.title == candidate.title
+    assert item.company_short_name == ""
+
+
+def test_company_short_name_uses_news_subject(candidates) -> None:
+    candidate = candidates[0]
+    candidate.title = "Hyundai Motor Group expands Boston Dynamics production"
+    candidate.source = "Global News Wire"
+
+    assert company_short_name(candidate) == "Hyundai"
 
 
 def test_hydration_uses_candidate_links_and_fills_to_five(candidates) -> None:
@@ -95,7 +123,8 @@ def test_expanded_summary_updates_only_known_items(monkeypatch, candidates) -> N
 
     class Message:
         content = (
-            '{"items":[{"id":"item-1","summary":"'
+            '{"items":[{"id":"item-1","title":"机器人企业发布新一代操作模型",'
+            '"company_short_name":"Unitree","summary":"'
             + "这是基于网页正文生成的更完整事实概述。" * 4
             + '","why_it_matters":"该进展展示了机器人产品从模型能力走向真实部署的重要路径。"}]}'
         )
@@ -115,6 +144,8 @@ def test_expanded_summary_updates_only_known_items(monkeypatch, candidates) -> N
 
     assert len(items[0].summary) > 40
     assert "真实部署" in items[0].why_it_matters
+    assert items[0].title == "机器人企业发布新一代操作模型"
+    assert items[0].company_short_name == "Unitree"
 
 def test_select_falls_back_when_model_returns_non_json(monkeypatch, candidates) -> None:
     candidates[-2].source_kind = "research"
