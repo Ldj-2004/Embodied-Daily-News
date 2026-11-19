@@ -44,6 +44,7 @@ class DigestItem:
     importance_score: float = 0.0
     screenshot: str = ""
     screenshot_status: str = "pending"
+    company_short_name: str = ""
 
     def to_dict(self) -> dict[str, Any]:
         data = asdict(self)
@@ -89,4 +90,5 @@ class SourceHealth:
 class CollectionResult:
     candidates: list[Candidate] = field(default_factory=list)
     health: list[SourceHealth] = field(default_factory=list)
+
 

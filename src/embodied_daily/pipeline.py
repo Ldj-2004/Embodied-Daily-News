@@ -76,7 +76,7 @@ def replace_items_with_failed_screenshots(
         failed_items = [
             item
             for item in digest.items
-            if item.screenshot_status not in {"captured", "fallback"}
+            if item.screenshot_status not in {"captured", "searched", "fallback"}
         ]
         if not failed_items:
             return digest
