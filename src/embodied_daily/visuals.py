@@ -5,6 +5,7 @@ import json
 import logging
 from pathlib import Path
 from typing import Any
+from urllib.parse import quote_plus
 
 from openai import OpenAI
 
@@ -108,6 +109,8 @@ def _collect_visual_candidates(
     *,
     timeout_ms: int,
     max_candidates: int = 4,
+    minimum_width: int = 420,
+    minimum_height: int = 240,
 ) -> list[dict[str, Any]]:
     _load_images_across_page(page)
     images = page.locator("img")
@@ -159,8 +162,8 @@ def _collect_visual_candidates(
             not metadata.get("visible")
             or not source
             or source in seen_sources
-            or width < 420
-            or height < 240
+            or width < minimum_width
+            or height < minimum_height
         ):
             continue
         seen_sources.add(source)
@@ -195,6 +198,11 @@ def _collect_visual_candidates(
         except Exception:
             continue
     return output
+
+
+def image_search_url(title: str, source: str = "") -> str:
+    query = " ".join(part for part in (title, source, "robot robotics") if part).strip()
+    return f"https://www.bing.com/images/search?q={quote_plus(query)}&form=HDRSC2"
 
 
 def _extract_json(text: str) -> dict[str, Any]:
@@ -322,3 +330,59 @@ def capture_best_article_visual(
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_bytes(item["preview"])
     return score
+
+
+def capture_search_visual(
+    page,
+    path: Path,
+    *,
+    title: str,
+    source: str,
+    settings: RuntimeSettings | None,
+    timeout_ms: int,
+) -> float:
+    """Search the public web for a relevant visual after article capture fails."""
+    page.goto(
+        image_search_url(title, source),
+        wait_until="domcontentloaded",
+        timeout=timeout_ms,
+    )
+    page.wait_for_timeout(2_000)
+    candidates = _collect_visual_candidates(
+        page,
+        timeout_ms=timeout_ms,
+        max_candidates=8,
+        minimum_width=260,
+        minimum_height=160,
+    )
+    if not candidates:
+        raise RuntimeError("联网图片搜索没有返回尺寸足够的候选图")
+
+    selected: tuple[dict[str, Any], float] | None = None
+    if settings is not None:
+        try:
+            selected = _vision_select(candidates, title=title, settings=settings)
+        except Exception as exc:
+            LOGGER.warning("联网候选图多模态判断失败，改用语义与尺寸规则：%s", exc)
+
+    if selected is None:
+        fallback = next(
+            (
+                item
+                for item in candidates
+                if item["positive_hits"] > 0
+                and item["negative_hits"] == 0
+                and item["heuristic_score"] >= 4.5
+            ),
+            None,
+        )
+        if fallback is None:
+            raise RuntimeError("联网图片搜索未找到与机器人主体直接相关的合格图片")
+        selected = (fallback, min(7.0, max(6.0, fallback["heuristic_score"])))
+
+    item, score = selected
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_bytes(item["preview"])
+    LOGGER.info("正文图片失败后，已通过联网搜索补充展示图，评分 %.1f。", score)
+    return score
+

@@ -12,7 +12,7 @@ from openai import OpenAI
 
 from embodied_daily.config import RuntimeSettings
 from embodied_daily.models import Digest
-from embodied_daily.visuals import capture_best_article_visual
+from embodied_daily.visuals import capture_best_article_visual, capture_search_visual
 
 LOGGER = logging.getLogger(__name__)
 
@@ -441,6 +441,27 @@ def capture_digest_screenshots(
                     LOGGER.info("视觉素材截取完成：%s", item.url)
                 except Exception as exc:
                     LOGGER.warning("网页截图失败：%s (%s)", item.url, exc)
+                    if item.source_kind != "research":
+                        try:
+                            capture_search_visual(
+                                page,
+                                jpg_path,
+                                title=item.title,
+                                source=item.company_short_name or item.source,
+                                settings=vision_settings,
+                                timeout_ms=timeout_ms,
+                            )
+                            item.screenshot = relative_capture
+                            item.screenshot_status = "searched"
+                            written.append(capture_path)
+                            captured = True
+                            LOGGER.info("新闻图片已通过联网搜索补救：%s", item.url)
+                        except Exception as search_exc:
+                            LOGGER.warning(
+                                "联网图片搜索补救失败：%s (%s)",
+                                item.url,
+                                search_exc,
+                            )
                 finally:
                     page.close()
 
