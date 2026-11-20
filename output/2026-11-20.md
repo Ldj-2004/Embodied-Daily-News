@@ -1,127 +1,127 @@
 # 具身智能日报｜2026-11-20
 
-## 1. [NVIDIA与微软扩展全栈合作，加速计算覆盖Azure、工业系统与Windows PC](https://blogs.nvidia.com/blog/microsoft-ignite-accelerated-computing-azure-windows-pcs)
+## 1. [Awaken-HI: Scaling Humanoid Intelligence with Whole-Body Human Experience](https://arxiv.org/abs/2611.26420v1)
 
-NVIDIA与微软在Microsoft Ignite宣布扩展全栈合作，Azure数据中心已运行Vera Rubin NVL72系统，面向推理、智能体应用及大规模模型训练，并推进机架级基础设施的机密计算与能效优化。Microsoft Foundry将提供更多NVIDIA开放模型及定制部署能力，EY利用Nemotron改造采购记录分类模型后，评估准确率提升55%、成本降至专有前沿模型的十五分之一；双方还拓展边缘AI选项，微软以Dynamo和RTX PRO 6000 Blackwell GPU加速自身服务。
+Awaken-HI 面向家庭与工作场所的人形机器人学习，构建核心数据资产 Awaken-Human，将约5万小时第一人称双目视频与同步的人体全身运动数据配对，为模型提供超越单项操作的人类经验。该工作针对第一人称视频活动覆盖广、却缺乏全身动作监督的缺口，尝试以规模化数据支持日常工作和全身移动操作学习，让视觉经历与可执行的身体运动建立对应，而非只覆盖孤立的操作技能。
 
-**为什么重要：** 云端训练、模型定制与边缘推理的协同，可缩短机器人智能应用从开发到工业现场部署的链路，并改善数据保护。
-
-> 来源：NVIDIA Blog｜发布时间：2026-11-20 04:00
-
-## 2. [PGX: Physically Grounded Execution for Long-Horizon Humanoid Loco-Manipulation](https://arxiv.org/abs/2611.26596v1)
-
-PGX面向长时程人形机器人移动操作，针对单体视觉—语言—动作模型虽能掌握多种单项技能，却难以同时处理时间结构、技能衔接与精度控制的问题，提出物理接地执行框架。该框架把时序安排与精度控制卸载给两个无需训练的经典组件，由可组合系统分解并执行长任务，重点改善VLA的技能组合和精确执行能力，而非继续扩大单一端到端模型。
-
-**为什么重要：** 将学习策略与经典时序、精度控制组件组合，可减轻端到端模型负担，为长任务人形机器人提供更清晰的工程分解路径。
-
-> 来源：arXiv Robotics｜VLA WM VLN Manipulation UAV｜发布时间：2026-11-20 02:52
-
-## 3. [Awaken-HI: Scaling Humanoid Intelligence with Whole-Body Human Experience](https://arxiv.org/abs/2611.26420v1)
-
-Awaken-HI面向人形机器人学习家庭与工作场所日常任务的需求，构建Awaken-Human数据体系，将约五万小时第一视角立体视频与同步全身人体运动配对。该体系试图弥补现有第一视角视频缺少同步全身运动、难以规模化监督移动操作学习的不足，把海量人类活动经验与全身人形智能联系起来，为从人类活动中获取视觉、运动等多模态监督提供数据基础；现有摘要未披露下游任务提升幅度。
-
-**为什么重要：** 大规模第一视角视频与全身运动配对，有望扩充人形机器人移动操作的多模态监督来源，缓解真实机器人数据采集压力。
+**为什么重要：** 大规模配对人体运动与第一人称视频，有望补足人形机器人全身移动操作的数据监督，推动人类经验向可执行技能转化。
 
 > 来源：arXiv Robotics｜VLA WM VLN Manipulation UAV｜发布时间：2026-11-20 01:03
 
-## 4. [波士顿动力发布第二代Stretch卸货机器人，强化可靠性与可维护性](https://roboticsandautomationnews.com/2026/11/19/boston-dynamics-launches-next-generation-stretch-robot-with-major-reliability-upgrades/107354)
+## 2. [PGX: Physically Grounded Execution for Long-Horizon Humanoid Loco-Manipulation](https://arxiv.org/abs/2611.26596v1)
 
-波士顿动力发布第二代自主移动式拖车卸货机器人Stretch Gen 2，依据超过10万运行小时和数千万箱货物的部署数据，针对常见非计划停机原因升级硬件与结构。新机构减少81%内部线缆，采用汽车级连接器、升级夹爪和连续旋转关节，并以模块化设计支持即插即用换件，完整转向驱动更换由一天缩短至约一小时；其最高卸货速度为每小时1000箱，电池可覆盖两个班次，快充约75分钟达到90%。
+PGX 研究人形机器人的长时程移动操作，指出单体 VLA 虽能执行多种独立技能，却难以同时兼顾时间结构、技能组织与精度控制的紧耦合，长任务中的执行可靠性因此受限。其 Physically Grounded Execution 将时间与精度控制交由两个经典、免训练组件处理，让学习模型无需独自承担全部执行细节，目标是在长时程任务中保持技能组织、技能衔接与物理执行的可靠性。
 
-**为什么重要：** 基于大规模真实部署改进可靠性、维护和车队软件迭代，体现物流机器人竞争正从单次演示转向持续运行与全生命周期效率。
+**为什么重要：** 把长任务中的时间与精度控制从端到端学习中拆解出来，为提升人形机器人移动操作的稳定性和失败诊断能力提供思路。
+
+> 来源：arXiv Robotics｜VLA WM VLN Manipulation UAV｜发布时间：2026-11-20 02:52
+
+## 3. [波士顿动力第二代Stretch卸货机器人以部署数据升级可靠性，换件维护大幅提速](https://roboticsandautomationnews.com/2026/11/19/boston-dynamics-launches-next-generation-stretch-robot-with-major-reliability-upgrades/107354)
+
+波士顿动力发布第二代 Stretch 自主移动拖车卸货机器人，依据超过10万运行小时和数千万个箱子的部署数据，针对非计划停机改造硬件与结构。新机减少81%、约半英里内部线缆，采用车规级连接器、升级夹爪和可连续旋转关节，模块化设计支持即插即用换件，完整转向驱动更换由一天缩至约一小时；其最高卸货速度为每小时1000箱，电池可覆盖两个班次。
+
+**为什么重要：** 以真实车队故障数据指导线缆、关节和维护设计，表明物流机器人竞争正从峰值演示转向全生命周期正常运行时间与运维成本。
 
 > 来源：Robotics & Automation News｜发布时间：2026-11-20 01:41
 
-## 5. [PhyDEX: A Benchmark for Physical Reasoning in Vision-Language-Action Models via Dynamic Extrinsic Dexterity](https://arxiv.org/abs/2611.26565v1)
+## 4. [One Prior, Two Dynamics: Repurposing Video Diffusion Transformers for Self-Supervised Latent Action Learning](https://arxiv.org/abs/2611.26617v1)
 
-PhyDEX指出现有VLA操作基准主要评估夹爪与物体的直接接触，较少考察物体如何借助环境交互完成任务，因此以动态外在灵巧性构建物理推理评估。该基准把重力、摩擦、惯性和质量分布等对象与环境因素纳入测试，旨在区分策略是否真正利用物理规律，还是仅对训练数据进行插值，为比较接触丰富操作能力、识别单一接触测试盲区及定位物理推理缺陷提供更针对性的诊断工具。
+O²LaF 面向无动作标注视频中的自监督潜在动作学习，针对视频能够呈现世界变化、却不直接给出导致变化的动作这一问题，探索从观察中恢复可用于控制的潜在动作表示。该方法复用预训练视频扩散 Transformer，让同一生成先验同时服务逆向动力学与前向动力学，避免主要从零学习底层动态，并为自监督潜在动作学习和后续机器人控制提供统一的表示路径。
 
-**为什么重要：** 把环境交互和物理规律纳入VLA评测，有助于识别被平均成功率掩盖的推理短板，推动操作策略超越训练分布插值。
-
-> 来源：arXiv Robotics｜VLA WM VLN Manipulation UAV｜发布时间：2026-11-20 02:33
-
-## 6. [Mind2Act World: A Diagnostic Benchmark for Embodied Mind, Physical Action, and Mind-Action Composition in Robotic Manipulation](https://arxiv.org/abs/2611.26444v1)
-
-Mind2Act World将机器人操作诊断拆分为具身心智、物理动作以及心智—动作组合三方面，分别考察基于历史的认知推理、精确且及时的执行，以及利用环境反馈把推理与执行结合起来的能力。针对既有基准常在同一流程中混合评估、难以定位失败来源的问题，它提供更细粒度的能力分解，适合分析复杂操作中的系统性失败，并帮助研究者判断后续改进应投向推理、控制还是闭环协调。
-
-**为什么重要：** 将认知、执行及二者闭环组合分开诊断，可减少综合成功率对失败原因的遮蔽，为机器人操作系统选择改进方向提供依据。
-
-> 来源：arXiv Robotics｜VLA WM VLN Manipulation UAV｜发布时间：2026-11-20 01:15
-
-## 7. [Saturn Dynamics开发物理世界模型Arc，以交互仿真加速机器人训练](https://roboticsandautomationnews.com/2026/11/19/saturn-dynamics-develops-physics-based-world-model-to-improve-robot-training/107351)
-
-伦敦Physical AI初创公司Saturn Dynamics开发世界模型Arc，让开发者在交互式虚拟环境中测试机器人动作及后果，并把数学对称性和物理原理融入架构，以建模物体受操作时的行为。公司称，Arc的轨迹准确率较NVIDIA Cosmos模型高73%；在Jetson Thor上生成一秒仿真数据耗时0.6秒，而Cosmos Nano和Edge分别需23秒和9秒。该公司截至2026年10月已融资430万美元，目标是缩小仿真训练与真实表现的差距。
-
-**为什么重要：** 若相关结果得到独立验证，更快且符合物理规律的交互仿真可扩大机器人策略测试场景，降低训练算力与实机试错成本。
-
-> 来源：Robotics & Automation News｜发布时间：2026-11-20 01:23
-
-## 8. [Risk-Controlled Test-Time Adaptation for Vision-Language-Action Models](https://arxiv.org/abs/2611.26438v1)
-
-该论文研究检索增强VLA的测试时适配：专家演示可以作为上下文使用，无需更新模型参数，但即使检索内容相关，模型仍可能无法有效利用并导致任务失败。作者提出风险控制的测试时适配方法，核心并非单纯扩大检索规模，而是对适配过程施加风险约束，为机器人在新任务中可靠使用演示上下文提供新思路，也把研究重点从能否检索相关信息推进到能否安全、有效地利用这些信息。
-
-**为什么重要：** 对测试时适配施加风险约束，可提升检索演示在新任务中的可用性与可靠性，减少不更新参数的快速适配带来的失败风险。
-
-> 来源：arXiv Robotics｜VLA WM VLN Manipulation UAV｜发布时间：2026-11-20 01:12
-
-## 9. [TacInno: Teaching Vision-Language-Action Models the Contact Dynamics Beyond Vision and Action](https://arxiv.org/abs/2611.26405v1)
-
-TacInno聚焦触觉VLA在接触丰富操作中的失效原因：加入触觉并不总能带来稳定增益，部分模型很少使用触觉，因为夹爪闭合时的凝胶形变等变化可由视觉预测。该工作尝试向VLA传授视觉与动作之外的接触动力学，让触觉集中提供真正具有增量的信息，为视触觉融合和接触任务学习提供更明确的改进方向，也提醒研究者不能仅凭传感器数量判断操作模型的接触感知能力。
-
-**为什么重要：** 明确触觉相对视觉和动作的增量信息，有助于改进接触动力学学习与传感器融合，避免增加硬件却未提升操作能力。
-
-> 来源：arXiv Robotics｜VLA WM VLN Manipulation UAV｜发布时间：2026-11-20 00:53
-
-## 10. [One Prior, Two Dynamics: Repurposing Video Diffusion Transformers for Self-Supervised Latent Action Learning](https://arxiv.org/abs/2611.26617v1)
-
-O²LaF探讨能否让预训练视频生成模型同时充当逆动力学与前向动力学的先验，而非让潜动作学习从头掌握世界变化。该方法遵循“一个先验、两种动力学”的原则复用视频扩散Transformer，从视觉转移中以自监督方式恢复动作监督，连接视频世界模型、潜动作学习与机器人操作数据利用，有望减少对显式动作标注的依赖，并把视频生成模型积累的变化知识转化为可学习动作的监督来源。
-
-**为什么重要：** 复用视频扩散先验生成动作监督，可拓展无动作标注视频在机器人学习中的用途，并连接世界建模与潜动作策略训练。
+**为什么重要：** 复用视频生成先验可降低从无标注视频学习动作表征的成本，并为机器人控制衔接大规模视觉经验提供统一路径。
 
 > 来源：arXiv Robotics｜VLA WM VLN Manipulation UAV｜发布时间：2026-11-20 02:58
 
-## 11. [ZeroVLN: Learning to Navigate without Supervised Fine-Tuning of the VLM Brain](https://arxiv.org/abs/2611.26414v1)
+## 5. [英伟达与微软扩展全栈合作，Azure运行Vera Rubin并强化开放模型定制](https://blogs.nvidia.com/blog/microsoft-ignite-accelerated-computing-azure-windows-pcs)
 
-ZeroVLN针对视觉语言导航中常见的“VLM大脑加可学习动作头”方案，避免在导航域数据上对基础VLM进行监督微调，从而降低权重大幅变化损害通用视觉能力的风险。其慢快导航框架在不微调VLM大脑的前提下实现有效导航，重点协调通用视觉语言知识与导航决策，为保留基础模型能力的VLN系统设计提供参照，也为导航专用适配与通用能力之间的权衡提供新的实验切口。
+NVIDIA 与微软扩展全栈合作，Vera Rubin NVL72 系统已在 Azure 数据中心运行，面向高要求推理、智能体应用及大规模模型训练与推理，双方还推进机架级机密计算和能效优化。Microsoft Foundry 将增加 NVIDIA 开放模型及定制、部署能力；EY 以 Nemotron 适配采购记录分类后，评估准确率提高55%，成本较专有前沿模型降低15倍。
 
-**为什么重要：** 不改动基础VLM即可学习导航决策，为机器人保留通用视觉语言能力、降低领域微调成本及减少能力退化提供新路径。
+**为什么重要：** 云端训练推理、开放模型定制与边缘运行能力的贯通，为具身智能模型开发、企业数据适配和机器人端侧部署提供基础设施支撑。
+
+> 来源：NVIDIA Blog｜发布时间：2026-11-20 04:00
+
+## 6. [PhyDEX: A Benchmark for Physical Reasoning in Vision-Language-Action Models via Dynamic Extrinsic Dexterity](https://arxiv.org/abs/2611.26565v1)
+
+PhyDEX 是评估 VLA 物理推理能力的操作基准，以动态外在灵巧性考察物体如何借助环境完成交互，而非仅关注夹爪与物体的直接接触。测试把重力、摩擦、惯性和质量分布等因素纳入操作过程，用于区分策略是在插值训练经验，还是确实掌握会影响结果的物理关系，从而为比较不同 VLA 的物理理解提供更细致的诊断维度，并补充既有操作评价的观察角度。
+
+**为什么重要：** 该基准把评价从接触成功扩展到环境物理关系，有助于识别VLA的泛化假象，推动操作策略形成可迁移的物理理解。
+
+> 来源：arXiv Robotics｜VLA WM VLN Manipulation UAV｜发布时间：2026-11-20 02:33
+
+## 7. [Risk-Controlled Test-Time Adaptation for Vision-Language-Action Models](https://arxiv.org/abs/2611.26438v1)
+
+该工作研究检索增强 VLA 的测试时适配：系统把专家示范作为额外上下文，无需更新模型参数即可利用既有经验，但检索到相关示范并不代表策略一定能有效使用，执行仍可能失败。论文提出风险控制的测试时适配方法，将“检索内容相关”与“适配执行可靠”明确区分，目标是在保留免参数更新优势的同时约束适配失败风险，避免把检索命中直接等同于控制性能提升。
+
+**为什么重要：** 将检索相关性转化为受约束的执行可靠性，可减少免训练适配的盲目性，为VLA在现场利用示范经验提供更安全的评估框架。
+
+> 来源：arXiv Robotics｜VLA WM VLN Manipulation UAV｜发布时间：2026-11-20 01:12
+
+## 8. [TacInno: Teaching Vision-Language-Action Models the Contact Dynamics Beyond Vision and Action](https://arxiv.org/abs/2611.26405v1)
+
+TacInno 聚焦触觉增强 VLA 在富接触操作中的收益不稳定问题。论文指出，部分视触觉策略很少利用触觉，因为夹爪闭合时的凝胶形变等信号可由视觉观察预测，简单增加触觉输入并不必然带来新信息；为此，该方法尝试让模型学习视觉与动作之外的接触动态，使触觉更直接服务于细微接触事件感知和操作决策，而非成为重复的视觉补充。
+
+**为什么重要：** 明确触觉何时提供视觉之外的增量信息，可避免多模态堆叠造成的虚假收益，推动富接触操作更有效地利用接触动态。
+
+> 来源：arXiv Robotics｜VLA WM VLN Manipulation UAV｜发布时间：2026-11-20 00:53
+
+## 9. [ZeroVLN: Learning to Navigate without Supervised Fine-Tuning of the VLM Brain](https://arxiv.org/abs/2611.26414v1)
+
+ZeroVLN 针对视觉语言导航中常见的“VLM 大脑加可学习动作头”范式，质疑在导航数据上监督微调 VLM 的必要性，因为这种做法可能显著改变基础权重并损害通用视觉能力。论文提出慢—快导航框架，目标是在不对 VLM 大脑进行监督微调的情况下实现有效导航，同时保留基础模型的通用能力，为导航专用适应与通用能力保留提供另一种分工，避免专用训练全面改写基础模型。
+
+**为什么重要：** 冻结通用VLM大脑并重新划分导航适应职责，有助于缓解专用训练造成的能力遗忘，降低通用模型部署到机器人的代价。
 
 > 来源：arXiv Robotics｜VLA WM VLN Manipulation UAV｜发布时间：2026-11-20 01:01
 
-## 12. [AgentRoboCritic: Understanding the Capability of Frontier Agents on Direct Robot Control](https://arxiv.org/abs/2611.26613v1)
+## 10. [Plan4D: Generative Plannable 4D Worlds](https://arxiv.org/abs/2611.26516v1)
 
-AgentRoboCritic系统分析前沿多模态语言智能体直接以低层数值动作控制机器人的能力，不依赖高层技能原语。相比只报告回合成功率的传统基准，它开展动作级分析，试图解释智能体如何成功、在何处失败，为评估直接机器人控制提供更细粒度的错误定位与比较框架；该工作有助于区分高层推理能力和连续低层执行能力，避免平均成功率掩盖关键控制缺陷。
+Plan4D 面向可规划的生成式4D世界模型，回应许多未来预测模型重视频观感、却物理依据较弱且长期几何一致性有限的问题。它在生成未来 RGB 视频的同时预测稠密4D几何，把显式4D建模引入世界预测，使画面变化与空间结构能够在同一时间轴上表达。该方法试图让生成结果不仅可观看，还能为后续规划提供更一致的空间与时间结构，而非单纯提高生成画面的美观度。
 
-**为什么重要：** 动作级诊断能揭示语言智能体直接控制机器人的具体失效环节，推动评测从任务成功率转向连续执行能力与错误归因。
-
-> 来源：arXiv Robotics｜VLA WM VLN Manipulation UAV｜发布时间：2026-11-20 02:57
-
-## 13. [Plan4D: Generative Plannable 4D Worlds](https://arxiv.org/abs/2611.26516v1)
-
-Plan4D面向仅追求生成视频美观、却缺乏物理接地与长期几何一致性的世界模型问题，引入显式4D建模。该方法同时预测未来RGB视频与稠密4D几何，目标是构建可规划的生成式4D世界，使预测不仅可供观看，也能服务机器人规划；相较于仅评估画面质量的视频世界模型，该工作把时空结构和可规划性放到核心位置，现有摘要尚未给出具体规划任务和性能数字。
-
-**为什么重要：** 联合预测视觉与稠密时空几何，有助于把世界模型从视频生成工具转化为机器人规划接口，并强化长期空间一致性。
+**为什么重要：** 把视频预测与稠密几何共同纳入世界模型，可提升长期场景表达的一致性，为基于生成预测的机器人规划提供更可用依据。
 
 > 来源：arXiv Robotics｜VLA WM VLN Manipulation UAV｜发布时间：2026-11-20 01:59
 
-## 14. [Serve Robotics开放Physical AI Services，向机器人企业输出数据与连接能力](https://roboticsandautomationnews.com/2026/11/19/serve-robotics-opens-its-physical-ai-technology-to-other-robot-companies/107358)
+## 11. [Saturn Dynamics开发交互式物理世界模型Arc，提升仿真速度与轨迹精度](https://roboticsandautomationnews.com/2026/11/19/saturn-dynamics-develops-physics-based-world-model-to-improve-robot-training/107351)
 
-Serve Robotics推出Physical AI Services，将自有车队技术开放给其他Physical AI开发者，首批客户包括重型工程设备自主系统企业Bedrock Robotics。三项产品分别负责机器人与机外模型的高性能连接、筛选车队数据中的稀有高价值训练片段，以及提供源自人行道部署的真实世界基础模型数据目录；Serve已在40多座城市和27家医院部署逾2000台机器人，相关服务现覆盖十余个行业的数千台车辆，并支持Wi-Fi、LTE、5G和卫星连接。
+伦敦初创公司 Saturn Dynamics 正开发物理世界模型 Arc，将数学对称性与物理原理纳入架构，让开发者先在交互式仿真中测试开启抽屉、处理滑移物体等动作及后果。公司称，Arc 轨迹准确率较 NVIDIA Cosmos 高73%；在 Jetson Thor 上生成1秒仿真数据仅需0.6秒，Cosmos Nano 与 Edge 分别需23秒和9秒，旨在减少训练计算并缩小仿真到现实的差距。
 
-**为什么重要：** 把规模化运营形成的连接、数据筛选和真实环境数据服务开放，可降低机器人车队重建基础设施的成本并加快学习闭环。
+**为什么重要：** 更快且更具物理依据的交互仿真可扩大动作后果测试规模，为机器人训练降低算力门槛，并直面仿真到现实的可靠性缺口。
+
+> 来源：Robotics & Automation News｜发布时间：2026-11-20 01:23
+
+## 12. [Mind2Act World: A Diagnostic Benchmark for Embodied Mind, Physical Action, and Mind-Action Composition in Robotic Manipulation](https://arxiv.org/abs/2611.26444v1)
+
+Mind2Act World 将机器人操作能力拆为三类互补要素：基于历史的认知推理、精确且及时的物理执行，以及通过环境反馈把推理与执行组合起来的能力。该诊断基准针对既有评测常把推理和执行混在同一评价中的问题，分别审视具身心智、物理动作与二者组合，便于定位复杂任务失败究竟来自认知、动作还是协同，而不是仅以整体结果概括系统能力。
+
+**为什么重要：** 拆分认知、执行与反馈协同可让失败归因更精确，避免总分掩盖短板，为操作模型的针对性改进和公平比较提供依据。
+
+> 来源：arXiv Robotics｜VLA WM VLN Manipulation UAV｜发布时间：2026-11-20 01:15
+
+## 13. [AgentRoboCritic: Understanding the Capability of Frontier Agents on Direct Robot Control](https://arxiv.org/abs/2611.26613v1)
+
+AgentRoboCritic 系统分析前沿多模态语言智能体直接控制机器人的能力，这类智能体可不依赖高层原语，直接输出低层数值动作。论文认为，只报告回合级成功率无法说明智能体如何成功、在何处失败，因此引入动作级分析，对控制过程进行更细粒度诊断，为比较直接机器人控制策略提供超越单一成功率的观察视角，并帮助区分任务结果与具体控制行为。
+
+**为什么重要：** 动作级诊断能够揭示成功率背后的控制质量与失败位置，为评估通用智能体能否承担低层机器人控制提供更可靠依据。
+
+> 来源：arXiv Robotics｜VLA WM VLN Manipulation UAV｜发布时间：2026-11-20 02:57
+
+## 14. [Serve Robotics开放三项物理AI服务，向外部机器人车队输出连接与数据能力](https://roboticsandautomationnews.com/2026/11/19/serve-robotics-opens-its-physical-ai-technology-to-other-robot-companies/107358)
+
+Serve Robotics 推出 Physical AI Services，开放三项能力：Serve Link 连接机器人与端外智能，Data Curator 筛选车队高价值训练事件，真实世界数据目录提供人行道地形与基础设施数据。Serve 已在40多座城市和27家医院部署逾2000台机器人，服务覆盖十余个行业的数千台车辆；首批客户 Bedrock Robotics 通过 Wi-Fi、LTE、5G 和卫星网络连接工程机械。
+
+**为什么重要：** 把车队连接、数据筛选与真实环境数据产品化，有助于中小机器人团队复用规模化运营基础设施，加快车队学习闭环。
 
 > 来源：Robotics & Automation News｜发布时间：2026-11-20 01:50
 
-## 15. [波士顿动力人形机器人获得首个芯片厂客户](https://news.google.com/rss/articles/CBMia0FVX3lxTE13Z0tmME9URXdDM0lUanFNM2JEZFZOWC0zWDhWUmJPNWY5TS1pM28yVUJxdDVucWdDLXNrOUxWc3JkNF9xcE5ZOWdSbHFKdUx1NkhLaXFjbTNSTUxrQS05WUIxbVRmUGhfRlpj?oc=5)
+## 15. [Realbotix推出Series 1教育陪伴人形机器人，2027年下半年开始交付](https://roboticsandautomationnews.com/2026/11/19/realbotix-launches-echo-humanoid-robots-for-education-wellness-and-companionship/107339)
 
-现有材料显示，波士顿动力人形机器人已获得首个芯片厂客户，意味着其人形机器人应用触角进一步进入半导体制造相关场景。该进展以客户拓展为核心，但输入未提供客户名称、机器人具体型号、部署数量、承担的工序、上线时间或商业合同规模，因此尚不能判断其在芯片厂中的实际任务边界、运行效果及后续复制速度，仍需等待企业和客户披露更多部署细节。
+Realbotix 将 Echo 平台更名并发布 Series 1 教育、健康与陪伴人形机器人，首批计划2027年下半年交付。桌面版与全身版分别售价11950和59950美元，具备17和39个自由度，支持100多种语言及多类AI平台，首批各限225台和25台；可选 Vinci 视觉系统在本地处理人脸识别、视线追踪等信息，预订押金199美元，软件订阅每月19.99美元起。
 
-**为什么重要：** 芯片厂客户为人形机器人提供了新的工业应用验证场景，但其实际价值仍取决于具体工序、稳定运行表现和部署规模。
+**为什么重要：** 低价桌面机型与本地视觉、会话能力结合，为教育陪伴场景提供具身交互载体，但实际交互价值与可靠性仍待交付后验证。
 
-> 来源：中金在线｜发布时间：2026-11-20 15:16
+> 来源：Robotics & Automation News｜发布时间：2026-11-19 22:51
 
 ---
 
-生成时间：2026-11-20T15:48:00+08:00
+生成时间：2026-11-20T16:43:30+08:00
 
 本日报由自动化系统辅助整理，重要信息请以原始来源为准。
