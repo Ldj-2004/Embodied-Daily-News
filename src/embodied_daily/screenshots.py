@@ -67,6 +67,18 @@ def arxiv_html_url(url: str) -> str | None:
     return f"https://arxiv.org/html/{paper_id}"
 
 
+def arxiv_figure_sources(url: str) -> list[str]:
+    """Return independent HTML renderers that expose paper figures."""
+    primary = arxiv_html_url(url)
+    if not primary:
+        return []
+    paper_id = primary.rsplit("/", 1)[-1]
+    return [
+        primary,
+        f"https://ar5iv.labs.arxiv.org/html/{paper_id}",
+    ]
+
+
 def paper_figure_score(
     caption: str,
     *,
@@ -150,79 +162,91 @@ def capture_arxiv_figure(
     vision_settings: RuntimeSettings | None = None,
 ) -> None:
     """Capture the paper's overview figure, using captions plus multimodal review."""
-    html_url = arxiv_html_url(url)
-    if not html_url:
+    figure_sources = arxiv_figure_sources(url)
+    if not figure_sources:
         raise RuntimeError("论文链接不是可识别的 arXiv 地址")
-    page.goto(html_url, wait_until="domcontentloaded", timeout=timeout_ms)
-    page.wait_for_timeout(2_000)
-    figures = page.locator("figure")
-    candidates: list[dict] = []
-    for index in range(min(figures.count(), 36)):
-        figure = figures.nth(index)
-        metrics = figure.evaluate(
-            """element => ({
-              width: element.scrollWidth,
-              height: element.scrollHeight,
-              visuals: element.querySelectorAll('img, svg, canvas').length,
-              caption: element.querySelector('figcaption')?.innerText ||
-                element.getAttribute('aria-label') || ''
-            })"""
-        )
-        width = float(metrics.get("width", 0))
-        height = float(metrics.get("height", 0))
-        if metrics.get("visuals", 0) < 1 or width < 320 or height < 160:
-            continue
-        if height > 1_800:
-            continue
-        score = paper_figure_score(
-            str(metrics.get("caption", "")),
-            index=index,
-            width=width,
-            height=height,
-        )
-        candidates.append(
-            {
-                "locator": figure,
-                "index": index,
-                "caption": str(metrics.get("caption", "")),
-                "score": score,
-            }
-        )
-    if not candidates:
-        raise RuntimeError("arXiv HTML 中没有找到尺寸合适的论文图表")
-    candidates.sort(key=lambda item: item["score"], reverse=True)
-    prepared: list[dict] = []
-    for candidate in candidates[:8]:
+    errors: list[str] = []
+    for source_index, html_url in enumerate(figure_sources):
         try:
-            candidate["locator"].scroll_into_view_if_needed(timeout=5_000)
-            candidate["preview"] = candidate["locator"].screenshot(
-                type="png",
-                timeout=min(timeout_ms, 12_000),
+            if source_index:
+                LOGGER.info("arXiv HTML 没有可用图表，改用 ar5iv 图源：%s", url)
+            page.goto(html_url, wait_until="domcontentloaded", timeout=timeout_ms)
+            page.wait_for_timeout(2_000)
+            figures = page.locator("figure")
+            candidates: list[dict] = []
+            for index in range(min(figures.count(), 36)):
+                figure = figures.nth(index)
+                metrics = figure.evaluate(
+                    """element => ({
+                      width: element.scrollWidth,
+                      height: element.scrollHeight,
+                      visuals: element.querySelectorAll('img, svg, canvas').length,
+                      caption: element.querySelector('figcaption')?.innerText ||
+                        element.getAttribute('aria-label') || ''
+                    })"""
+                )
+                width = float(metrics.get("width", 0))
+                height = float(metrics.get("height", 0))
+                if metrics.get("visuals", 0) < 1 or width < 320 or height < 160:
+                    continue
+                if height > 1_800:
+                    continue
+                score = paper_figure_score(
+                    str(metrics.get("caption", "")),
+                    index=index,
+                    width=width,
+                    height=height,
+                )
+                candidates.append(
+                    {
+                        "locator": figure,
+                        "index": index,
+                        "caption": str(metrics.get("caption", "")),
+                        "score": score,
+                    }
+                )
+            if not candidates:
+                raise RuntimeError("HTML 中没有找到尺寸合适的论文图表")
+            candidates.sort(key=lambda item: item["score"], reverse=True)
+            prepared: list[dict] = []
+            for candidate in candidates[:8]:
+                try:
+                    candidate["locator"].scroll_into_view_if_needed(timeout=5_000)
+                    candidate["preview"] = candidate["locator"].screenshot(
+                        type="png",
+                        timeout=min(timeout_ms, 12_000),
+                    )
+                    if len(candidate["preview"]) >= 8_000:
+                        prepared.append(candidate)
+                except Exception:
+                    continue
+            if not prepared:
+                raise RuntimeError("HTML 论文图无法截取")
+            selected = None
+            if vision_settings is not None:
+                try:
+                    selected = _vision_select_paper_figure(
+                        prepared[:6],
+                        title=title,
+                        settings=vision_settings,
+                    )
+                except Exception as exc:
+                    LOGGER.warning(
+                        "论文 overview 图多模态判断失败，使用图注排序：%s",
+                        exc,
+                    )
+            selected = selected or prepared[0]
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(selected["preview"])
+            LOGGER.info(
+                "论文代表图已选：Figure %s，图注：%s",
+                selected["index"] + 1,
+                selected["caption"][:180],
             )
-            if len(candidate["preview"]) >= 8_000:
-                prepared.append(candidate)
-        except Exception:
-            continue
-    if not prepared:
-        raise RuntimeError("arXiv HTML 论文图无法截取")
-    selected = None
-    if vision_settings is not None:
-        try:
-            selected = _vision_select_paper_figure(
-                prepared[:6],
-                title=title,
-                settings=vision_settings,
-            )
+            return
         except Exception as exc:
-            LOGGER.warning("论文 overview 图多模态判断失败，使用图注排序：%s", exc)
-    selected = selected or prepared[0]
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_bytes(selected["preview"])
-    LOGGER.info(
-        "论文代表图已选：Figure %s，图注：%s",
-        selected["index"] + 1,
-        selected["caption"][:180],
-    )
+            errors.append(f"{html_url}: {exc}")
+    raise RuntimeError("arXiv 与 ar5iv 均未提供可截取的论文图表：" + " | ".join(errors))
 
 
 def _is_navigation_race(exc: Exception) -> bool:
