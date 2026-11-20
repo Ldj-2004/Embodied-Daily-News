@@ -1,4 +1,5 @@
 from embodied_daily.screenshots import (
+    arxiv_figure_sources,
     arxiv_html_url,
     paper_figure_score,
     write_fallback_svg,
@@ -29,6 +30,13 @@ def test_arxiv_html_url_converts_abstract_and_pdf_links() -> None:
         == "https://arxiv.org/html/2611.01234"
     )
     assert arxiv_html_url("https://example.com/paper") is None
+
+
+def test_arxiv_figure_sources_include_ar5iv_fallback() -> None:
+    assert arxiv_figure_sources("https://arxiv.org/abs/2611.01234v2") == [
+        "https://arxiv.org/html/2611.01234v2",
+        "https://ar5iv.labs.arxiv.org/html/2611.01234v2",
+    ]
 
 
 def test_overview_figure_outranks_large_ablation_plot() -> None:
