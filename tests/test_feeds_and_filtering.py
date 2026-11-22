@@ -9,6 +9,7 @@ from embodied_daily.feeds import (
 )
 from embodied_daily.filtering import (
     apply_daily_date_policy,
+    extend_with_research_fallbacks,
     deduplicate,
     keyword_score,
     prefilter,
@@ -141,6 +142,35 @@ def test_daily_policy_uses_recent_foreign_source_to_fill_quota(candidates) -> No
     assert foreign in result
 
 
+def test_research_replacement_pool_uses_only_previous_week_papers(candidates) -> None:
+    timezone = ZoneInfo("Asia/Shanghai")
+    now = datetime(2026, 11, 21, 9, 30, tzinfo=timezone)
+    primary = candidates[0]
+
+    recent_paper = candidates[1]
+    recent_paper.source_kind = "research"
+    recent_paper.published_at = now.astimezone(UTC) - timedelta(days=6)
+
+    old_paper = candidates[2]
+    old_paper.source_kind = "research"
+    old_paper.published_at = now.astimezone(UTC) - timedelta(days=8)
+
+    old_news = candidates[3]
+    old_news.published_at = now.astimezone(UTC) - timedelta(days=3)
+
+    result = extend_with_research_fallbacks(
+        [primary],
+        [primary, recent_paper, old_paper, old_news],
+        now,
+        fallback_days=7,
+    )
+
+    assert primary in result
+    assert recent_paper in result
+    assert old_paper not in result
+    assert old_news not in result
+
+
 def test_prefilter_preserves_old_research_when_recent_news_pool_is_full(
     candidates,
 ) -> None:
@@ -150,10 +180,15 @@ def test_prefilter_preserves_old_research_when_recent_news_pool_is_full(
     paper = candidates[5]
     paper.source_kind = "research"
     paper.published_at = now - timedelta(days=3)
+    newer_paper = candidates[6]
+    newer_paper.source_kind = "research"
+    newer_paper.published_at = now - timedelta(days=1)
     config = {
         "digest": {
             "recent_hours": 36,
             "item_count": 5,
+            "research_count": 1,
+            "research_fallback_days": 7,
             "minimum_keyword_score": 0,
             "max_candidates_for_ai": 5,
             "max_candidates_per_source": 20,

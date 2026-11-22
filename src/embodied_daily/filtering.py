@@ -213,6 +213,36 @@ def apply_daily_date_policy(
     return eligible
 
 
+def extend_with_research_fallbacks(
+    primary_candidates: list[Candidate],
+    available_candidates: list[Candidate],
+    now: datetime,
+    fallback_days: int = 7,
+) -> list[Candidate]:
+    """Add recent papers for screenshot replacement without widening AI input."""
+    if now.tzinfo is None:
+        raise ValueError("now 必须包含时区，才能判断论文补救时间窗。")
+
+    earliest_date = now.date() - timedelta(days=max(1, fallback_days) - 1)
+    result = list(primary_candidates)
+    result_ids = {candidate.id for candidate in result}
+    recent_papers = sorted(
+        (
+            candidate
+            for candidate in available_candidates
+            if candidate.source_kind == "research"
+            and candidate.id not in result_ids
+            and earliest_date
+            <= _date_in_timezone(candidate, now.tzinfo)
+            <= now.date()
+        ),
+        key=lambda item: item.published_at,
+        reverse=True,
+    )
+    result.extend(recent_papers)
+    return result
+
+
 def prefilter(
     candidates: list[Candidate],
     app_config: dict,
@@ -253,13 +283,21 @@ def prefilter(
         candidate for candidate in scored if candidate.source_kind == "research"
     ]
     required_research = int(digest_config.get("research_count", 10))
+    research_fallback_days = int(digest_config.get("research_fallback_days", 7))
+    research_cutoff = now - timedelta(days=max(1, research_fallback_days))
     newest_research = sorted(
         research_candidates,
         key=lambda item: item.published_at,
         reverse=True,
-    )[:required_research]
+    )
+    preserved_research = newest_research[:required_research]
+    preserved_research.extend(
+        candidate
+        for candidate in newest_research[required_research:]
+        if candidate.published_at >= research_cutoff
+    )
     balanced_ids = {candidate.id for candidate in balanced}
-    for research_candidate in newest_research:
+    for research_candidate in preserved_research:
         if research_candidate.id not in balanced_ids:
             # Preserve the paper quota even when a full pool of recent ordinary news
             # would otherwise push them out on weekends or holidays.

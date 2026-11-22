@@ -10,7 +10,11 @@ from embodied_daily.config import RuntimeSettings, load_yaml
 from embodied_daily.demo import demo_candidates
 from embodied_daily.feeds import collect_candidates
 from embodied_daily.feishu import send_to_feishu
-from embodied_daily.filtering import apply_daily_date_policy, prefilter
+from embodied_daily.filtering import (
+    apply_daily_date_policy,
+    extend_with_research_fallbacks,
+    prefilter,
+)
 from embodied_daily.llm import DigestSelector, fallback_item, heuristic_select
 from embodied_daily.models import Candidate, Digest
 from embodied_daily.render import write_digest, write_source_health
@@ -253,9 +257,13 @@ def run_pipeline(
             len(result.candidates),
         )
 
-        candidates = prefilter(result.candidates, app_config, datetime.now(UTC))
+        prefiltered_candidates = prefilter(
+            result.candidates,
+            app_config,
+            datetime.now(UTC),
+        )
         candidates = apply_daily_date_policy(
-            candidates,
+            prefiltered_candidates,
             now_local,
             research_required=research_required,
             foreign_source_terms=foreign_terms,
@@ -263,6 +271,12 @@ def run_pipeline(
             foreign_news_fallback_days=int(
                 digest_config.get("foreign_news_fallback_days", 7)
             ),
+        )
+        replacement_candidates = extend_with_research_fallbacks(
+            candidates,
+            prefiltered_candidates,
+            now_local,
+            fallback_days=int(digest_config.get("research_fallback_days", 7)),
         )
         research_candidates = [
             candidate for candidate in candidates if candidate.source_kind == "research"
@@ -337,7 +351,7 @@ def run_pipeline(
         else:
             digest = replace_items_with_failed_screenshots(
                 digest,
-                candidates,
+                replacement_candidates,
                 selector,
                 output_dir,
                 vision_settings=runtime,
