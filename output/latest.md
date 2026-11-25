@@ -1,127 +1,127 @@
-# 具身智能日报｜2026-11-24
+# 具身智能日报｜2026-11-25
 
-## 1. [World Models as Native Latent Action Models](https://arxiv.org/abs/2611.30898v1)
+## 1. [Embodied AI Fails the Mirror Test: How a Simple Mirror Breaks Robot Policies](https://arxiv.org/abs/2611.33010v1)
 
-该研究将预训练世界模型直接用作原生潜在动作模型，试图从第一人称人类视频和异构机器人录像中恢复可迁移的动作结构，即使素材没有动作标签、也不共享统一动作空间。相比从头训练逆动态与前向动态模型、并在像素重建和潜变量容量及精度间取舍的传统路线，它强调复用视频模型已学到的动态先验。候选摘要未给出架构细节、数据规模或实验指标，核心价值在于为大规模无动作标注视频服务机器人学习提供路径。
+该研究借鉴动物认知中的镜像自我识别测试，考察一个简单的镜子为何会暴露当前机器人操作策略的局限，并检验策略在含镜面场景下能否可靠操纵真实物体。工作将视觉观察、场景理解与物理操作联系起来，把镜面造成的干扰转化为评估策略稳健性的具体情境，而非仅考察常规环境中的任务完成情况。研究聚焦镜面条件下感知与动作之间可能出现的错位，为分析视觉—语言—动作及操作策略的失效机制提供新的实验视角。
 
-**为什么重要：** 若该思路成立，可降低动作标注与跨机器人数据对齐成本，让世界模型和无标签人类视频更直接地服务操作策略学习。
+**为什么重要：** 镜面把视觉相似性与真实可操作性之间的矛盾集中暴露出来，有助于检验机器人策略是否理解场景，而非只记住外观与动作对应关系。
 
-> 来源：arXiv Robotics｜VLA WM VLN Manipulation UAV｜发布时间：2026-11-24 00:01
+> 来源：arXiv Robotics｜VLA WM VLN Manipulation UAV｜发布时间：2026-11-25 01:32
 
-## 2. [WeaveVLA: 3D Relational Grounding for Vision-Language-Action Models](https://arxiv.org/abs/2611.31126v1)
+## 2. [Physicl Scenes: An Artist-created 3D Dataset for Learning Perception and Action](https://arxiv.org/abs/2611.33137v1)
 
-WeaveVLA面向指令条件下的机器人控制，将任务相关三维关系及其在操作过程中的变化显式纳入动作生成，弥补VLA主要依赖预训练视觉语言表征、对空间结构多为隐式理解的不足。该工作不以单纯扩大骨干网络为重点，而是让三维关系成为动作生成可直接利用的结构信息，目标是改善复杂操作中的关系理解与动作决策。现有摘要未披露具体表示方式、训练配置和实验结果，因此不能量化其相对提升。
+Physicl Scenes是一个由艺术家制作并经人工筛选的高质量三维场景数据集，共包含6499个场景，覆盖家庭房间、公共室内空间与户外环境。数据集将细致几何、基于物理的材质与场景整理结合起来，面向感知和动作学习提供统一的三维内容基础。相较于只关注单类室内空间的数据资源，它同时纳入多种生活与公共环境，可用于研究机器人在不同布局、材质和空间条件下理解场景并开展行动的问题。
 
-**为什么重要：** 显式三维关系有望提升VLA对空间变化和任务结构的建模能力，也为诊断复杂操作失败提供比隐式表征更清晰的结构入口。
+**为什么重要：** 大规模且材质与几何精细的多类型场景，有助于缩小感知训练与真实操作之间的差距，并为动作学习提供更丰富的环境变化。
 
-> 来源：arXiv Robotics｜VLA WM VLN Manipulation UAV｜发布时间：2026-11-24 01:59
+> 来源：arXiv Robotics｜VLA WM VLN Manipulation UAV｜发布时间：2026-11-25 02:55
 
-## 3. [DexLatentWorld: 3D Cross-Embodiment Latent Action World Models for Zero-Shot Robotic Manipulation](https://arxiv.org/abs/2611.30907v1)
+## 3. [PyRUA-Dex: Learning Programmatic Policies for Dexterous Bimanual Manipulation with Coding Agents](https://arxiv.org/abs/2611.33144v1)
 
-DexLatentWorld提出三维跨本体潜在动作世界模型，面向零样本机器人操作，试图同时降低动作监督成本和对训练时机器人形态的依赖。它将动态预测、三维表示与跨本体迁移纳入统一框架，以潜在动作缓解真实交互数据昂贵、难以规模化的问题，并探索世界模型向未见机器人形态迁移。候选材料未说明模型组成、训练数据、零样本设定或操作成功率，能够确认的是研究目标与整体技术路线。
+PyRUA-Dex面向灵巧双臂操作，探索利用编程智能体学习程序化策略，以缓解高质量示范数据稀缺的问题。研究指出，从人类视频重定向动作往往不够精确，遥操作无法向操作者提供力反馈，而外骨骼采集又难以扩展，这些限制使复杂双手技能的数据获取更加困难。该工作因此把策略表示为可生成的程序，并借助编码智能体开展学习，为不完全依赖传统示范采集的灵巧操作训练提供一条新路径。
 
-**为什么重要：** 统一三维动态与潜在动作表示，可能减少为新机器人重复采集动作数据的需求，推动世界模型跨硬件复用和零样本操作研究。
+**为什么重要：** 若程序化策略能降低对精密遥操作和外骨骼示范的依赖，双臂灵巧操作的数据成本与技能扩展方式都可能得到实质性改善。
 
-> 来源：arXiv Robotics｜VLA WM VLN Manipulation UAV｜发布时间：2026-11-24 00:05
+> 来源：arXiv Robotics｜VLA WM VLN Manipulation UAV｜发布时间：2026-11-25 02:56
 
-## 4. [Real2Worlds2Real: Scaling Self-Improving Agentic Real2Sim2Real for Robot Manipulation](https://arxiv.org/abs/2611.31098v1)
+## 4. [Exploratory Midtraining for Robot Policies](https://arxiv.org/abs/2611.33130v1)
 
-Real2Worlds2Real提出可持续自我改进的代理式Real2Sim2Real流程，用基于真实观察的仿真支持机器人操作策略学习，重点扩展多任务与复杂物理交互覆盖。针对真实交互采集成本高、既有Real2Sim2Real难以覆盖多样任务和物理交互的问题，该工作不只做单次仿真重建，而是持续完善学习闭环，使流程具备扩展和自我改进能力。现有摘要未给出代理模块、仿真生成方式、任务规模或真实机器人指标。
+该研究关注机器人策略训练中的行为覆盖问题：现有人工采集数据通常强调熟练、正确的任务表现，却较少覆盖支撑后续自主改进所需的底层行为。论文提出以探索式中训补足这一缺口，在常规策略学习流程中增加面向行为覆盖的训练阶段，并考察它对机器人策略能力的影响。其核心不是继续堆叠成功示范，而是研究探索行为如何扩展策略可接触的经验范围，为后续自主学习和改进建立更充分的基础。
 
-**为什么重要：** 自我改进的仿真学习闭环若可扩展，将降低多任务真实采集压力，并为复杂物理交互下的策略训练与迭代提供基础设施。
+**为什么重要：** 把数据关注点从成功示范扩展到探索性底层行为，可能提升策略自主纠错与持续学习的基础，减少对单一人工采集模式的依赖。
 
-> 来源：arXiv Robotics｜VLA WM VLN Manipulation UAV｜发布时间：2026-11-24 01:39
+> 来源：arXiv Robotics｜VLA WM VLN Manipulation UAV｜发布时间：2026-11-25 02:52
 
-## 5. [Wrist-Camera Video Diffusion as Generalizable Robot Policies](https://arxiv.org/abs/2611.31079v1)
+## 5. [HARI4D: Hand-Articulation Aware 4D Reconstruction of Human-Object Interaction](https://arxiv.org/abs/2611.32932v1)
 
-Wrist Video Policy将腕部相机视频扩散用于通用机器人操作，采用闭环框架先学习预测操作过程，再通过几何估计恢复可执行运动。其核心表示是腕部相机轨迹，用这一接口连接视觉未来预测与机器人动作解码，使视频扩散不止生成未来画面，还能服务实际运动恢复，面向新任务、陌生场景和跨本体迁移。候选摘要未提供轨迹参数化、策略训练细节、实验平台或泛化指标，因此尚不能判断其提升幅度。
+HARI4D研究从单目RGB视频重建人—物交互的四维动态过程，并将手部关节结构显式纳入重建问题。仅从普通相机恢复随时间变化的人与物体本就困难，当多关节的手部参与交互时，关节运动与动态关系会使恢复更加复杂。该工作以手部关节感知为核心组织四维重建，面向游戏、虚拟现实环境和机器人学习等应用，目标是从可获得的RGB观测中更完整地表达人、手与物体之间的动态交互。
 
-**为什么重要：** 腕部轨迹把生成式视频预测接到可执行运动上，为利用视频扩散的泛化能力、同时保留机器人控制所需几何约束提供新接口。
+**为什么重要：** 手部关节与人—物动态关系的联合重建，可为机器人从人类操作视频中学习动作时序和物体交互提供更结构化的参考。
 
-> 来源：arXiv Robotics｜VLA WM VLN Manipulation UAV｜发布时间：2026-11-24 01:29
+> 来源：arXiv Robotics｜VLA WM VLN Manipulation UAV｜发布时间：2026-11-25 00:39
 
-## 6. [Hugging Face发布RoboTrack真实机器人操作点跟踪基准与训练数据](https://huggingface.co/blog/allenai/robotrack)
+## 6. [摩根大通上调宇树科技目标价至1060元，优必选升至增持评级](https://news.google.com/rss/articles/CBMitAFBVV95cUxPam05YVNJekQxT09lVTJJY2VRMERxV3BPcGNFbUNCUjlGMEwyY2s3RmtjM1RDVHVOUWt4eTNhb3pPZDF6aHFRcnI1Y0Q5Wi1hTjNIRDZoWVVxaC1jZXgxanpGUE53Yk9JbkpHTFJUZm15SThBYjlEV3ZsT3BrSi1mdWhWRlpnVW11YWtEQUdpM0VPaW9NYWlSenBtaFoxX0g5Y0NWNWZlbzQ3N1NicloyWldkT0I?oc=5)
 
-Hugging Face发布RoboTrack真实机器人操作点跟踪套件：RoboTrack-Bench汇集来自DROID、Ego-Exo4D、MolmoAct 2和EgoVerse的307段人工标注视频，覆盖不同机器人与人手、遮挡杂乱场景及第一、第三人称视角；RoboTrack-15M则通过MolmoSpaces仿真生成稠密点轨迹。评测显示领先跟踪器在该基准得分明显低于既有机器人基准，加入合成数据可改善真实操作视频表现；同时开放RoboTracker与RoboTracker-Warp，后者在五项基准中的四项达到最佳
+摩根大通发布人形机器人研究报告，将宇树科技的目标价上调至人民币1060元，同时把优必选的评级提升至“增持”。前者调整的是估值参考，后者调整的是投资评级，两项信息共同构成这份研报目前可确认的核心内容。现有摘要未披露目标价依据、盈利预测、订单或量产数据，因此该消息应理解为金融机构观点更新，而不能直接视为两家公司产品交付、技术性能或商业化进度已经变化。
 
-**为什么重要：** 该套件用更贴近真实遮挡和视角变化的测试暴露感知短板，并以可复用数据、模型和湿实验验证连接操作学习。
+**为什么重要：** 该研报为观察资本市场如何给人形机器人企业定价提供线索，但目标价和评级不等同于产业落地或技术性能验证。
 
-> 来源：Hugging Face Blog｜发布时间：2026-11-24 01:20
+> 来源：深潮TechFlow｜发布时间：2026-11-25 15:09
 
-## 7. [RoboUniverse-10K: Toward the Scaling Era of Agentic Robotics via Real-to-Sim Environments](https://arxiv.org/abs/2611.31002v1)
+## 7. [DynaMimic: A Physics-Informed World Model for Humanoid Motion Tracking](https://arxiv.org/abs/2611.32944v1)
 
-RoboUniverse-10K以Real-to-Sim环境推动代理式机器人规模化，面向基础模型作为编码代理、生成可执行程序来控制机器人的训练与评估。它针对该方向缺少类似软件工程的大规模可执行环境和后训练生态、评测又常局限于小型人工基准及分布内任务的问题，试图扩充环境数量、任务覆盖和泛化测试基础。现有材料未列出环境实际构成、任务数量、生成流程或基准结果，除名称外不宜推断“10K”的具体统计口径。
+DynaMimic面向人形机器人的全身运动跟踪，引入物理信息世界模型，目标是从人类示范中复现多样化技能。全身跟踪要求机器人把人体动作转化为可执行的全身运动，而现有无模型强化学习方法在整合技能时存在取舍：将多个运动专家蒸馏为单一策略，可能以性能损失为代价。该工作把世界模型与物理信息结合到跟踪学习中，围绕统一策略的技能覆盖与跟踪表现展开研究，为人形机器人利用人类运动示范提供新的建模思路。
 
-**为什么重要：** 规模化可执行环境与分布外评测是编码代理机器人后训练的基础，该方向有助于让不同系统的比较更接近真实任务泛化。
+**为什么重要：** 运动跟踪连接人类示范与人形机器人控制，物理信息世界模型若能缓解专家蒸馏的性能折中，将有助于通用全身技能学习。
 
-> 来源：arXiv Robotics｜VLA WM VLN Manipulation UAV｜发布时间：2026-11-24 00:53
+> 来源：arXiv Robotics｜VLA WM VLN Manipulation UAV｜发布时间：2026-11-25 00:47
 
-## 8. [EmboEagle: An Efficient Agentic Embodied Framework for Long-horizon Robotic Manipulation](https://arxiv.org/abs/2611.31173v1)
+## 8. [西门子推进物理AI与自主生产，以目标驱动自动化连接规划与工厂执行](https://news.google.com/rss/articles/CBMiwgFBVV95cUxPNkNRVlhxN2tMTWhFT0o2R3M5RlFtUzVfLXVnRXF0anJ4WGdFeDZ6UlF4MWNpT3ppVkRTUkdPRU5SVmNOdGtRZmxEZkt2UVFpdU5OTmprVkdBNzMzcThFNWI2eXlGTzFoY1JHMWdfeEhsSHNNbXBaYWIwdDgxYzJQTXA4aGJTam1GMnV5YnhySHBfdEpBX1BUY2hndUdGOE53S2xmRUZIS2x6Rkd1Y3FYaVpjQUo4bEM5VTFMTUVHSW5Udw?oc=5)
 
-EmboEagle提出面向长时程机器人操作的高效代理式具身框架，将子任务条件下的World-Action Model控制与监督机制组成闭环。它针对独立WAM连续执行时累积物理误差，以及无状态VLM监督造成分块延迟、缺乏三维空间持续性的问题，重点协调误差修正、空间记忆和跨子任务执行。其设计强调不同模型与控制环节的闭环协同，而非单独扩大某个策略模型；候选摘要未提供效率数据、任务时长或成功率。
+西门子正把人工智能从规划、工程环节延伸到工厂现场的物理AI应用，以目标驱动自动化推进自主生产。其德国埃尔朗根电子工厂正在开发机器人自动拆包系统，利用实时相机观测和基础模型处理包装类型、尺寸变化，并完成开箱与电子元件卷盘取出。多智能体生产规划器还会先用物理数字孪生验证排产，官方预计可减少70%人工规划工作量，并最多降低20%成本。
 
-**为什么重要：** 闭环监督与空间持续性直接针对长任务误差累积和执行停顿，对提升多阶段操作的可靠性及代理框架效率具有研究价值。
+**为什么重要：** 该方案把排产智能体、数字孪生与机器人基础模型接入真实生产流程，为物理AI从单点演示走向可验证的自主制造提供产业样本。
 
-> 来源：arXiv Robotics｜VLA WM VLN Manipulation UAV｜发布时间：2026-11-24 02:31
+> 来源：Robotics & Automation News｜发布时间：2026-11-25 16:45
 
-## 9. [Boltz-Flow: Generating High-Quality Robot Action from Boltzmann Machine](https://arxiv.org/abs/2611.31038v1)
+## 9. [摩根大通人形机器人研报：宇树科技目标价升至1060元，优必选获增持评级](https://news.google.com/rss/articles/CBMirAFBVV95cUxQLUIwaEs1Y1FVTEN6RkxPYy05M1BDYVFwb3IwOFRBTFpEd1JDaGZNV2ZuTnpBT2cwVHRBc0s4aG10SFRHX1ZqYS1DUGUyRUpreHd5Y3Rhb0UzeHlEVGlBX2hBcjFpUWpieTRFelFkYzJyWlZ6bmpWLXFjSWtFdkVnN0JEUGQxbk9JMjd5QVhPOXJXMG9SeWFBWXpSQzFRUUUwbW5abncycDJLampi?oc=5)
 
-Boltz-Flow将玻尔兹曼机引入流匹配机器人动作策略，重点改变从固定、与观测无关的高斯源积分速度场的做法。针对单模态源可能限制多任务表达规模，以及时间步和控制维度独立分解损失协调信息的问题，它让动作生成的源分布突破固定高斯假设，以更好表达多模态结构与动作耦合关系。该思路面向任务多样性增长后的策略扩展，但现有摘要未披露训练方式、采样成本、基准任务或性能对比。
+摩根大通在人形机器人研究报告中更新了对两家机器人企业的判断：宇树科技目标价被上调至人民币1060元，优必选评级则升至“增持”。目标价体现研报给出的估值参考，投资评级反映其相对配置建议，两者均属于资本市场分析结论。现有材料没有给出上调原因、财务预测或机器人业务指标，因此不能据此推断相关企业已经取得新的技术突破、订单增长或规模交付进展。
 
-**为什么重要：** 更具表达力的源分布可能改善多任务动作的多模态与关节协调建模，但其产业价值仍取决于采样效率及真实控制验证。
+**为什么重要：** 研报提供了金融机构评估人形机器人企业价值的最新样本，但投资观点仍需与产品性能、订单和实际交付等产业证据区分。
 
-> 来源：arXiv Robotics｜VLA WM VLN Manipulation UAV｜发布时间：2026-11-24 01:10
+> 来源：深潮TechFlow｜发布时间：2026-11-25 14:46
 
-## 10. [Foresight Forcing: Learning Spatial Foresight for Robotic Manipulation](https://arxiv.org/abs/2611.30963v1)
+## 10. [bentic近100台物理AI机器人落地客户工厂，拟于2026年底前交付美国首套系统](https://roboticsandautomationnews.com/2026/11/25/bentic-prepares-for-us-expansion-as-physical-ai-robot-installations-approach-100/107656)
 
-Foresight Forcing面向World Action Model训练引入空间预见学习，使模型在预测未来视觉之外，还显式学习物体运动、三维几何转移和空间关系变化。它针对未来画面预测目标通常不直接约束三维几何学习的问题，试图弥合视觉预测与物理空间结构之间的断层，让预见信息能够支撑更可靠的操作动作生成与规划。候选摘要未说明空间监督形式、模型结构、训练数据或实验指标，因此只能确认其训练目标与问题设定。
+总部位于慕尼黑的bentic已在客户生产现场部署近100台机器人，并准备进入美国市场，预计2026年底前交付首套系统。其物理AI利用真实工业数据训练，先预测可变形材料行为，再由动作模型生成机器人运动，可处理纺织品、电缆、碳纤维和食品等传统自动化难以稳定操控的对象。跨机器人平台Jupiter还能汇集装机队伍的运营经验，帮助不同材料和应用持续改进。
 
-**为什么重要：** 把三维几何变化纳入未来预测，可推动世界动作模型从画面相似走向空间一致，为接触操作和长期规划提供更可靠的预见信息。
+**为什么重要：** 可变形材料长期依赖人工灵巧操作，近百台部署与跨区域扩张表明物理AI正走向真实产线，并通过车队数据形成持续改进基础。
 
-> 来源：arXiv Robotics｜VLA WM VLN Manipulation UAV｜发布时间：2026-11-24 00:32
+> 来源：Robotics & Automation News｜发布时间：2026-11-25 16:06
 
-## 11. [WorldLeague: Benchmarking Physical Agency](https://arxiv.org/abs/2611.30989v1)
+## 11. [西门子展示物理AI与自主生产技术，智能排产预计减少70%人工规划工作量](https://roboticsandautomationnews.com/2026/11/25/siemens-advances-physical-ai-and-autonomous-production-technologies/107659)
 
-WorldLeague围绕“Physical Agency”提出评测问题，将Blender操作、复杂视频游戏中的指令执行和机械臂物体操控放在同一视野，追问当今AI系统能够自主完成哪些物理目标。现有材料只说明回答该问题需要开展系统测试，未提供任务集合、参评模型、评分指标或实验结论，因此不能判断其覆盖规模与结果；可确认的关注点，是用更系统的测试界定物理代理的自主能力范围，而非报道某一机器人技能提升。
+西门子在SPS 2026展示目标驱动自动化，并在德国埃尔朗根电子工厂开发自动拆包系统：相机实时感知环境，机器人基础模型据此打开不同包装、取出电子元件卷盘。其自主生产规划器由多个AI智能体协同生成和优化排产，再经物理数字孪生验证，预计减少70%人工规划工作量、最多降低20%成本。公司还扩展工程智能体与工业AI套件，并面向自主移动机器人推出集成驱动系统。
 
-**为什么重要：** 统一讨论软件、游戏与机械臂中的自主物理目标，有助于界定具身代理能力边界，但需完整任务与指标才能形成可比较结论。
+**为什么重要：** 这套方案把排产智能体、数字孪生与机器人基础模型连接到真实生产流程，为物理AI从单点演示走向可验证的自主制造提供产业样本。
 
-> 来源：arXiv Robotics｜VLA WM VLN Manipulation UAV｜发布时间：2026-11-24 00:44
+> 来源：Robotics & Automation News｜发布时间：2026-11-25 16:45
 
-## 12. [Figure AI申请可穿戴机械臂系统专利，支持动作采集与人形机器人遥操作](https://roboticsandautomationnews.com/2026/11/23/figure-ai-patents-wearable-system-for-teaching-humanoid-robots-through-human-movement/107567)
+## 12. [Motion Conditioned World Modeling for Embodied Visual Tracking](https://arxiv.org/abs/2611.32900v1)
 
-Figure AI的可穿戴机器人系统专利US 2026/0364774 A1于2026年11月19日公开，方案用背包式框架和两条越肩机械臂跟随人体，肩、肘、腕由编码器与惯性测量单元采集运动，每臂最多七个旋转轴。数据既可训练人形机器人，也可实时遥操作；申请描述端到端延迟低于20毫秒、可中断传输的离合机构及机器人相机视频头显，目标是在工厂、仓库等日常作业中采集示范，但仍属专利布局而非产品部署。
+该论文研究具身视觉跟踪中的运动条件世界建模。世界模型通过预测未来环境状态支持具身决策，但在跟踪任务里，目标运动的不确定性与机器人自身运动引起的视角变化会共同改变视觉观测，使未来状态预测更困难。工作因此将运动条件引入世界建模，围绕如何在这两类变化并存时形成可用于跟踪的未来预测展开，目标是把环境动态、机器人运动与视觉观察之间的关系纳入同一预测框架，而非只依据静态外观判断下一步。
 
-**为什么重要：** 若方案实现，可把工人日常操作转化为训练示范并兼顾低延迟遥操作，为人形机器人缓解真实数据采集成本提供新硬件路径。
+**为什么重要：** 将目标运动和机器人视角变化同时纳入预测，可提升视觉跟踪世界模型的决策相关性，为主动感知与运动控制的协同提供依据。
 
-> 来源：Robotics & Automation News｜发布时间：2026-11-24 06:43
+> 来源：arXiv Robotics｜VLA WM VLN Manipulation UAV｜发布时间：2026-11-25 00:25
 
-## 13. [消息称英伟达董事会一致同意恢复黄仁勋首席执行官职务](http://www.bing.com/news/apiclick.aspx?ref=FexRss&tid=6b0570d6ca9840a0b463ad4a7d26f201&url=https%3A%2F%2Fapnews.com%2Fvideo%2Fwhy-did-nvidia-reinstate-jensen-huang-5a7f94f8fb5f4437a842e5420c0a1941&c=17575256088637658657&mkt=en-us)
+## 13. [VidForce: Predicting Force-Aware Articulation by Observing Humans](https://arxiv.org/abs/2611.32967v1)
 
-现有消息称，英伟达董事会在最初拒绝黄仁勋回归提议后，又一致同意恢复其首席执行官职务，美国总统特朗普也支持其回归。材料同时提到黄仁勋仍面临国会相关事项，但原文截断，未交代董事会决定的时间线、离任与复职原因、国会事项具体内容或公司正式公告。该条目因此只能作为领导层变动消息概述，不能延伸推断其对产品、股价或机器人业务的实际影响。
+VidForce探索具身智能体如何通过观察人类操作，预测物体关节运动以及交互所需的努力或作用力。人类观看他人操作时，通常能预判物体如何移动、完成交互需要多大力气；对机器人而言，直接力测量虽能提供明确监督，却依赖专门的测量条件。该研究以人类观察视频为切入点，把力感知的关节运动预测与视觉学习联系起来，旨在让智能体从视频中形成对物体运动和交互力需求的联合理解，为后续操作提供依据。
 
-**为什么重要：** 若消息属实，核心领导层变化可能影响英伟达AI计算与机器人生态的战略连续性，但当前信息不足以评估具体产业后果。
+**为什么重要：** 从人类视频中学习力与关节运动的关联，有望降低对专用力测量条件的依赖，并为机器人接触丰富的操作任务提供更可扩展的监督来源。
 
-> 来源：Bing News EN｜Global Major Media｜发布时间：2026-11-23 20:43
+> 来源：arXiv Robotics｜VLA WM VLN Manipulation UAV｜发布时间：2026-11-25 01:03
 
-## 14. [英伟达发布假日技术指南，涵盖RTX创作游戏与Jetson机器人入门](https://blogs.nvidia.com/blog/nvidia-technologies-holidays-2026)
+## 14. [iWAM: Efficient Action Prediction from World Models without Explicit Future Prediction](https://arxiv.org/abs/2611.33141v1)
 
-英伟达假日技术指南汇总游戏、内容创作和机器人入门方案：GeForce RTX 50系列基于Blackwell，配备第五代Tensor Core与第四代RT Core，并介绍DLSS 5、Reflex、G-SYNC及拥有逾4500款游戏的GeForce NOW。创作部分提及RTX Spark和NVIDIA Studio；机器人部分以摄像头识别糖果手杖、姜饼人为例，建议通过反复测试探索视觉感知，并引出Jetson边缘AI平台，但截断正文未给出套件配置或性能数据。
+iWAM关注世界—动作模型的实时控制效率。此类模型通常在预训练视频生成模型之上构建策略，其基本假设是预测场景如何演化有助于决定动作，但显式生成未来场景计算开销较大，难以满足实时控制需求。论文因此研究无需显式未来预测的高效动作预测，尝试保留世界模型对行动决策的支持，同时绕过昂贵的未来画面生成过程，为世界模型驱动的机器人策略探索更轻量的推理路径。
 
-**为什么重要：** 该指南虽非机器人研究发布，但把Jetson与低门槛视觉实验结合，有助于降低边缘AI和具身感知原型的入门门槛。
+**为什么重要：** 如果动作预测无需生成完整未来场景，世界模型策略的控制延迟和计算负担有望下降，从而更接近真实机器人闭环控制的部署要求。
 
-> 来源：NVIDIA Blog｜发布时间：2026-11-24 01:00
+> 来源：arXiv Robotics｜VLA WM VLN Manipulation UAV｜发布时间：2026-11-25 02:56
 
-## 15. [ASRock Industrial发布RBK-100集成式物理AI机器人开发平台](https://roboticsandautomationnews.com/2026/11/24/asrock-industrial-launches-robotics-in-a-box-for-physical-ai-development/107570)
+## 15. [OmniAct: One Policy, One Million Embodiments](https://arxiv.org/abs/2611.33158v1)
 
-ASRock Industrial推出RBK-100 Robotics-in-a-Box，以NUC BOX-358H和英特尔Core Ultra X7 358H提供本地计算，集成RGB-D相机、六自由度主从机械臂及AiRoboStarter软件。平台标配32GB DDR5、512GB PCIe Gen4 SSD，64GB高级版增加语音、大模型、视觉和技能串联的代理式AI流程；软件覆盖演示录制、数据检查、训练与执行，支持ACT、Pi0.5，SmolVLA列为后续计划。
+OmniAct面向“一项策略、百万种形态”的目标，研究用单一策略控制多样化机器人。跨形态控制不仅要迁移任务知识，还必须根据每台机器人的能力调整行为；已有方法主要通过共享动作表示促进迁移，但统一表示并不自动解决不同身体结构和执行能力带来的适配问题。该工作把任务迁移与形态适应放在同一策略框架下考察，强调策略既要识别共同任务结构，也要针对具体机器人改变行动方式，为大规模跨形态控制提供研究方向。
 
-**为什么重要：** 一体化主从臂、视觉、计算与训练执行软件可减少系统集成工作，为教学、模仿学习实验及物理AI原型提供较低门槛入口。
+**为什么重要：** 统一策略若能同时处理任务迁移和身体能力适配，可减少为每种机器人单独训练与维护策略的成本，推动通用具身控制规模化。
 
-> 来源：Robotics & Automation News｜发布时间：2026-11-24 14:26
+> 来源：arXiv Robotics｜VLA WM VLN Manipulation UAV｜发布时间：2026-11-25 02:59
 
 ---
 
-生成时间：2026-11-24T19:11:17+08:00
+生成时间：2026-11-25T17:58:09+08:00
 
 本日报由自动化系统辅助整理，重要信息请以原始来源为准。
